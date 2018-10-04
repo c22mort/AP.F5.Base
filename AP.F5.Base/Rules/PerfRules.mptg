@@ -1,0 +1,204 @@
+<TemplateGroup>
+  <Instances>
+    <Instance ID="Instance0e63066685c84c78aee847b684996b47" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.PerformanceCollectionRule" Version="1.0.0.0">
+      <PerformanceCollectionRuleConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <Id>Perf.Device.ClientConnections</Id>
+        <DisplayName>Current Client Connections</DisplayName>
+        <Description>Collect current client connections from device</Description>
+        <Category>PerformanceCollection</Category>
+        <ConfirmDelivery>false</ConfirmDelivery>
+        <Target>AP.F5.Device</Target>
+        <Enabled>true</Enabled>
+        <Remotable>true</Remotable>
+        <Priority>Normal</Priority>
+        <DiscardLevel>100</DiscardLevel>
+        <ConditionDetectionId>CD</ConditionDetectionId>
+        <DataSourceId>DS</DataSourceId>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;600&lt;/IntervalSeconds&gt;&lt;NoOfRetries&gt;3&lt;/NoOfRetries&gt;&lt;Timeout&gt;60&lt;/Timeout&gt;&lt;Port&gt;$Target/Property[Type="AP.F5.Device"]/Port$&lt;/Port&gt;&lt;IP&gt;$Target/Property[Type="AP.F5.Device"]/IPAddress$&lt;/IP&gt;&lt;Community&gt;$Target/Property[Type="AP.F5.Device"]/Community$&lt;/Community&gt;&lt;Version&gt;2&lt;/Version&gt;&lt;SnmpVarBinds&gt;&lt;SnmpVarBind&gt;&lt;OID&gt;.1.3.6.1.4.1.3375.2.1.1.2.1.91.0&lt;/OID&gt;&lt;!--.iso.org.dod.internet.private.enterprises.f5.bigipTrafficMgmt.bigipSystem.sysGlobals.sysGlobalStats.sysGlobalStat.sysStatClientMaxConns5m--&gt;&lt;Syntax&gt;0&lt;/Syntax&gt;&lt;Value VariantType="8" /&gt;&lt;/SnmpVarBind&gt;&lt;/SnmpVarBinds&gt;&lt;ObjectName&gt;Device&lt;/ObjectName&gt;&lt;CounterName&gt;Connections&lt;/CounterName&gt;&lt;InstanceName&gt;Client&lt;/InstanceName&gt;</DataSourceConfig>
+        <DataSourceType>DataSourceModule.Performance.SingleValue</DataSourceType>
+        <CollectToDB>true</CollectToDB>
+        <CollectToDW>true</CollectToDW>
+      </PerformanceCollectionRuleConfig>
+    </Instance>
+    <Instance ID="Instance66d99ecea6ba4bb1980b84bc19a19b03" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.PerformanceCollectionRule" Version="1.0.0.0">
+      <PerformanceCollectionRuleConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <Id>Perf.Device.ClientInboundKb</Id>
+        <DisplayName>Inbound Client Kb</DisplayName>
+        <Description>Collect Inbound Client Kb from device</Description>
+        <Category>PerformanceCollection</Category>
+        <ConfirmDelivery>false</ConfirmDelivery>
+        <Target>AP.F5.Device</Target>
+        <Enabled>true</Enabled>
+        <Remotable>true</Remotable>
+        <Priority>Normal</Priority>
+        <DiscardLevel>100</DiscardLevel>
+        <ConditionDetectionId>CD</ConditionDetectionId>
+        <DataSourceId>DS</DataSourceId>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;600&lt;/IntervalSeconds&gt;&lt;NoOfRetries&gt;3&lt;/NoOfRetries&gt;&lt;Timeout&gt;60&lt;/Timeout&gt;&lt;Port&gt;$Target/Property[Type="AP.F5.Device"]/Port$&lt;/Port&gt;&lt;IP&gt;$Target/Property[Type="AP.F5.Device"]/IPAddress$&lt;/IP&gt;&lt;Community&gt;$Target/Property[Type="AP.F5.Device"]/Community$&lt;/Community&gt;&lt;Version&gt;2&lt;/Version&gt;&lt;SnmpVarBinds&gt;&lt;SnmpVarBind&gt;&lt;OID&gt;.1.3.6.1.4.1.3375.2.1.1.2.1.88.0&lt;/OID&gt;&lt;!--.iso.org.dod.internet.private.enterprises.f5.bigipTrafficMgmt.bigipSystem.sysGlobals.sysGlobalStats.sysGlobalStat.sysStatClientBytesIn5m--&gt;&lt;Syntax&gt;0&lt;/Syntax&gt;&lt;Value VariantType="8" /&gt;&lt;/SnmpVarBind&gt;&lt;/SnmpVarBinds&gt;&lt;ObjectName&gt;Device&lt;/ObjectName&gt;&lt;CounterName&gt;Kb/Inbound&lt;/CounterName&gt;&lt;InstanceName&gt;Client&lt;/InstanceName&gt;</DataSourceConfig>
+        <DataSourceType>DataSourceModule.Performance.SingleValue.Div1024</DataSourceType>
+        <CollectToDB>true</CollectToDB>
+        <CollectToDW>true</CollectToDW>
+      </PerformanceCollectionRuleConfig>
+    </Instance>
+    <Instance ID="Instanceb6fa25c664db459cb2ebc96dc2f10696" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.PerformanceCollectionRule" Version="1.0.0.0">
+      <PerformanceCollectionRuleConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <Id>Perf.Device.ClientOutboundKb</Id>
+        <DisplayName>Outbound Client Kb</DisplayName>
+        <Description>Collect Outbound Client Kb from device</Description>
+        <Category>PerformanceCollection</Category>
+        <ConfirmDelivery>false</ConfirmDelivery>
+        <Target>AP.F5.Device</Target>
+        <Enabled>true</Enabled>
+        <Remotable>true</Remotable>
+        <Priority>Normal</Priority>
+        <DiscardLevel>100</DiscardLevel>
+        <ConditionDetectionId>CD</ConditionDetectionId>
+        <DataSourceId>DS</DataSourceId>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;600&lt;/IntervalSeconds&gt;&lt;NoOfRetries&gt;3&lt;/NoOfRetries&gt;&lt;Timeout&gt;60&lt;/Timeout&gt;&lt;Port&gt;$Target/Property[Type="AP.F5.Device"]/Port$&lt;/Port&gt;&lt;IP&gt;$Target/Property[Type="AP.F5.Device"]/IPAddress$&lt;/IP&gt;&lt;Community&gt;$Target/Property[Type="AP.F5.Device"]/Community$&lt;/Community&gt;&lt;Version&gt;2&lt;/Version&gt;&lt;SnmpVarBinds&gt;&lt;SnmpVarBind&gt;&lt;OID&gt;.1.3.6.1.4.1.3375.2.1.1.2.1.90.0&lt;/OID&gt;&lt;!--.iso.org.dod.internet.private.enterprises.f5.bigipTrafficMgmt.bigipSystem.sysGlobals.sysGlobalStats.sysGlobalStat.sysStatClientBytesOut5m--&gt;&lt;Syntax&gt;0&lt;/Syntax&gt;&lt;Value VariantType="8" /&gt;&lt;/SnmpVarBind&gt;&lt;/SnmpVarBinds&gt;&lt;ObjectName&gt;Device&lt;/ObjectName&gt;&lt;CounterName&gt;Kb/Outbound&lt;/CounterName&gt;&lt;InstanceName&gt;Client&lt;/InstanceName&gt;</DataSourceConfig>
+        <DataSourceType>DataSourceModule.Performance.SingleValue.Div1024</DataSourceType>
+        <CollectToDB>true</CollectToDB>
+        <CollectToDW>true</CollectToDW>
+      </PerformanceCollectionRuleConfig>
+    </Instance>
+    <Instance ID="Instance6b83e6613d6c4dfdb276aea8416f39b2" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.PerformanceCollectionRule" Version="1.0.0.0">
+      <PerformanceCollectionRuleConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <Id>Perf.Device.MemoryFreeCollection</Id>
+        <DisplayName>Free Memory</DisplayName>
+        <Description>Collect free Memory from Device</Description>
+        <Category>PerformanceCollection</Category>
+        <ConfirmDelivery>false</ConfirmDelivery>
+        <Target>AP.F5.Device.Memory</Target>
+        <Enabled>true</Enabled>
+        <Remotable>true</Remotable>
+        <Priority>Normal</Priority>
+        <DiscardLevel>100</DiscardLevel>
+        <ConditionDetectionId>CD</ConditionDetectionId>
+        <DataSourceId>DS</DataSourceId>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;600&lt;/IntervalSeconds&gt;&lt;NoOfRetries&gt;3&lt;/NoOfRetries&gt;&lt;Timeout&gt;60&lt;/Timeout&gt;&lt;Port&gt;$Target/Host/Property[Type="AP.F5.Device"]/Port$&lt;/Port&gt;&lt;IP&gt;$Target/Host/Property[Type="AP.F5.Device"]/IPAddress$&lt;/IP&gt;&lt;Community&gt;$Target/Host/Property[Type="AP.F5.Device"]/Community$&lt;/Community&gt;&lt;Version&gt;2&lt;/Version&gt;&lt;SnmpVarBinds&gt;&lt;SnmpVarBind&gt;&lt;OID&gt;.1.3.6.1.4.1.3375.2.1.7.1.3.0&lt;/OID&gt;&lt;!--.iso.org.dod.internet.private.enterprises.f5.bigipTrafficMgmt.bigipSystem.sysHostInfoStat.sysHostMemory.sysHostMemoryTotalKb--&gt;&lt;Syntax&gt;0&lt;/Syntax&gt;&lt;Value VariantType="8"&gt;&lt;/Value&gt;&lt;/SnmpVarBind&gt;&lt;SnmpVarBind&gt;&lt;OID&gt;.1.3.6.1.4.1.3375.2.1.7.1.4.0&lt;/OID&gt;&lt;!--.iso.org.dod.internet.private.enterprises.f5.bigipTrafficMgmt.bigipSystem.sysHostInfoStat.sysHostMemory.sysHostMemoryUsedKb--&gt;&lt;Syntax&gt;0&lt;/Syntax&gt;&lt;Value VariantType="8"&gt;&lt;/Value&gt;&lt;/SnmpVarBind&gt;&lt;/SnmpVarBinds&gt;&lt;ObjectName&gt;Memory&lt;/ObjectName&gt;&lt;CounterName&gt;Free (Mb)&lt;/CounterName&gt;&lt;InstanceName&gt;Free (Mb)&lt;/InstanceName&gt;</DataSourceConfig>
+        <DataSourceType>DataSourceModule.Performance.Subtraction.Div1024</DataSourceType>
+        <CollectToDB>true</CollectToDB>
+        <CollectToDW>true</CollectToDW>
+      </PerformanceCollectionRuleConfig>
+    </Instance>
+    <Instance ID="Instancea6f49739ae234a7ea29975c99d1ed817" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.PerformanceCollectionRule" Version="1.0.0.0">
+      <PerformanceCollectionRuleConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <Id>Perf.Device.MemoryUsedCollection</Id>
+        <DisplayName>Used Memory</DisplayName>
+        <Description>Collect used memory from device</Description>
+        <Category>PerformanceCollection</Category>
+        <ConfirmDelivery>false</ConfirmDelivery>
+        <Target>AP.F5.Device.Memory</Target>
+        <Enabled>true</Enabled>
+        <Remotable>true</Remotable>
+        <Priority>Normal</Priority>
+        <DiscardLevel>100</DiscardLevel>
+        <ConditionDetectionId>CD</ConditionDetectionId>
+        <DataSourceId>DS</DataSourceId>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;600&lt;/IntervalSeconds&gt;&lt;NoOfRetries&gt;3&lt;/NoOfRetries&gt;&lt;Timeout&gt;60&lt;/Timeout&gt;&lt;Port&gt;$Target/Host/Property[Type="AP.F5.Device"]/Port$&lt;/Port&gt;&lt;IP&gt;$Target/Host/Property[Type="AP.F5.Device"]/IPAddress$&lt;/IP&gt;&lt;Community&gt;$Target/Host/Property[Type="AP.F5.Device"]/Community$&lt;/Community&gt;&lt;Version&gt;2&lt;/Version&gt;&lt;SnmpVarBinds&gt;&lt;SnmpVarBind&gt;&lt;OID&gt;.1.3.6.1.4.1.3375.2.1.7.1.4.0&lt;/OID&gt;&lt;!--.iso.org.dod.internet.private.enterprises.f5.bigipTrafficMgmt.bigipSystem.sysHostInfoStat.sysHostMemory.sysHostMemoryUsedKb--&gt;&lt;Syntax&gt;0&lt;/Syntax&gt;&lt;Value VariantType="8"&gt;&lt;/Value&gt;&lt;/SnmpVarBind&gt;&lt;/SnmpVarBinds&gt;&lt;ObjectName&gt;Memory&lt;/ObjectName&gt;&lt;CounterName&gt;Used (Mb)&lt;/CounterName&gt;&lt;InstanceName&gt;Used (Mb)&lt;/InstanceName&gt;</DataSourceConfig>
+        <DataSourceType>DataSourceModule.Performance.SingleValue.Div1024</DataSourceType>
+        <CollectToDB>true</CollectToDB>
+        <CollectToDW>true</CollectToDW>
+      </PerformanceCollectionRuleConfig>
+    </Instance>
+    <Instance ID="Instance7339ca6b54304571b33ab834a80490a2" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.PerformanceCollectionRule" Version="1.0.0.0">
+      <PerformanceCollectionRuleConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <Id>Perf.Device.ServerConnections</Id>
+        <DisplayName>Current Server Connections</DisplayName>
+        <Description>Collect current server-side connections from device</Description>
+        <Category>PerformanceCollection</Category>
+        <ConfirmDelivery>false</ConfirmDelivery>
+        <Target>AP.F5.Device</Target>
+        <Enabled>true</Enabled>
+        <Remotable>true</Remotable>
+        <Priority>Normal</Priority>
+        <DiscardLevel>100</DiscardLevel>
+        <ConditionDetectionId>CD</ConditionDetectionId>
+        <DataSourceId>DS</DataSourceId>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;600&lt;/IntervalSeconds&gt;&lt;NoOfRetries&gt;3&lt;/NoOfRetries&gt;&lt;Timeout&gt;60&lt;/Timeout&gt;&lt;Port&gt;$Target/Property[Type="AP.F5.Device"]/Port$&lt;/Port&gt;&lt;IP&gt;$Target/Property[Type="AP.F5.Device"]/IPAddress$&lt;/IP&gt;&lt;Community&gt;$Target/Property[Type="AP.F5.Device"]/Community$&lt;/Community&gt;&lt;Version&gt;2&lt;/Version&gt;&lt;SnmpVarBinds&gt;&lt;SnmpVarBind&gt;&lt;OID&gt;.1.3.6.1.4.1.3375.2.1.1.2.1.98.0&lt;/OID&gt;&lt;!--.iso.org.dod.internet.private.enterprises.f5.bigipTrafficMgmt.bigipSystem.sysGlobals.sysGlobalStats.sysGlobalStat.sysStatServerMaxConns5m--&gt;&lt;Syntax&gt;0&lt;/Syntax&gt;&lt;Value VariantType="8" /&gt;&lt;/SnmpVarBind&gt;&lt;/SnmpVarBinds&gt;&lt;ObjectName&gt;Device&lt;/ObjectName&gt;&lt;CounterName&gt;Connections&lt;/CounterName&gt;&lt;InstanceName&gt;Server&lt;/InstanceName&gt;</DataSourceConfig>
+        <DataSourceType>DataSourceModule.Performance.SingleValue</DataSourceType>
+        <CollectToDB>true</CollectToDB>
+        <CollectToDW>true</CollectToDW>
+      </PerformanceCollectionRuleConfig>
+    </Instance>
+    <Instance ID="Instance6581449680b34ecbbbc7fa5805b00cbb" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.PerformanceCollectionRule" Version="1.0.0.0">
+      <PerformanceCollectionRuleConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <Id>Perf.Device.ServerInboundKb</Id>
+        <DisplayName>Inbound Server Kb</DisplayName>
+        <Description>Collect Inbound Server Kb from device</Description>
+        <Category>PerformanceCollection</Category>
+        <ConfirmDelivery>false</ConfirmDelivery>
+        <Target>AP.F5.Device</Target>
+        <Enabled>true</Enabled>
+        <Remotable>true</Remotable>
+        <Priority>Normal</Priority>
+        <DiscardLevel>100</DiscardLevel>
+        <ConditionDetectionId>CD</ConditionDetectionId>
+        <DataSourceId>DS</DataSourceId>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;600&lt;/IntervalSeconds&gt;&lt;NoOfRetries&gt;3&lt;/NoOfRetries&gt;&lt;Timeout&gt;60&lt;/Timeout&gt;&lt;Port&gt;$Target/Property[Type="AP.F5.Device"]/Port$&lt;/Port&gt;&lt;IP&gt;$Target/Property[Type="AP.F5.Device"]/IPAddress$&lt;/IP&gt;&lt;Community&gt;$Target/Property[Type="AP.F5.Device"]/Community$&lt;/Community&gt;&lt;Version&gt;2&lt;/Version&gt;&lt;SnmpVarBinds&gt;&lt;SnmpVarBind&gt;&lt;OID&gt;.1.3.6.1.4.1.3375.2.1.1.2.1.95.0&lt;/OID&gt;&lt;!--.iso.org.dod.internet.private.enterprises.f5.bigipTrafficMgmt.bigipSystem.sysGlobals.sysGlobalStats.sysGlobalStat.sysStatServerBytesIn5m--&gt;&lt;Syntax&gt;0&lt;/Syntax&gt;&lt;Value VariantType="8" /&gt;&lt;/SnmpVarBind&gt;&lt;/SnmpVarBinds&gt;&lt;ObjectName&gt;Device&lt;/ObjectName&gt;&lt;CounterName&gt;Kb/Inbound&lt;/CounterName&gt;&lt;InstanceName&gt;Server&lt;/InstanceName&gt;</DataSourceConfig>
+        <DataSourceType>DataSourceModule.Performance.SingleValue.Div1024</DataSourceType>
+        <CollectToDB>true</CollectToDB>
+        <CollectToDW>true</CollectToDW>
+      </PerformanceCollectionRuleConfig>
+    </Instance>
+    <Instance ID="Instance0cd1b2fb27f24db081a00235d863c1a0" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.PerformanceCollectionRule" Version="1.0.0.0">
+      <PerformanceCollectionRuleConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <Id>Perf.Device.ServerOutboundKb</Id>
+        <DisplayName>Outbound Server Kb</DisplayName>
+        <Description>Collect Outbound Server Kb from device</Description>
+        <Category>PerformanceCollection</Category>
+        <ConfirmDelivery>false</ConfirmDelivery>
+        <Target>AP.F5.Device</Target>
+        <Enabled>true</Enabled>
+        <Remotable>true</Remotable>
+        <Priority>Normal</Priority>
+        <DiscardLevel>100</DiscardLevel>
+        <ConditionDetectionId>CD</ConditionDetectionId>
+        <DataSourceId>DS</DataSourceId>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;600&lt;/IntervalSeconds&gt;&lt;NoOfRetries&gt;3&lt;/NoOfRetries&gt;&lt;Timeout&gt;60&lt;/Timeout&gt;&lt;Port&gt;$Target/Property[Type="AP.F5.Device"]/Port$&lt;/Port&gt;&lt;IP&gt;$Target/Property[Type="AP.F5.Device"]/IPAddress$&lt;/IP&gt;&lt;Community&gt;$Target/Property[Type="AP.F5.Device"]/Community$&lt;/Community&gt;&lt;Version&gt;2&lt;/Version&gt;&lt;SnmpVarBinds&gt;&lt;SnmpVarBind&gt;&lt;OID&gt;.1.3.6.1.4.1.3375.2.1.1.2.1.97.0&lt;/OID&gt;&lt;!--.iso.org.dod.internet.private.enterprises.f5.bigipTrafficMgmt.bigipSystem.sysGlobals.sysGlobalStats.sysGlobalStat.sysStatServerBytesOut5m--&gt;&lt;Syntax&gt;0&lt;/Syntax&gt;&lt;Value VariantType="8" /&gt;&lt;/SnmpVarBind&gt;&lt;/SnmpVarBinds&gt;&lt;ObjectName&gt;Device&lt;/ObjectName&gt;&lt;CounterName&gt;Kb/Outbound&lt;/CounterName&gt;&lt;InstanceName&gt;Server&lt;/InstanceName&gt;</DataSourceConfig>
+        <DataSourceType>DataSourceModule.Performance.SingleValue.Div1024</DataSourceType>
+        <CollectToDB>true</CollectToDB>
+        <CollectToDW>true</CollectToDW>
+      </PerformanceCollectionRuleConfig>
+    </Instance>
+    <Instance ID="Instancec343c421c49c4bf2a32841abcc55ae25" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.PerformanceCollectionRule" Version="1.0.0.0">
+      <PerformanceCollectionRuleConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <Id>Perf.Processor.Usage</Id>
+        <DisplayName>Current CPU Usage</DisplayName>
+        <Description>Collect current cpu usage from device</Description>
+        <Category>PerformanceCollection</Category>
+        <ConfirmDelivery>false</ConfirmDelivery>
+        <Target>AP.F5.Device.Processor</Target>
+        <Enabled>true</Enabled>
+        <Remotable>true</Remotable>
+        <Priority>Normal</Priority>
+        <DiscardLevel>100</DiscardLevel>
+        <ConditionDetectionId>CD</ConditionDetectionId>
+        <DataSourceId>DS</DataSourceId>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;600&lt;/IntervalSeconds&gt;&lt;NoOfRetries&gt;3&lt;/NoOfRetries&gt;&lt;Timeout&gt;60&lt;/Timeout&gt;&lt;Port&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Port$&lt;/Port&gt;&lt;IP&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/IPAddress$&lt;/IP&gt;&lt;Community&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Community$&lt;/Community&gt;&lt;Version&gt;2&lt;/Version&gt;&lt;SnmpVarBinds&gt;&lt;SnmpVarBind&gt;&lt;OID&gt;.1.3.6.1.4.1.3375.2.1.7.5.2.1.35$Target/Property[Type="AP.F5.Device.Processor"]/Index$&lt;/OID&gt;&lt;Syntax&gt;0&lt;/Syntax&gt;&lt;Value VariantType="8" /&gt;&lt;/SnmpVarBind&gt;&lt;/SnmpVarBinds&gt;&lt;ObjectName&gt;Processor&lt;/ObjectName&gt;&lt;CounterName&gt;Usage %&lt;/CounterName&gt;&lt;InstanceName&gt;$Target/Property[Type="AP.F5.Device.Processor"]/Name$&lt;/InstanceName&gt;</DataSourceConfig>
+        <DataSourceType>DataSourceModule.Performance.SingleValue</DataSourceType>
+        <CollectToDB>true</CollectToDB>
+        <CollectToDW>true</CollectToDW>
+      </PerformanceCollectionRuleConfig>
+    </Instance>
+    <Instance ID="Instanceef0b630d266e4d2bb9b30fe3461b9936" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.PerformanceCollectionRule" Version="1.0.0.0">
+      <PerformanceCollectionRuleConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <Id>Perf.TempSensor.Temperature</Id>
+        <DisplayName>Current Temperature</DisplayName>
+        <Description>Collect current temperature from device</Description>
+        <Category>PerformanceCollection</Category>
+        <ConfirmDelivery>false</ConfirmDelivery>
+        <Target>AP.F5.Device.TempSensor</Target>
+        <Enabled>true</Enabled>
+        <Remotable>true</Remotable>
+        <Priority>Normal</Priority>
+        <DiscardLevel>100</DiscardLevel>
+        <ConditionDetectionId>CD</ConditionDetectionId>
+        <DataSourceId>DS</DataSourceId>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;600&lt;/IntervalSeconds&gt;&lt;NoOfRetries&gt;3&lt;/NoOfRetries&gt;&lt;Timeout&gt;60&lt;/Timeout&gt;&lt;Port&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Port$&lt;/Port&gt;&lt;IP&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/IPAddress$&lt;/IP&gt;&lt;Community&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Community$&lt;/Community&gt;&lt;Version&gt;2&lt;/Version&gt;&lt;SnmpVarBinds&gt;&lt;SnmpVarBind&gt;&lt;OID&gt;.1.3.6.1.4.1.3375.2.1.3.2.3.2.1.2.$Target/Property[Type="AP.F5.Device.TempSensor"]/Index$&lt;/OID&gt;&lt;Syntax&gt;0&lt;/Syntax&gt;&lt;Value VariantType="8" /&gt;&lt;/SnmpVarBind&gt;&lt;/SnmpVarBinds&gt;&lt;ObjectName&gt;TempSensor&lt;/ObjectName&gt;&lt;CounterName&gt;Temperature&lt;/CounterName&gt;&lt;InstanceName&gt;$Target/Property[Type="AP.F5.Device.TempSensor"]/Name$&lt;/InstanceName&gt;</DataSourceConfig>
+        <DataSourceType>DataSourceModule.Performance.SingleValue</DataSourceType>
+        <CollectToDB>true</CollectToDB>
+        <CollectToDW>true</CollectToDW>
+      </PerformanceCollectionRuleConfig>
+    </Instance>
+  </Instances>
+</TemplateGroup>

@@ -5,7 +5,7 @@
     <RootNamespace>AP.F5.Base</RootNamespace>
     <Name>AP.F5.Base</Name>
     <ManagementPackName>AP.F5.Base</ManagementPackName>
-    <Version>1.0.0.0</Version>
+    <Version>18.10.1.0</Version>
     <MpFrameworkVersion>v7.0.2</MpFrameworkVersion>
     <MpFrameworkProfile>OM</MpFrameworkProfile>
     <ProductVersion>1.1.0.0</ProductVersion>
@@ -13,11 +13,11 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug\</OutputPath>
-    <GenerateSealed>false</GenerateSealed>
-    <Company>MyCompany</Company>
-    <Copyright>Copyright (c) MyCompany. All rights reserved.</Copyright>
-    <DelaySigning>false</DelaySigning>
-    <AssemblyOriginatorKeyFile />
+    <GenerateSealed>True</GenerateSealed>
+    <Company>AP Management Packs</Company>
+    <Copyright>Copyright (c) AP Management Packs. All rights reserved.</Copyright>
+    <DelaySigning>False</DelaySigning>
+    <AssemblyOriginatorKeyFile>C:\VSAE-2012R2\AP.F5.Base\key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugSymbols>false</DebugSymbols>
@@ -29,6 +29,11 @@
     <AssemblyOriginatorKeyFile />
   </PropertyGroup>
   <ItemGroup>
+    <ManagementPackReference Include="Microsoft.SystemCenter.DataWarehouse.Library">
+      <HintPath>C:\Program Files (x86)\System Center Visual Studio Authoring Extensions\References\OM2012R2\Microsoft.SystemCenter.DataWarehouse.Library.mp</HintPath>
+      <Alias>MSDL</Alias>
+      <MinVersion>7.1.10226.0</MinVersion>
+    </ManagementPackReference>
     <ManagementPackReference Include="Microsoft.SystemCenter.Library">
       <Alias>SC</Alias>
       <PackageToBundle>false</PackageToBundle>
@@ -43,12 +48,140 @@
     </ManagementPackReference>
     <ManagementPackReference Include="System.Library">
       <Alias>System</Alias>
-      <PackageToBundle>false</PackageToBundle>
+      <PackageToBundle>False</PackageToBundle>
     </ManagementPackReference>
     <ManagementPackReference Include="Microsoft.SystemCenter.Visualization.Library">
       <Alias>Visualization</Alias>
       <PackageToBundle>false</PackageToBundle>
     </ManagementPackReference>
+    <ManagementPackReference Include="System.NetworkManagement.Library">
+      <HintPath>C:\Program Files (x86)\System Center Visual Studio Authoring Extensions\References\OM2012R2\System.NetworkManagement.Library.mp</HintPath>
+      <Alias>SNL</Alias>
+      <MinVersion>7.1.10226.0</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="System.Performance.Library">
+      <HintPath>C:\Program Files (x86)\System Center Visual Studio Authoring Extensions\References\OM2012R2\System.Performance.Library.mp</HintPath>
+      <Alias>Perf</Alias>
+      <MinVersion>7.0.8433.0</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="System.Snmp.Library">
+      <HintPath>C:\Program Files (x86)\System Center Visual Studio Authoring Extensions\References\OM2012R2\System.Snmp.Library.mp</HintPath>
+      <Alias>SNMP</Alias>
+      <MinVersion>7.0.8433.0</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\Device.DiskPartition.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\Device.FailoverState.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\Device.Fan.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\Device.Memory.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\Device.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\Device.PowerSupply.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\Device.Processor.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\Device.TempSensor.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataSources\DataSourceModule.Monitor.DiskPartitionFreeSpace.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataSources\DataSourceModule.Monitor.FailoverState.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataSources\DataSourceModule.Monitor.FanHealth.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataSources\DataSourceModule.Monitor.MemoryHealth.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataSources\DataSourceModule.Monitor.PowerSupplyHealth.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataSources\DataSourceModule.Monitor.ProcessorUsage.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataSources\DataSourceModule.Monitor.TemperatureSensorHealth.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataSources\DataSourceModule.Performance.Percentage.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataSources\DataSourceModule.Performance.SingleValue.Div1024.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataSources\DataSourceModule.Performance.SingleValue.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataSources\DataSourceModule.Performance.Subtraction.Div1024.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LanguagePack.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Monitors\DependancyMonitors.mptg.mpx">
+      <SubType>Code</SubType>
+      <DependentUpon>Monitors\DependancyMonitors.mptg</DependentUpon>
+    </Compile>
+    <Compile Include="Monitors\KnowledgeArticles.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Monitors\UnitMonitors.mptg.mpx">
+      <SubType>Code</SubType>
+      <DependentUpon>Monitors\UnitMonitors.mptg</DependentUpon>
+    </Compile>
+    <Compile Include="Rules\KnowledgeArticles.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Rules\PerfRules.mptg.mpx">
+      <SubType>Code</SubType>
+      <DependentUpon>Rules\PerfRules.mptg</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\FoldersAndViews.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Classes" />
+    <Folder Include="DataSources" />
+    <Folder Include="Monitors" />
+    <Folder Include="Presentation" />
+    <Folder Include="Scripts" />
+    <Folder Include="Rules" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Monitors\DependancyMonitors.mptg">
+      <SubType>Content</SubType>
+      <Generator>FragmentGenerator</Generator>
+    </Content>
+    <Content Include="Monitors\UnitMonitors.mptg">
+      <SubType>Content</SubType>
+      <Generator>FragmentGenerator</Generator>
+    </Content>
+    <Content Include="Rules\PerfRules.mptg">
+      <SubType>Content</SubType>
+      <Generator>FragmentGenerator</Generator>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\CalculatePercentage.ps1" />
+    <EmbeddedResource Include="Scripts\Div1024.ps1" />
+    <EmbeddedResource Include="Scripts\SubtractDiv1024.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
 </Project>

@@ -1,0 +1,101 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><TypeDefinitions>
+    <EntityTypes>
+      <ClassTypes>
+
+        <!-- Device Class : AP.F5.Device -->
+        <ClassType ID="AP.F5.Device" Accessibility="Public" Abstract="false" Base="System!System.LogicalEntity" Hosted="false" Singleton="false">
+          <Property ID="DeviceName" Type="string" Key="true" />
+          <Property ID="Type" Type="string" Key="false" />
+          <Property ID="IPAddress" Type="string" Key="false" />
+          <Property ID="Port" Type="int" Key="false" />
+          <Property ID="Community" Type="string" Key="false" />
+          <Property ID="SystemOID" Type="string" Key="false" />
+          <Property ID="Model" Type="string" Key="false" />
+          <Property ID="Vendor" Type="string" Key="false" />
+          <Property ID="Version" Type="string" Key="false" />
+          <Property ID="Build" Type="string" Key="false" />
+          <Property ID="HotFix" Type="string" Key="false" />
+          <Property ID="Location" Type="string" Key="false" />
+          <Property ID="Contact" Type="string" Key="false" />
+          <Property ID="SerialNumber" Type="string" Key="false" />
+          <Property ID="Standalone" Type="bool" Key="false" />
+        </ClassType>
+
+      </ClassTypes>
+    </EntityTypes>
+  </TypeDefinitions>
+  
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+
+        <!-- Device Class : AP.F5.Device -->
+        <DisplayString ElementID="AP.F5.Device">
+          <Name>F5 Device</Name>
+          <Description>F5 Device</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device" SubElementID="DeviceName">
+          <Name>Device Name</Name>
+          <Description>Unique name of the BIG-IP Device</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device" SubElementID="Type">
+          <Name>Device Type</Name>
+          <Description>Type of the BIG-IP Device (Physical or Virtual)</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device" SubElementID="IPAddress">
+          <Name>System IP Address</Name>
+          <Description>IP Address of the BIG-IP Device</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device" SubElementID="Port">
+          <Name>System SNMP Port</Name>
+          <Description>SNMP Port of the BIG-IP Device</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device" SubElementID="Community">
+          <Name>Community</Name>
+          <Description>BIG-IP Device SNMP Community String</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device" SubElementID="SystemOID">
+          <Name>System OID</Name>
+          <Description>BIG-IP Device SNMP SystemOID</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device" SubElementID="Model">
+          <Name>Model</Name>
+          <Description>BIG-IP Device Model</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device" SubElementID="Vendor">
+          <Name>Vendor</Name>
+          <Description>BIG-IP Device Vendor</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device" SubElementID="Version">
+          <Name>Software Version</Name>
+          <Description>Device Software Version</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device" SubElementID="Build">
+          <Name>Software Build</Name>
+          <Description>Device Software Build</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device" SubElementID="HotFix">
+          <Name>Software HotFix</Name>
+          <Description>Device Software HotFix</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device" SubElementID="Location">
+          <Name>Location</Name>
+          <Description>Device Location</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device" SubElementID="Contact">
+          <Name>Contact</Name>
+          <Description>Device Contact</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device" SubElementID="SerialNumber">
+          <Name>Serial Number</Name>
+          <Description>Serial Number of Device</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device" SubElementID="Standalone">
+          <Name>Is Standalone</Name>
+          <Description>Is this device Standalone</Description>
+        </DisplayString>
+      </DisplayStrings>
+      
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>

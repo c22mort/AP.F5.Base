@@ -1,0 +1,209 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <KnowledgeArticles>
+
+        <!-- AP.F5.Base.Perf.Processor.Usage -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Perf.Processor.Usage" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>Uses SNMP to get Processor Usage % for each F5 Device Processor.</para>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used;</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.7.5.2.1.35ProcessorIndex - bigipTrafficMgmt.bigipSystem.sysHostInfoStat.sysMultiHostCpu.sysMultiHostCpuTable.sysMultiHostCpuEntry.sysMultiHostCpuUsageRatio5m</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+        </KnowledgeArticle>
+
+        <!-- AP.F5.Base.Perf.TempSensor.Temperature -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Perf.TempSensor.Temperature" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>Uses SNMP to get Temperature(°C) for each F5 Device Temperature Sensor.</para>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used;</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.3.2.3.2.1.2.TemperatureSensorIndex - bigipTrafficMgmt.bigipSystem.sysPlatform.sysChassis.sysChassisTemp.sysChassisTempTable.sysChassisTempEntry.sysChassisTempTemperature</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+        </KnowledgeArticle>
+
+        <!-- AP.F5.Base.Perf.Device.ClientConnections -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Perf.Device.ClientConnections" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>Uses SNMP to get the current client-side connection count on the F5 Device (average over last 5 minutes).</para>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used;</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.1.2.1.91.0 - bigipTrafficMgmt.bigipSystem.sysGlobals.sysGlobalStats.sysGlobalStat.sysStatClientMaxConns5m</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+        </KnowledgeArticle>
+
+        <!-- AP.F5.Base.Perf.Device.ClientInboundKb -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Perf.Device.ClientInboundKb" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>Uses SNMP to get the current client-side Inbound Bandwidth in Kb on the F5 Device (average over last 5 minutes).</para>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used;</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.1.2.1.88.0 - bigipTrafficMgmt.bigipSystem.sysGlobals.sysGlobalStats.sysGlobalStat.sysStatClientBytesIn5m</para>
+                  <para>Value is divided by 1024 to get Kb</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+        </KnowledgeArticle>
+
+        <!-- AP.F5.Base.Perf.Device.ClientOutboundKb -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Perf.Device.ClientOutboundKb" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>Uses SNMP to get the current client-side Outbound Bandwidth in Kb on the F5 Device (average over last 5 minutes).</para>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used;</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.1.2.1.90.0 - bigipTrafficMgmt.bigipSystem.sysGlobals.sysGlobalStats.sysGlobalStat.sysStatClientBytesOut5m</para>
+                  <para>Value is divided by 1024 to get Kb</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+        </KnowledgeArticle>
+
+        <!-- AP.F5.Base.Perf.Device.MemoryFreeCollection  -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Perf.Device.MemoryFreeCollection" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>Uses SNMP to get the current free memory in Mb on the F5 Device.</para>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used;</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.7.1.3.0 - bigipTrafficMgmt.bigipSystem.sysHostInfoStat.sysHostMemory.sysHostMemoryTotalKb</para>
+                  <para>Value is divided by 1024 to get Mb</para>
+                </listItem>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.7.1.4.0 - bigipTrafficMgmt.bigipSystem.sysHostInfoStat.sysHostMemory.sysHostMemoryUsedKb</para>
+                  <para>Value is divided by 1024 to get Mb</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+        </KnowledgeArticle>
+
+        <!-- AP.F5.Base.Perf.Device.MemoryUsedCollection -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Perf.Device.MemoryUsedCollection" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>Uses SNMP to get the current used memory in Mb on the F5 Device.</para>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used;</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.7.1.4.0 - bigipTrafficMgmt.bigipSystem.sysHostInfoStat.sysHostMemory.sysHostMemoryUsedKb</para>
+                  <para>Value is divided by 1024 to get Mb</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+        </KnowledgeArticle>
+
+        <!-- AP.F5.Base.Perf.Device.ServerConnections -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Perf.Device.ServerConnections" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>Uses SNMP to get the current server-side connection count on the F5 Device (average over last 5 minutes).</para>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used;</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.1.2.1.98.0 - bigipTrafficMgmt.bigipSystem.sysGlobals.sysGlobalStats.sysGlobalStat.sysStatServerMaxConns5m</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+        </KnowledgeArticle>
+
+        <!-- AP.F5.Base.Perf.Device.ServerInboundKb -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Perf.Device.ServerInboundKb" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>Uses SNMP to get the current server-side Inbound Bandwidth in Kb on the F5 Device (average over last 5 minutes).</para>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used;</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.1.2.1.95.0 - bigipTrafficMgmt.bigipSystem.sysGlobals.sysGlobalStats.sysGlobalStat.sysStatServerBytesIn5m</para>
+                  <para>Value is divided by 1024 to get Kb</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+        </KnowledgeArticle>
+
+        <!-- AP.F5.Base.Perf.Device.ServerOutboundKb -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Perf.Device.ServerOutboundKb" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>Uses SNMP to get the current client-side Outbound Bandwidth in Kb on the F5 Device (average over last 5 minutes).</para>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used;</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.1.2.1.97.0 - bigipTrafficMgmt.bigipSystem.sysGlobals.sysGlobalStats.sysGlobalStat.sysStatServerBytesOut5m</para>
+                  <para>Value is divided by 1024 to get Kb</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+        </KnowledgeArticle>
+
+      </KnowledgeArticles>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>

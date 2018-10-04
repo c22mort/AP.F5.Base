@@ -1,0 +1,84 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <EntityTypes>
+      <ClassTypes>
+
+        <!-- AP.F5.Device.HostsPowerSuppliesGroup -->
+        <ClassType ID="AP.F5.Device.Processor" Base="System!System.LogicalEntity" Accessibility="Public" Abstract="false" Hosted="true" Singleton="false">
+          <Property ID="Index" Key="true" Type="string"/>
+          <Property ID="Name" Key="false" Type="string"/>
+        </ClassType>
+
+        <!-- AP.F5.Device.ProcessorsGroup -->
+        <ClassType ID="AP.F5.Device.ProcessorsGroup" Accessibility="Public" Abstract="false" Base="System!System.LogicalHardware" Hosted="true" Singleton="false">
+          <Property ID="Name" Type="string" Key="true" CaseSensitive="false" />
+        </ClassType>
+        
+      </ClassTypes>
+
+      <!-- Relationships -->
+      <RelationshipTypes>
+
+        <!-- Device -> Processors Group Hosting Relationship-->
+        <RelationshipType ID="AP.F5.Device.HostsProcessorsGroup" Accessibility="Public" Abstract="false" Base="System!System.Hosting">
+          <Source ID="Source" Type="AP.F5.Device"/>
+          <Target ID="Target" Type="AP.F5.Device.ProcessorsGroup"/>
+        </RelationshipType>
+        
+        <!-- Processors Group -> Processor Hosting Relationship-->
+        <RelationshipType ID="AP.F5.Device.ProcessorsGroup.HostsProcessors" Accessibility="Public" Abstract="false" Base="System!System.Hosting">
+          <Source ID="Source" Type="AP.F5.Device.ProcessorsGroup" />
+          <Target ID="Target" Type="AP.F5.Device.Processor" />
+        </RelationshipType>
+      
+      </RelationshipTypes>
+
+    </EntityTypes>
+  </TypeDefinitions>
+
+
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+
+        <!-- AP.F5.Device.HostsPowerSuppliesGroup -->
+        <DisplayString ElementID="AP.F5.Device.Processor">
+          <Name>F5 Processor</Name>
+          <Description>F5 Device Processor</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device.Processor" SubElementID="Index">
+          <Name>Index</Name>
+          <Description>Index of Processor (OID Suffix)</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device.Processor" SubElementID="Name">
+          <Name>Name</Name>
+          <Description>Name of Processor</Description>
+        </DisplayString>
+
+        <!-- AP.F5.Device.HostsProcessorsGroup -->
+        <DisplayString ElementID="AP.F5.Device.ProcessorsGroup">
+          <Name>F5 Processors</Name>
+          <Description>Hosting Group For Device Processors</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device.ProcessorsGroup" SubElementID="Name">
+          <Name>Name</Name>
+          <Description>Name of Hosting Group For Device Processors</Description>
+        </DisplayString>
+
+        <!-- AP.F5.Device.ProcessorsGroup.HostsProcessors -->
+        <DisplayString ElementID="AP.F5.Device.HostsProcessorsGroup">
+          <Name>F5 Device Hosts Processors Supplies Group</Name>
+          <Description>Defines Hosting Relationship Between F5 Device and Processors Group Object</Description>
+        </DisplayString>
+
+        <!-- AP.F5.Device.ProcessorsGroup.HostsProcessors -->
+        <DisplayString ElementID="AP.F5.Device.ProcessorsGroup.HostsProcessors">
+          <Name>F5 Device Processors Group Hosts Processors</Name>
+          <Description>Defines Hosting Relationship Between F5 Device Processors Group and Processors Objects</Description>
+        </DisplayString>
+        
+      </DisplayStrings>
+
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>

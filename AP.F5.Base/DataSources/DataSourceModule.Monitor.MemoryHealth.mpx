@@ -1,0 +1,213 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <MonitorTypes>
+      
+      <!-- AP.F5.DataSourceModule.Monitor.MemoryHealth -->
+      <UnitMonitorType ID="AP.F5.DataSourceModule.Monitor.MemoryHealth" Accessibility="Public">
+        <MonitorTypeStates>
+          <MonitorTypeState ID="MemoryUsageHealthy" NoDetection="false" />
+          <MonitorTypeState ID="MemoryUsageWarning" NoDetection="false" />
+          <MonitorTypeState ID="MemoryUsageCritical" NoDetection="false" />
+        </MonitorTypeStates>
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>System!System.ExpressionEvaluatorSchema</SchemaType>
+            <SchemaType>SNMP!System.SnmpVarBindsSchema</SchemaType>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element name="IntervalSeconds" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="IP" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Version" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="NoOfRetries" type="xsd:unsignedInt" default="3" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="Timeout " type="xsd:unsignedInt" default="500" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="CommunityString" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="Port" type="xsd:unsignedInt" default="161" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="WarningUsage" type="xsd:unsignedInt" default="161" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="CriticalUsage" type="xsd:unsignedInt" default="161" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int" />
+          <OverrideableParameter ID="NoOfRetries" Selector="$Config/NoOfRetries$" ParameterType="int" />
+          <OverrideableParameter ID="Timeout" Selector="$Config/Timeout$" ParameterType="int" />
+          <OverrideableParameter ID="Port" Selector="$Config/Port$" ParameterType="int" />
+          <OverrideableParameter ID="WarningUsage" Selector="$Config/WarningUsage$" ParameterType="int" />
+          <OverrideableParameter ID="CriticalUsage" Selector="$Config/CriticalUsage$" ParameterType="int" />
+        </OverrideableParameters>
+        <MonitorImplementation>
+          <MemberModules>
+            <DataSource ID="SnmpDataSource" TypeID="SNL!System.NetworkManagement.SnmpDataSource">
+              <Scheduler>
+                <SimpleReccuringSchedule>
+                  <Interval Unit="Seconds">$Config/IntervalSeconds$</Interval>
+                </SimpleReccuringSchedule>
+                <ExcludeDates />
+              </Scheduler>
+              <NoOfRetries>$Config/NoOfRetries$</NoOfRetries>
+              <Timeout>$Config/Timeout$</Timeout>
+              <Port>$Config/Port$</Port>
+              <IP>$Config/IP$</IP>
+              <CommunityString>$Config/CommunityString$</CommunityString>
+              <Version>$Config/Version$</Version>
+              <SnmpVarBinds>
+                <SnmpVarBind>
+                  <!--bigipTrafficMgmt.bigipSystem.sysHostInfoStat.sysHostMemory.sysHostMemoryTotalKb-->
+                  <OID>.1.3.6.1.4.1.3375.2.1.7.1.3.0</OID>
+                  <Syntax>0</Syntax>
+                  <Value VariantType="8"></Value>
+                </SnmpVarBind>
+                <SnmpVarBind>
+                  <!--bigipTrafficMgmt.bigipSystem.sysHostInfoStat.sysHostMemory.sysHostMemoryUsedKb-->
+                  <OID>.1.3.6.1.4.1.3375.2.1.7.1.4.0</OID>
+                  <Syntax>0</Syntax>
+                  <Value VariantType="8"></Value>
+                </SnmpVarBind>
+              </SnmpVarBinds>
+            </DataSource>
+            <ProbeAction ID="ScriptProbePS" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagTriggerOnlyProbe">
+              <ScriptName>CalculatePercentage.ps1</ScriptName>
+              <ScriptBody>$IncludeFileContent/Scripts/CalculatePercentage.ps1$</ScriptBody>
+              <SnapIns />
+              <Parameters>
+                <Parameter>
+                  <Name>Number</Name>
+                  <Value>$Data/SnmpVarBinds/SnmpVarBind[2]/Value$</Value>
+                </Parameter>
+                <Parameter>
+                  <Name>Total</Name>
+                  <Value>$Data/SnmpVarBinds/SnmpVarBind[1]/Value$</Value>
+                </Parameter>
+              </Parameters>
+              <TimeoutSeconds>60</TimeoutSeconds>
+            </ProbeAction>
+            <ConditionDetection ID="Mapper" TypeID="Perf!System.Performance.DataGenericMapper">
+              <ObjectName>Memory</ObjectName>
+              <CounterName>Percentage</CounterName>
+              <InstanceName />
+              <Value>$Data/Property[@Name="Percentage"]$</Value>
+            </ConditionDetection>
+            <ConditionDetection ID="MemoryUsageHealthyFilterCondition" TypeID="System!System.ExpressionFilter">
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery Type="Integer">Value</XPathQuery>
+                  </ValueExpression>
+                  <Operator>Less</Operator>
+                  <ValueExpression>
+                    <Value Type="Integer">$Config/WarningUsage$</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+            </ConditionDetection>
+            <ConditionDetection ID="MemoryUsageWarningFilterCondition" TypeID="System!System.ExpressionFilter">
+              <Expression>
+                <And>
+                  <Expression>
+                    <SimpleExpression>
+                      <ValueExpression>
+                        <XPathQuery Type="Integer">Value</XPathQuery>
+                      </ValueExpression>
+                      <Operator>GreaterEqual</Operator>
+                      <ValueExpression>
+                        <Value Type="Integer">$Config/WarningUsage$</Value>
+                      </ValueExpression>
+                    </SimpleExpression>
+                  </Expression>
+                  <Expression>
+                    <SimpleExpression>
+                      <ValueExpression>
+                        <XPathQuery Type="Integer">Value</XPathQuery>
+                      </ValueExpression>
+                      <Operator>LessEqual</Operator>
+                      <ValueExpression>
+                        <Value Type="Integer">$Config/CriticalUsage$</Value>
+                      </ValueExpression>
+                    </SimpleExpression>
+                  </Expression>
+                </And>
+              </Expression>
+            </ConditionDetection>
+            <ConditionDetection ID="MemoryUsageCriticalFilterCondition" TypeID="System!System.ExpressionFilter">
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery Type="Integer">Value</XPathQuery>
+                  </ValueExpression>
+                  <Operator>Greater</Operator>
+                  <ValueExpression>
+                    <Value Type="Integer">$Config/CriticalUsage$</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+            </ConditionDetection>
+          </MemberModules>
+          <RegularDetections>
+            <RegularDetection MonitorTypeStateID="MemoryUsageHealthy">
+              <Node ID="MemoryUsageHealthyFilterCondition">
+                <Node ID="Mapper">
+                  <Node ID="ScriptProbePS">
+                    <Node ID="SnmpDataSource" />
+                  </Node>
+                </Node>
+              </Node>
+            </RegularDetection>
+            <RegularDetection MonitorTypeStateID="MemoryUsageWarning">
+              <Node ID="MemoryUsageWarningFilterCondition">
+                <Node ID="Mapper">
+                  <Node ID="ScriptProbePS">
+                    <Node ID="SnmpDataSource" />
+                  </Node>
+                </Node>
+              </Node>
+            </RegularDetection>
+            <RegularDetection MonitorTypeStateID="MemoryUsageCritical">
+              <Node ID="MemoryUsageCriticalFilterCondition">
+                <Node ID="Mapper">
+                  <Node ID="ScriptProbePS">
+                    <Node ID="SnmpDataSource" />
+                  </Node>
+                </Node>
+              </Node>
+            </RegularDetection>
+          </RegularDetections>
+        </MonitorImplementation>
+      </UnitMonitorType>
+    </MonitorTypes>
+  </TypeDefinitions>
+
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="AP.F5.DataSourceModule.Monitor.MemoryHealth">
+          <Name>F5 Device Memory Status</Name>
+          <Description>Monitors F5 Device Memory Usage as a Percentage</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSourceModule.Monitor.MemoryHealth" SubElementID="IntervalSeconds">
+          <Name>Interval Seconds</Name>
+          <Description>Frequency in seconds that module is run.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSourceModule.Monitor.MemoryHealth" SubElementID="NoOfRetries">
+          <Name>Number of Retries</Name>
+          <Description>Number of times that the request should be retried if the first request fails.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSourceModule.Monitor.MemoryHealth" SubElementID="Port">
+          <Name>SNMP Port</Name>
+          <Description>SNMP Port of Device</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSourceModule.Monitor.MemoryHealth" SubElementID="Timeout">
+          <Name>Timeout</Name>
+          <Description>Seconds that the request must be complete before it is terminated.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSourceModule.Monitor.MemoryHealth" SubElementID="WarningUsage">
+          <Name>Warning Usage</Name>
+          <Description>The Lower Threshold for memory Usage</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSourceModule.Monitor.MemoryHealth" SubElementID="CriticalUsage">
+          <Name>Critical Usage</Name>
+          <Description>The Upper Threshold for memory Usage</Description>
+        </DisplayString>
+      </DisplayStrings>
+
+
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>

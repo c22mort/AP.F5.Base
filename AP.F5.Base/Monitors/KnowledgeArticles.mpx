@@ -1,0 +1,487 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <KnowledgeArticles>
+
+        <!-- AP.F5.Base.Monitor.Failover.Status -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Monitor.Failover.Status" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>
+                Uses SNMP to get Traffic Group Failover Status for the F5 Device.                
+              </para>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Thresholds</title>
+              <list>
+                <listItem>
+                  <para>Active - Healthy Condition</para>
+                </listItem>
+                <listItem>
+                  <para>Standby - Warning Condition</para>
+                </listItem>
+                <listItem>
+                  <para>Offline - Alert Condition</para>
+                </listItem>
+              </list>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used;</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.14.3.1.0 - bigipTrafficMgmt.bigipSystem.sysCM.sysCmFailoverStatus.sysCmFailoverStatusId</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+        </KnowledgeArticle>
+
+        <!-- AP.F5.Base.Monitor.Fan.Health -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Monitor.Fan.Health" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>
+                Uses SNMP to get Device Fan Status for the F5 Device.
+              </para>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Thresholds</title>
+              <list>
+                <listItem>
+                  <para>Fan Good - Healthy Condition</para>
+                </listItem>
+                <listItem>
+                  <para>Fan Bad or Not Present - Alert Condition</para>
+                </listItem>
+              </list>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used;</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.3.2.1.2.1.2.FanIndex - bigipTrafficMgmt.bigipSystem.sysPlatform.sysChassis.sysChassisFan.sysChassisFanTable.sysChassisFanEntry.sysChassisFanStatus</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+        </KnowledgeArticle>
+
+        <!-- AP.F5.Base.Monitor.Memory.Health -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Monitor.Memory.Health" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>
+                Uses SNMP to get Total Memory(Kb) and Used Memory(Kb) from the F5 Device, then calculates the percentage of used memory.
+              </para>
+              <table>
+                <title>Threshlolds</title>
+                <tableHeader>
+                  <row>
+                    <entry>
+                      <para>Name</para>
+                    </entry>
+                    <entry>
+                      <para>Default Value</para>
+                    </entry>
+                    <entry>
+                      <para>Overridable</para>
+                    </entry>
+                  </row>
+                </tableHeader>
+                <row>
+                  <entry>
+                    <para>WarningUsage</para>
+                  </entry>
+                  <entry>
+                    <para>80</para>
+                  </entry>
+                  <entry>
+                    <para>YES</para>
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    <para>CriticalUsage</para>
+                  </entry>
+                  <entry>
+                    <para>90</para>
+                  </entry>
+                  <entry>
+                    <para>YES</para>
+                  </entry>
+                </row>
+              </table>
+              <table>
+                <title>Monitored Conditions</title>
+                <tableHeader>
+                  <row>
+                    <entry>
+                      <para>Condition</para>
+                    </entry>
+                    <entry>
+                      <para>Comparison</para>
+                    </entry>
+                  </row>
+                </tableHeader>
+                <row>
+                  <entry>
+                    <para>Healthy Condition</para>
+                  </entry>
+                  <entry>
+                    <para>&lt; WarningUsage</para>
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    <para>Warning Condition</para>
+                  </entry>
+                  <entry>
+                    <para>&gt;=WarningUsage and &lt;=CriticalUsage</para>
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    <para>Critical Condition</para>
+                  </entry>
+                  <entry>
+                    <para>&gt;CriticalUsage</para>
+                  </entry>
+                </row>
+              </table>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.7.1.3.0 - bigipTrafficMgmt.bigipSystem.sysHostInfoStat.sysHostMemory.sysHostMemoryTotalKb</para>
+                </listItem>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.7.1.4.0 - bigipTrafficMgmt.bigipSystem.sysHostInfoStat.sysHostMemory.sysHostMemoryUsedKb</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+        </KnowledgeArticle>
+
+        <!-- AP.F5.Base.Monitor.PowerSupply.Health -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Monitor.PowerSupply.Health" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>
+                Uses SNMP to get Device Power Supply Status for the F5 Device.
+              </para>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Thresholds</title>
+              <list>
+                <listItem>
+                  <para>Power Supply Good - Healthy Condition</para>
+                </listItem>
+                <listItem>
+                  <para>Power Supply Not Present - Warning Condition</para>
+                </listItem>
+                <listItem>
+                  <para>Power Supply Bad - Alert Condition</para>
+                </listItem>
+              </list>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used;</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.3.2.2.2.1.2.PowerSupplyIndex - bigipTrafficMgmt.bigipSystem.sysPlatform.sysChassis.sysChassisPowerSupply.sysChassisPowerSupplyTable.sysChassisPowerSupplyEntry.sysChassisPowerSupplyStatus</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+        </KnowledgeArticle>
+
+        <!-- AP.F5.Base.Monitor.Processor.Usage -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Monitor.Processor.Usage" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>
+                Uses SNMP to get Processor usage, average over last 5 minutes, for all F5 Device processors.
+              </para>
+              <table>
+                <title>Threshlolds</title>
+                <tableHeader>
+                  <row>
+                    <entry>
+                      <para>Name</para>
+                    </entry>
+                    <entry>
+                      <para>Default Value</para>
+                    </entry>
+                    <entry>
+                      <para>Overridable</para>
+                    </entry>
+                  </row>
+                </tableHeader>
+                <row>
+                  <entry>
+                    <para>WarningUsage</para>
+                  </entry>
+                  <entry>
+                    <para>80</para>
+                  </entry>
+                  <entry>
+                    <para>YES</para>
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    <para>CriticalUsage</para>
+                  </entry>
+                  <entry>
+                    <para>90</para>
+                  </entry>
+                  <entry>
+                    <para>YES</para>
+                  </entry>
+                </row>
+              </table>
+              <table>
+                <title>Monitored Conditions</title>
+                <tableHeader>
+                  <row>
+                    <entry>
+                      <para>Condition</para>
+                    </entry>
+                    <entry>
+                      <para>Comparison</para>
+                    </entry>
+                  </row>
+                </tableHeader>
+                <row>
+                  <entry>
+                    <para>Healthy Condition</para>
+                  </entry>
+                  <entry>
+                    <para>&lt; WarningUsage</para>
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    <para>Warning Condition</para>
+                  </entry>
+                  <entry>
+                    <para>&gt;=WarningUsage and &lt;=CriticalUsage</para>
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    <para>Critical Condition</para>
+                  </entry>
+                  <entry>
+                    <para>&gt;CriticalUsage</para>
+                  </entry>
+                </row>
+              </table>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used;</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.7.5.2.1.35ProcessorIndex - bigipTrafficMgmt.bigipSystem.sysHostInfoStat.sysMultiHostCpu.sysMultiHostCpuTable.sysMultiHostCpuEntry.sysMultiHostCpuUsageRatio5m</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+          </KnowledgeArticle>
+
+        <!-- AP.F5.Base.Monitor.TempSensor.Temperature -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Monitor.TempSensor.Temperature" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>
+                Uses SNMP to get Temperature Sensor Temperature in Degrees Centigrade, for all F5 Device Temperature Sensors.
+              </para>
+              <table>
+                <title>Threshlolds</title>
+                <tableHeader>
+                  <row>
+                    <entry>
+                      <para>Name</para>
+                    </entry>
+                    <entry>
+                      <para>Default Value</para>
+                    </entry>
+                    <entry>
+                      <para>Overridable</para>
+                    </entry>
+                  </row>
+                </tableHeader>
+                <row>
+                  <entry>
+                    <para>WarningTemp</para>
+                  </entry>
+                  <entry>
+                    <para>32</para>
+                  </entry>
+                  <entry>
+                    <para>YES</para>
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    <para>CriticalTemp</para>
+                  </entry>
+                  <entry>
+                    <para>10</para>
+                  </entry>
+                  <entry>
+                    <para>YES</para>
+                  </entry>
+                </row>
+              </table>
+              <table>
+                <title>Monitored Conditions</title>
+                <tableHeader>
+                  <row>
+                    <entry>
+                      <para>Condition</para>
+                    </entry>
+                    <entry>
+                      <para>Comparison</para>
+                    </entry>
+                  </row>
+                </tableHeader>
+                <row>
+                  <entry>
+                    <para>Healthy Condition</para>
+                  </entry>
+                  <entry>
+                    <para>&gt; WarningTemp</para>
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    <para>Warning Condition</para>
+                  </entry>
+                  <entry>
+                    <para>&lt;=WarningTemp and &gt;=CriticalTemp</para>
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    <para>Critical Condition</para>
+                  </entry>
+                  <entry>
+                    <para>&lt;CriticalTemp</para>
+                  </entry>
+                </row>
+              </table>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used;</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.3.2.3.2.1.2.TemperatureSensorIndex - bigipTrafficMgmt.bigipSystem.sysPlatform.sysChassis.sysChassisTemp.sysChassisTempTable.sysChassisTempEntry.sysChassisTempTemperature</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+
+        </KnowledgeArticle>
+
+        <!-- AP.F5.Base.Monitor.DiskPartition.FreeSpace -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Monitor.DiskPartition.FreeSpace" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>
+                Uses SNMP to get Free Space (%), for all F5 Device Disk Partitions.
+              </para>
+              <table>
+                <title>Threshlolds</title>
+                <tableHeader>
+                  <row>
+                    <entry><para>Name</para></entry>
+                    <entry><para>Default Value</para></entry>
+                    <entry><para>Overridable</para></entry>
+                  </row>
+                </tableHeader>
+                <row>
+                  <entry><para>WarningSpace</para></entry>
+                  <entry><para>15</para></entry>
+                  <entry><para>YES</para></entry>
+                </row>
+                <row>
+                  <entry><para>CriticalSpace</para></entry>
+                  <entry><para>10</para></entry>
+                  <entry><para>YES</para></entry>
+                </row>
+              </table>
+              <table>
+                <title>Monitored Conditions</title>
+                <tableHeader>
+                  <row>
+                    <entry>
+                      <para>Condition</para>
+                    </entry>
+                    <entry>
+                      <para>Comparison</para>
+                    </entry>
+                  </row>
+                </tableHeader>
+                <row>
+                  <entry>
+                    <para>Healthy Condition</para>
+                  </entry>
+                  <entry>
+                    <para>&gt; WarningSpace</para>
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    <para>Warning Condition</para>
+                  </entry>
+                  <entry>
+                    <para>&lt;=WarningSpace and &gt;=CriticalSpace</para>
+                  </entry>
+                </row>
+                <row>
+                  <entry>
+                    <para>Critical Condition</para>
+                  </entry>
+                  <entry>
+                    <para>&lt;CriticalSpace</para>
+                  </entry>
+                </row>
+              </table>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used;</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.7.3.2.1.3DiskPartition.Index - bigipTrafficMgmt.bigipSystem.sysHostInfoStat.sysHostDisk.sysHostDiskTable.sysHostDiskEntry.sysHostDiskTotalBlocks</para>
+                </listItem>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.7.3.2.1.4DiskPartition.Index - bigipTrafficMgmt.bigipSystem.sysHostInfoStat.sysHostDisk.sysHostDiskTable.sysHostDiskEntry.sysHostDiskFreeBlocks</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+        </KnowledgeArticle>
+        
+      </KnowledgeArticles>
+      
+    </LanguagePack>
+  </LanguagePacks>
+  
+</ManagementPackFragment>

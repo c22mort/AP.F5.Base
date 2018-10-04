@@ -1,0 +1,87 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <EntityTypes>
+      <ClassTypes>
+
+        <!-- AP.F5.Device.TempSensor -->
+        <ClassType ID="AP.F5.Device.TempSensor" Base="System!System.LogicalEntity" Accessibility="Public" Abstract="false" Hosted="true" Singleton="false">
+          <Property ID="Index" Key="true" Type="string" />
+          <Property ID="Name" Key="false" Type="string" />
+        </ClassType>
+
+        <!-- AP.F5.Device.TempSensorsGroup -->  
+        <ClassType ID="AP.F5.Device.TempSensorsGroup" Accessibility="Public" Abstract="false" Base="System!System.LogicalHardware" Hosted="true" Singleton="false">
+          <Property ID="Name" Type="string" Key="true" CaseSensitive="false" />
+        </ClassType>
+        
+      </ClassTypes>
+
+      <!-- Relationships -->
+      <RelationshipTypes>
+
+        <!-- Device -> Temperature Sensors Group Hosting Relationship-->
+        <RelationshipType ID="AP.F5.Device.HostsTempSensorsGroup" Accessibility="Public" Abstract="false" Base="System!System.Hosting">
+          <Source ID="Source" Type="AP.F5.Device"/>
+          <Target ID="Target" Type="AP.F5.Device.TempSensorsGroup"/>
+        </RelationshipType>
+        
+        <!-- Temperature Sensors Group -> TempSensor Hosting Relationship-->
+        <RelationshipType ID="AP.F5.Device.TempSensorsGroup.HostsTempSensors" Accessibility="Public" Abstract="false" Base="System!System.Hosting">
+          <Source ID="Source" Type="AP.F5.Device.TempSensorsGroup" />
+          <Target ID="Target" Type="AP.F5.Device.TempSensor" />
+        </RelationshipType>
+        
+      </RelationshipTypes>
+
+    </EntityTypes>
+  </TypeDefinitions>
+
+
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+
+        <!-- AP.F5.Device.TempSensor -->
+        <DisplayString ElementID="AP.F5.Device.TempSensor">
+          <Name>F5 TempSensor</Name>
+          <Description>F5 Device TempSensor</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device.TempSensor" SubElementID="Index">
+          <Name>Index</Name>
+          <Description>Index of TempSensor (OID Suffix)</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device.TempSensor" SubElementID="Name">
+          <Name>Name</Name>
+          <Description>Name of TempSensor</Description>
+        </DisplayString>
+
+
+        <!-- AP.F5.Device.TempSensorsGroup -->
+        <DisplayString ElementID="AP.F5.Device.TempSensorsGroup">
+          <Name>F5 Temp. Sensors</Name>
+          <Description>Hosting Group For Device Temperature Sensors</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device.TempSensorsGroup" SubElementID="Name">
+          <Name>Name</Name>
+          <Description>Name of Hosting Group For Device Temperature Sensors</Description>
+        </DisplayString>
+
+        <!-- Device -> Temperature Sensors Group Hosting Relationship-->
+        <DisplayString ElementID="AP.F5.Device.HostsTempSensorsGroup">
+          <Name>F5 Device Hosts Temperature Sensors Group</Name>
+          <Description>Defines Hosting Relationship Between F5 Device and Temperature Sensors Group Object</Description>
+        </DisplayString>
+
+
+        <!-- Temperature Sensors Group -> TempSensor Hosting Relationship-->
+        <DisplayString ElementID="AP.F5.Device.TempSensorsGroup.HostsTempSensors">
+          <Name>F5 Device Temperature Sensors Group Hosts Temperature Sensors</Name>
+          <Description>Defines Hosting Relationship Between F5 Device Temperature Sensors Group and Temperature Sensors Objects</Description>
+        </DisplayString>
+
+
+      </DisplayStrings>
+
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>

@@ -1,0 +1,80 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><TypeDefinitions>
+    <EntityTypes>
+      <ClassTypes>
+
+        <!-- AP.F5.Device.Fan -->
+        <ClassType ID="AP.F5.Device.Fan" Base="System!System.LogicalEntity" Accessibility="Public" Abstract="false" Hosted="true" Singleton="false">
+          <Property ID="Index" Key="true" Type="int" />
+          <Property ID="Name" Key="false" Type="string" />
+        </ClassType>
+
+        <!-- AP.F5.Device.FansGroup -->
+        <ClassType ID="AP.F5.Device.FansGroup" Accessibility="Public" Abstract="false" Base="System!System.LogicalHardware" Hosted="true" Singleton="false">
+          <Property ID="Name" Type="string" Key="true" CaseSensitive="false" />
+        </ClassType>
+
+      </ClassTypes>
+      
+      <RelationshipTypes>
+
+        <!-- FansGroup -> Fans Hosting Relationship-->
+        <RelationshipType ID="AP.F5.Device.FansGroup.HostsFans" Accessibility="Public" Abstract="false" Base="System!System.Hosting">
+          <Source ID="Source" Type="AP.F5.Device.FansGroup" />
+          <Target ID="Target" Type="AP.F5.Device.Fan" />
+        </RelationshipType>
+      
+        <!-- Device -> FansGroup Hosting Relationship-->
+        <RelationshipType ID="AP.F5.Device.HostsFansGroup" Accessibility="Public" Abstract="false" Base="System!System.Hosting">
+          <Source ID="Source" Type="AP.F5.Device" />
+          <Target ID="Target" Type="AP.F5.Device.FansGroup" />
+        </RelationshipType>
+      
+      </RelationshipTypes>
+    </EntityTypes>
+  </TypeDefinitions>
+  
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        
+        <!-- AP.F5.Device.Fan -->
+        <DisplayString ElementID="AP.F5.Device.Fan">
+          <Name>F5 Fan</Name>
+          <Description>F5 Device Fan</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device.Fan" SubElementID="Index">
+          <Name>Index</Name>
+          <Description>Index of Fan</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device.Fan" SubElementID="Name">
+          <Name>Name</Name>
+          <Description>Name of Fan</Description>
+        </DisplayString>
+
+        <!-- AP.F5.Device.FansGroup -->
+        <DisplayString ElementID="AP.F5.Device.FansGroup">
+          <Name>Fans</Name>
+          <Description>F5 Device Fans Group</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device.FansGroup" SubElementID="Name">
+          <Name>Name</Name>
+          <Description>Name of Group For Device Fans</Description>
+        </DisplayString>
+
+        <!-- AP.F5.Device.FansGroup.HostsFans -->
+        <DisplayString ElementID="AP.F5.Device.FansGroup.HostsFans">
+          <Name>F5 FansGroup HostsFans</Name>
+          <Description>Defines tyhe hosting relationship between FansGroup and Fans</Description>
+        </DisplayString>
+
+        <!-- AP.F5.Device.HostsFansGroup -->
+        <DisplayString ElementID="AP.F5.Device.HostsFansGroup">
+          <Name>F5 Device HostsFansGroup</Name>
+          <Description>Defines the hosting relationship between F5 device and FansGroup</Description>
+        </DisplayString>
+
+       
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>

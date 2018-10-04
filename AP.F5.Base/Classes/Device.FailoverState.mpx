@@ -1,0 +1,48 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <EntityTypes>
+      <ClassTypes>
+
+        <!-- AP.F5.Device.FailoverState -->
+        <ClassType ID="AP.F5.Device.FailoverState" Base="System!System.LogicalEntity" Accessibility="Public" Abstract="false" Hosted="true" Singleton="false">
+          <Property ID="Name" Type="string" Key="true" CaseSensitive="false" />
+        </ClassType>      
+        
+      </ClassTypes>
+
+      <RelationshipTypes>
+        
+        <!-- Device -> FailoverState Hosting Relationship-->
+        <RelationshipType ID="AP.F5.Device.HostsFailoverState" Accessibility="Public" Abstract="false" Base="System!System.Hosting">
+          <Source ID="Source" Type="AP.F5.Device"/>
+          <Target ID="Target" Type="AP.F5.Device.FailoverState"/>
+        </RelationshipType>
+        
+      </RelationshipTypes>
+    </EntityTypes>
+    
+  </TypeDefinitions>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+
+        <!-- AP.F5.Device.FailoverState -->
+        <DisplayString ElementID="AP.F5.Device.FailoverState">
+          <Name>F5 Failover State</Name>
+          <Description>Shows Current FailoverState of Device</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device.FailoverState" SubElementID="Name">
+          <Name>Name</Name>
+          <Description>Failover State Name</Description>
+        </DisplayString>
+
+        <!-- Device -> FailoverState Hosting Relationship-->
+        <DisplayString ElementID="AP.F5.Device.HostsFailoverState">
+          <Name>F5 Device Hosts Failoverstate</Name>
+          <Description>Defines the Hosting Relationship between F5 Device and Failover State Objects</Description>
+        </DisplayString>
+
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>

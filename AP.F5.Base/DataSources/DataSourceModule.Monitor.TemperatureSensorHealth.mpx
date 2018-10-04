@@ -1,0 +1,168 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <MonitorTypes>
+      <UnitMonitorType ID="AP.F5.DataSourceModule.Monitor.TemperatureSensorHealth" Accessibility="Public">
+        <MonitorTypeStates>
+          <MonitorTypeState ID="TemperatureSensorHealthy" NoDetection="false" />
+          <MonitorTypeState ID="TemperatureSensorWarning" NoDetection="false" />
+          <MonitorTypeState ID="TemperatureSensorCritical" NoDetection="false" />
+        </MonitorTypeStates>
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>System!System.ExpressionEvaluatorSchema</SchemaType>
+            <SchemaType>SNMP!System.SnmpVarBindsSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element name="IntervalSeconds" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="IP" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Version" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="NoOfRetries" type="xsd:unsignedInt" default="3" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="Timeout " type="xsd:unsignedInt" default="500" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="CommunityString" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="Port" type="xsd:unsignedInt" default="161" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="WarningTemp" type="xsd:unsignedInt" default="161" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="CriticalTemp" type="xsd:unsignedInt" default="161" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int" />
+          <OverrideableParameter ID="NoOfRetries" Selector="$Config/NoOfRetries$" ParameterType="int" />
+          <OverrideableParameter ID="Timeout" Selector="$Config/Timeout$" ParameterType="int" />
+          <OverrideableParameter ID="Port" Selector="$Config/Port$" ParameterType="int" />
+          <OverrideableParameter ID="WarningTemp" Selector="$Config/WarningTemp$" ParameterType="int" />
+          <OverrideableParameter ID="CriticalTemp" Selector="$Config/CriticalTemp$" ParameterType="int" />
+        </OverrideableParameters>
+        <MonitorImplementation>
+          <MemberModules>
+            <DataSource ID="SnmpDataSource" TypeID="SNL!System.NetworkManagement.SnmpDataSource">
+              <Scheduler>
+                <SimpleReccuringSchedule>
+                  <Interval Unit="Seconds">$Config/IntervalSeconds$</Interval>
+                </SimpleReccuringSchedule>
+                <ExcludeDates />
+              </Scheduler>
+              <NoOfRetries>$Config/NoOfRetries$</NoOfRetries>
+              <Timeout>$Config/Timeout$</Timeout>
+              <Port>$Config/Port$</Port>
+              <IP>$Config/IP$</IP>
+              <CommunityString>$Config/CommunityString$</CommunityString>
+              <Version>$Config/Version$</Version>
+              <SnmpVarBinds>
+                <SnmpVarBind>
+                  <!--bigipTrafficMgmt.bigipSystem.sysPlatform.sysChassis.sysChassisTemp.sysChassisTempTable.sysChassisTempEntry.sysChassisTempTemperature-->
+                  <OID>.1.3.6.1.4.1.3375.2.1.3.2.3.2.1.2.$Target/Property[Type="AP.F5.Device.TempSensor"]/Index$</OID>
+                  <Syntax>0</Syntax>
+                  <Value VariantType="8"></Value>
+                </SnmpVarBind>
+              </SnmpVarBinds>
+            </DataSource>
+            <ConditionDetection ID="TemperatureSensorHealthyFilterCondition" TypeID="System!System.ExpressionFilter">
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery Type="Integer">SnmpVarBinds/SnmpVarBind[1]/Value</XPathQuery>
+                  </ValueExpression>
+                  <Operator>Less</Operator>
+                  <ValueExpression>
+                    <Value Type="Integer">$Config/WarningTemp$</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+            </ConditionDetection>
+            <ConditionDetection ID="TemperatureSensorWarningFilterCondition" TypeID="System!System.ExpressionFilter">
+              <Expression>
+                <And>
+                  <Expression>
+                    <SimpleExpression>
+                      <ValueExpression>
+                        <XPathQuery Type="Integer">SnmpVarBinds/SnmpVarBind[1]/Value</XPathQuery>
+                      </ValueExpression>
+                      <Operator>Greater</Operator>
+                      <ValueExpression>
+                        <Value Type="Integer">$Config/WarningTemp$</Value>
+                      </ValueExpression>
+                    </SimpleExpression>
+                  </Expression>
+                  <Expression>
+                    <SimpleExpression>
+                      <ValueExpression>
+                        <XPathQuery Type="Integer">SnmpVarBinds/SnmpVarBind[1]/Value</XPathQuery>
+                      </ValueExpression>
+                      <Operator>LessEqual</Operator>
+                      <ValueExpression>
+                        <Value Type="Integer">$Config/CriticalTemp$</Value>
+                      </ValueExpression>
+                    </SimpleExpression>
+                  </Expression>
+                </And>
+              </Expression>
+            </ConditionDetection>
+            <ConditionDetection ID="TemperatureSensorCriticalFilterCondition" TypeID="System!System.ExpressionFilter">
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery Type="Integer">SnmpVarBinds/SnmpVarBind[1]/Value</XPathQuery>
+                  </ValueExpression>
+                  <Operator>Greater</Operator>
+                  <ValueExpression>
+                    <Value Type="Integer">$Config/CriticalTemp$</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+            </ConditionDetection>
+          </MemberModules>
+          <RegularDetections>
+            <RegularDetection MonitorTypeStateID="TemperatureSensorHealthy">
+              <Node ID="TemperatureSensorHealthyFilterCondition">
+                <Node ID="SnmpDataSource" />
+              </Node>
+            </RegularDetection>
+            <RegularDetection MonitorTypeStateID="TemperatureSensorWarning">
+              <Node ID="TemperatureSensorWarningFilterCondition">
+                <Node ID="SnmpDataSource" />
+              </Node>
+            </RegularDetection>
+            <RegularDetection MonitorTypeStateID="TemperatureSensorCritical">
+              <Node ID="TemperatureSensorCriticalFilterCondition">
+                <Node ID="SnmpDataSource" />
+              </Node>
+            </RegularDetection>
+          </RegularDetections>
+        </MonitorImplementation>
+      </UnitMonitorType>
+    </MonitorTypes>
+  </TypeDefinitions>
+
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="AP.F5.DataSourceModule.Monitor.TemperatureSensorHealth">
+          <Name>F5 Device Temperature Sensor Status</Name>
+          <Description>Monitors F5 Device Temperature Sensor in Degrees Centigrade</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSourceModule.Monitor.TemperatureSensorHealth" SubElementID="IntervalSeconds">
+          <Name>Interval Seconds</Name>
+          <Description>Frequency in seconds that module is run.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSourceModule.Monitor.TemperatureSensorHealth" SubElementID="NoOfRetries">
+          <Name>Number of Retries</Name>
+          <Description>Number of times that the request should be retried if the first request fails.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSourceModule.Monitor.TemperatureSensorHealth" SubElementID="Port">
+          <Name>SNMP Port</Name>
+          <Description>SNMP Port of Device</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSourceModule.Monitor.TemperatureSensorHealth" SubElementID="Timeout">
+          <Name>Timeout</Name>
+          <Description>Seconds that the request must be complete before it is terminated.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSourceModule.Monitor.TemperatureSensorHealth" SubElementID="WarningTemp">
+          <Name>Warning Temperature</Name>
+          <Description>The Upper Threshold for Temperature.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSourceModule.Monitor.TemperatureSensorHealth" SubElementID="CriticalTemp">
+          <Name>Critical Temperature</Name>
+          <Description>The Upper Threshold for Temperature.</Description>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>

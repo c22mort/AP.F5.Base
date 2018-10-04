@@ -1,0 +1,355 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Presentation>
+    <Views>
+      
+      <!-- AP.F5.View.Alert.AllDevices -->
+      <View ID="AP.F5.View.Alert.AllDevices" Target="AP.F5.Device" TypeID="SC!Microsoft.SystemCenter.AlertViewType" Accessibility="Internal" Enabled="true" Visible="true">
+        <Category>Custom</Category>
+        <Criteria>
+          <ResolutionState>
+            <StateRange Operator="NotEquals">255</StateRange>
+          </ResolutionState>
+        </Criteria>
+        <Presentation>
+          <ColumnInfo Index="1" SortIndex="1" Width="150" Grouped="false" Sorted="true" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Created</Name>
+            <Id>TimeRaised</Id>
+          </ColumnInfo>
+        </Presentation>
+      </View>
+      <!-- AP.F5.View.State.AllDevices -->
+      <View ID="AP.F5.View.State.AllDevices" Target="AP.F5.Device" TypeID="SC!Microsoft.SystemCenter.StateViewType" Accessibility="Internal" Enabled="true" Visible="true">
+        <Category>Custom</Category>
+        <Criteria />
+      </View>
+      <!-- AP.F5.View.Perf.AllDevices -->
+      <View ID="AP.F5.View.Perf.AllDevices" Target="AP.F5.Device" TypeID="SC!Microsoft.SystemCenter.PerformanceViewType" Accessibility="Internal" Enabled="true" Visible="true">
+        <Category>Custom</Category>
+        <Criteria />
+      </View>
+
+      <!-- AP.F5.View.State.PhysicalDevices -->
+      <View ID="AP.F5.View.State.PhysicalDevices" Target="AP.F5.Device" TypeID="SC!Microsoft.SystemCenter.StateViewType" Accessibility="Internal" Enabled="true" Visible="true">
+        <Category>Custom</Category>
+        <Criteria>
+          <PropertyCriteria>
+            <PropertyName>Type</PropertyName>
+            <Value>Physical</Value>
+          </PropertyCriteria>
+        </Criteria>
+      </View>
+
+      <!-- AP.F5.View.State.VirtualDevices -->
+      <View ID="AP.F5.View.State.VirtualDevices" Target="AP.F5.Device" TypeID="SC!Microsoft.SystemCenter.StateViewType" Accessibility="Internal" Enabled="true" Visible="true">
+        <Category>Custom</Category>
+        <Criteria>
+          <PropertyCriteria>
+            <PropertyName>Type</PropertyName>
+            <Value>Virtual</Value>
+          </PropertyCriteria>
+        </Criteria>
+      </View>
+
+      <!-- AP.F5.View.Alert.AllFans -->
+      <View ID="AP.F5.View.Alert.AllFans" Target="AP.F5.Device.Fan" TypeID="SC!Microsoft.SystemCenter.AlertViewType" Accessibility="Internal" Enabled="true" Visible="true">
+        <Category>Custom</Category>
+        <Criteria>
+          <ResolutionState>
+            <StateRange Operator="NotEquals">255</StateRange>
+          </ResolutionState>
+        </Criteria>
+        <Presentation>
+          <ColumnInfo Index="1" SortIndex="1" Width="150" Grouped="false" Sorted="true" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Created</Name>
+            <Id>TimeRaised</Id>
+          </ColumnInfo>
+        </Presentation>
+      </View>
+      <!-- AP.F5.View.State.AllFans -->
+      <View ID="AP.F5.View.State.AllFans" Target="AP.F5.Device.Fan" TypeID="SC!Microsoft.SystemCenter.StateViewType" Accessibility="Internal" Enabled="true" Visible="true">
+        <Category>Custom</Category>
+        <Criteria />
+      </View>
+
+      <!-- AP.F5.View.Alert.AllPowerSupplies -->
+      <View ID="AP.F5.View.Alert.AllPowerSupplies" Target="AP.F5.Device.PowerSupply" TypeID="SC!Microsoft.SystemCenter.AlertViewType" Accessibility="Internal" Enabled="true" Visible="true">
+        <Category>Custom</Category>
+        <Criteria>
+          <ResolutionState>
+            <StateRange Operator="NotEquals">255</StateRange>
+          </ResolutionState>
+        </Criteria>
+        <Presentation>
+          <ColumnInfo Index="1" SortIndex="1" Width="150" Grouped="false" Sorted="true" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Created</Name>
+            <Id>TimeRaised</Id>
+          </ColumnInfo>
+        </Presentation>
+      </View>
+      <!-- AP.F5.View.State.AllPowerSupplies -->
+      <View ID="AP.F5.View.State.AllPowerSupplies" Target="AP.F5.Device.PowerSupply" TypeID="SC!Microsoft.SystemCenter.StateViewType" Accessibility="Internal" Enabled="true" Visible="true">
+        <Category>Custom</Category>
+        <Criteria />
+      </View>
+
+      <!-- AP.F5.View.Alert.AllProcessors -->
+      <View ID="AP.F5.View.Alert.AllProcessors" Target="AP.F5.Device.Processor" TypeID="SC!Microsoft.SystemCenter.AlertViewType" Accessibility="Internal" Enabled="true" Visible="true">
+        <Category>Custom</Category>
+        <Criteria>
+          <ResolutionState>
+            <StateRange Operator="NotEquals">255</StateRange>
+          </ResolutionState>
+        </Criteria>
+        <Presentation>
+          <ColumnInfo Index="1" SortIndex="1" Width="150" Grouped="false" Sorted="true" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Created</Name>
+            <Id>TimeRaised</Id>
+          </ColumnInfo>
+        </Presentation>
+      </View>
+      <!-- AP.F5.View.State.AllProcessors -->
+      <View ID="AP.F5.View.State.AllProcessors" Target="AP.F5.Device.Processor" TypeID="SC!Microsoft.SystemCenter.StateViewType" Accessibility="Internal" Enabled="true" Visible="true">
+        <Category>Custom</Category>
+        <Criteria />
+      </View>
+      <!-- AP.F5.View.Perf.AllProcessors -->
+      <View ID="AP.F5.View.Perf.AllProcessors" Target="AP.F5.Device.Processor" TypeID="SC!Microsoft.SystemCenter.PerformanceViewType" Accessibility="Internal" Enabled="true" Visible="true">
+        <Category>Custom</Category>
+        <Criteria />
+      </View>
+
+      <!-- AP.F5.View.Alert.AllMemory -->
+      <View ID="AP.F5.View.Alert.AllMemory" Target="AP.F5.Device.Memory" TypeID="SC!Microsoft.SystemCenter.AlertViewType" Accessibility="Internal" Enabled="true" Visible="true">
+        <Category>Custom</Category>
+        <Criteria>
+          <ResolutionState>
+            <StateRange Operator="NotEquals">255</StateRange>
+          </ResolutionState>
+        </Criteria>
+        <Presentation>
+          <ColumnInfo Index="1" SortIndex="1" Width="150" Grouped="false" Sorted="true" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Created</Name>
+            <Id>TimeRaised</Id>
+          </ColumnInfo>
+        </Presentation>
+      </View>
+      <!-- AP.F5.View.State.AllMemory -->
+      <View ID="AP.F5.View.State.AllMemory" Target="AP.F5.Device.Memory" TypeID="SC!Microsoft.SystemCenter.StateViewType" Accessibility="Internal" Enabled="true" Visible="true">
+        <Category>Custom</Category>
+        <Criteria />
+      </View>
+      <!-- AP.F5.View.Perf.AllMemory -->
+      <View ID="AP.F5.View.Perf.AllMemory" Target="AP.F5.Device.Memory" TypeID="SC!Microsoft.SystemCenter.PerformanceViewType" Accessibility="Internal" Enabled="true" Visible="true">
+        <Category>Custom</Category>
+        <Criteria />
+      </View>
+
+      <!-- AP.F5.View.Alert.AllDiskPartitions -->
+      <View ID="AP.F5.View.Alert.AllDiskPartitions" Target="AP.F5.Device.DiskPartition" TypeID="SC!Microsoft.SystemCenter.AlertViewType" Accessibility="Internal" Enabled="true" Visible="true">
+        <Category>Custom</Category>
+        <Criteria>
+          <ResolutionState>
+            <StateRange Operator="NotEquals">255</StateRange>
+          </ResolutionState>
+        </Criteria>
+         <Presentation>
+          <ColumnInfo Index="1" SortIndex="1" Width="150" Grouped="false" Sorted="true" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Created</Name>
+            <Id>TimeRaised</Id>
+          </ColumnInfo>
+        </Presentation>
+     </View>
+      <!-- AP.F5.View.State.AllDiskPartitions -->
+      <View ID="AP.F5.View.State.AllDiskPartitions" Target="AP.F5.Device.DiskPartition" TypeID="SC!Microsoft.SystemCenter.StateViewType" Accessibility="Internal" Enabled="true" Visible="true">
+        <Category>Custom</Category>
+        <Criteria />
+      </View>
+
+      <!-- AP.F5.View.Alert.AllTempSensors -->
+      <View ID="AP.F5.View.Alert.AllTempSensors" Target="AP.F5.Device.TempSensor" TypeID="SC!Microsoft.SystemCenter.AlertViewType" Accessibility="Internal" Enabled="true" Visible="true">
+        <Category>Custom</Category>
+        <Criteria>
+          <ResolutionState>
+            <StateRange Operator="NotEquals">255</StateRange>
+          </ResolutionState>
+        </Criteria>
+        <Presentation>
+          <ColumnInfo Index="1" SortIndex="1" Width="150" Grouped="false" Sorted="true" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Created</Name>
+            <Id>TimeRaised</Id>
+          </ColumnInfo>
+        </Presentation>
+      </View>
+      <!-- AP.F5.View.State.AllTempSensors -->
+      <View ID="AP.F5.View.State.AllTempSensors" Target="AP.F5.Device.TempSensor" TypeID="SC!Microsoft.SystemCenter.StateViewType" Accessibility="Internal" Enabled="true" Visible="true">
+        <Category>Custom</Category>
+        <Criteria />
+      </View>
+      <!-- AP.F5.View.Perf.AllTempSensors -->
+      <View ID="AP.F5.View.Perf.AllTempSensors" Target="AP.F5.Device.TempSensor" TypeID="SC!Microsoft.SystemCenter.PerformanceViewType" Accessibility="Internal" Enabled="true" Visible="true">
+        <Category>Custom</Category>
+        <Criteria />
+      </View>
+    </Views>
+    <Folders>
+      <Folder ID="AP.F5.Folder.Root" Accessibility="Public" ParentFolder="SC!Microsoft.SystemCenter.Monitoring.ViewFolder.Root" />
+      <Folder ID="AP.F5.Folder.Devices" Accessibility="Public" ParentFolder="AP.F5.Folder.Root" />
+      <Folder ID="AP.F5.Folder.Fans" Accessibility="Public" ParentFolder="AP.F5.Folder.Devices" />
+      <Folder ID="AP.F5.Folder.PowerSupplies" Accessibility="Public" ParentFolder="AP.F5.Folder.Devices" />
+      <Folder ID="AP.F5.Folder.Processors" Accessibility="Public" ParentFolder="AP.F5.Folder.Devices" />
+      <Folder ID="AP.F5.Folder.Memory" Accessibility="Public" ParentFolder="AP.F5.Folder.Devices" />
+      <Folder ID="AP.F5.Folder.DiskPartitions" Accessibility="Public" ParentFolder="AP.F5.Folder.Devices" />
+      <Folder ID="AP.F5.Folder.TempSensors" Accessibility="Public" ParentFolder="AP.F5.Folder.Devices" />
+    </Folders>
+    <FolderItems>
+      <FolderItem ElementID="AP.F5.View.Alert.AllDevices" ID="AP.F5.Base.FolderItem.AlertView.AllDevices" Folder="AP.F5.Folder.Devices"/>
+      <FolderItem ElementID="AP.F5.View.State.AllDevices" ID="AP.F5.Base.FolderItem.StateView.AllDevices" Folder="AP.F5.Folder.Devices"/>
+      <FolderItem ElementID="AP.F5.View.Perf.AllDevices" ID="AP.F5.Base.FolderItem.PerfView.AllDevices" Folder="AP.F5.Folder.Devices"/>
+      <FolderItem ElementID="AP.F5.View.State.PhysicalDevices" ID="AP.F5.Base.FolderItem.StateView.PhysicalDevices" Folder="AP.F5.Folder.Devices"/>
+      <FolderItem ElementID="AP.F5.View.State.VirtualDevices" ID="AP.F5.Base.FolderItem.StateView.VirtualDevices" Folder="AP.F5.Folder.Devices"/>
+      <FolderItem ElementID="AP.F5.View.Alert.AllFans" ID="AP.F5.Base.FolderItem.AlertView.AllFans" Folder="AP.F5.Folder.Fans"/>
+      <FolderItem ElementID="AP.F5.View.State.AllFans" ID="AP.F5.Base.FolderItem.StateView.AllFans" Folder="AP.F5.Folder.Fans"/>
+      <FolderItem ElementID="AP.F5.View.Alert.AllPowerSupplies" ID="AP.F5.Base.FolderItem.AlertView.AllPowerSupplies" Folder="AP.F5.Folder.PowerSupplies"/>
+      <FolderItem ElementID="AP.F5.View.State.AllPowerSupplies" ID="AP.F5.Base.FolderItem.StateView.AllPowerSupplies" Folder="AP.F5.Folder.PowerSupplies"/>
+      <FolderItem ElementID="AP.F5.View.Alert.AllProcessors" ID="AP.F5.Base.FolderItem.AlertView.AllProcessors" Folder="AP.F5.Folder.Processors"/>
+      <FolderItem ElementID="AP.F5.View.State.AllProcessors" ID="AP.F5.Base.FolderItem.StateView.AllProcessors" Folder="AP.F5.Folder.Processors"/>
+      <FolderItem ElementID="AP.F5.View.Perf.AllProcessors" ID="AP.F5.Base.FolderItem.PerfView.AllProcessors" Folder="AP.F5.Folder.Processors"/>
+      <FolderItem ElementID="AP.F5.View.Alert.AllMemory" ID="AP.F5.Base.FolderItem.AlertView.AllMemory" Folder="AP.F5.Folder.Memory"/>
+      <FolderItem ElementID="AP.F5.View.State.AllMemory" ID="AP.F5.Base.FolderItem.StateView.AllMemory" Folder="AP.F5.Folder.Memory"/>
+      <FolderItem ElementID="AP.F5.View.Perf.AllMemory" ID="AP.F5.Base.FolderItem.PerfView.AllMemory" Folder="AP.F5.Folder.Memory"/>
+      <FolderItem ElementID="AP.F5.View.Alert.AllDiskPartitions" ID="AP.F5.Base.FolderItem.AlertView.AllDiskPartitions" Folder="AP.F5.Folder.DiskPartitions"/>
+      <FolderItem ElementID="AP.F5.View.State.AllDiskPartitions" ID="AP.F5.Base.FolderItem.StateView.AllDiskPartitions" Folder="AP.F5.Folder.DiskPartitions"/>
+      <FolderItem ElementID="AP.F5.View.Alert.AllTempSensors" ID="AP.F5.Base.FolderItem.AlertView.AllTempSensors" Folder="AP.F5.Folder.TempSensors"/>
+      <FolderItem ElementID="AP.F5.View.State.AllTempSensors" ID="AP.F5.Base.FolderItem.StateView.AllTempSensors" Folder="AP.F5.Folder.TempSensors"/>
+      <FolderItem ElementID="AP.F5.View.Perf.AllTempSensors" ID="AP.F5.Base.FolderItem.PerfView.AllTempSensors" Folder="AP.F5.Folder.TempSensors"/>
+    </FolderItems>
+  </Presentation>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <!-- AP.F5.Fodler.Root -->
+        <DisplayString ElementID="AP.F5.Folder.Root">
+          <Name>AP F5</Name>
+          <Description />
+        </DisplayString>
+        <!-- AP.F5.Folder.Devices-->
+        <DisplayString ElementID="AP.F5.Folder.Devices">
+          <Name>Devices</Name>
+        </DisplayString>
+        <!-- AP.F5.Folder.Fans-->
+        <DisplayString ElementID="AP.F5.Folder.Fans">
+          <Name>Fans</Name>
+        </DisplayString>
+        <!-- AP.F5.Folder.PowerSupplies-->
+        <DisplayString ElementID="AP.F5.Folder.PowerSupplies">
+          <Name>Power Supplies</Name>
+        </DisplayString>
+        <!-- AP.F5.Folder.Processors-->
+        <DisplayString ElementID="AP.F5.Folder.Processors">
+          <Name>Processors</Name>
+        </DisplayString>
+        <!-- AP.F5.Folder.Memory-->
+        <DisplayString ElementID="AP.F5.Folder.Memory">
+          <Name>Memory</Name>
+        </DisplayString>
+        <!-- AP.F5.Folder.DiskPartitions-->
+        <DisplayString ElementID="AP.F5.Folder.DiskPartitions">
+          <Name>DiskPartitions</Name>
+        </DisplayString>
+        <!-- AP.F5.Folder.TempSensors-->
+        <DisplayString ElementID="AP.F5.Folder.TempSensors">
+          <Name>Temperature Sensors</Name>
+        </DisplayString>
+
+        <!-- AP.F5.View.Alert.AllDevices -->
+        <DisplayString ElementID="AP.F5.View.Alert.AllDevices">
+          <Name>All Device Alerts</Name>
+        </DisplayString>
+        <!-- AP.F5.View.State.AllDevices -->
+        <DisplayString ElementID="AP.F5.View.State.AllDevices">
+          <Name>All Device State</Name>
+        </DisplayString>
+        <!-- AP.F5.View.Perf.AllDevices -->
+        <DisplayString ElementID="AP.F5.View.Perf.AllDevices">
+          <Name>All Device Performance</Name>
+        </DisplayString>
+
+        <!-- AP.F5.View.State.PhysicalDevices -->
+        <DisplayString ElementID="AP.F5.View.State.PhysicalDevices">
+          <Name>Physical Device State</Name>
+        </DisplayString>
+        <!-- AP.F5.View.State.VirtualDevices -->
+        <DisplayString ElementID="AP.F5.View.State.VirtualDevices">
+          <Name>Virtual Device State</Name>
+        </DisplayString>
+
+        <!-- AP.F5.View.Alert.AllFans -->
+        <DisplayString ElementID="AP.F5.View.Alert.AllFans">
+          <Name>All Fan Alerts</Name>
+        </DisplayString>
+        <!-- AP.F5.View.State.AllFans -->
+        <DisplayString ElementID="AP.F5.View.State.AllFans">
+          <Name>All Fan State</Name>
+        </DisplayString>
+
+        <!-- AP.F5.View.Alert.AllPowerSupplies -->
+        <DisplayString ElementID="AP.F5.View.Alert.AllPowerSupplies">
+          <Name>All Power Supply Alerts</Name>
+        </DisplayString>
+        <!-- AP.F5.View.State.AllPowerSupplies -->
+        <DisplayString ElementID="AP.F5.View.State.AllPowerSupplies">
+          <Name>All Power Supply State</Name>
+        </DisplayString>
+
+        <!-- AP.F5.View.Alert.AllProcessors -->
+        <DisplayString ElementID="AP.F5.View.Alert.AllProcessors">
+          <Name>All Processor Alerts</Name>
+        </DisplayString>
+        <!-- AP.F5.View.State.AllProcessors -->
+        <DisplayString ElementID="AP.F5.View.State.AllProcessors">
+          <Name>All Processor State</Name>
+        </DisplayString>
+        <!-- AP.F5.View.Perf.AllProcessors -->
+        <DisplayString ElementID="AP.F5.View.Perf.AllProcessors">
+          <Name>All Processor Performance</Name>
+        </DisplayString>
+
+        <!-- AP.F5.View.Alert.AllMemory -->
+        <DisplayString ElementID="AP.F5.View.Alert.AllMemory">
+          <Name>All Memory Alerts</Name>
+        </DisplayString>
+        <!-- AP.F5.View.State.AllMemory -->
+        <DisplayString ElementID="AP.F5.View.State.AllMemory">
+          <Name>All Memory State</Name>
+        </DisplayString>
+        <!-- AP.F5.View.Perf.AllMemory -->
+        <DisplayString ElementID="AP.F5.View.Perf.AllMemory">
+          <Name>All Memory Performance</Name>
+        </DisplayString>
+        
+        <!-- AP.F5.View.Alert.AllDiskPartitions -->
+        <DisplayString ElementID="AP.F5.View.Alert.AllDiskPartitions">
+          <Name>All DiskPartition Alerts</Name>
+        </DisplayString>
+        <!-- AP.F5.View.State.AllDiskPartitions -->
+        <DisplayString ElementID="AP.F5.View.State.AllDiskPartitions">
+          <Name>All DiskPartition State</Name>
+        </DisplayString>
+
+        <!-- AP.F5.View.Alert.AllTempSensors -->
+        <DisplayString ElementID="AP.F5.View.Alert.AllTempSensors">
+          <Name>All Temperature Sensor Alerts</Name>
+        </DisplayString>
+        <!-- AP.F5.View.State.AllTempSensors -->
+        <DisplayString ElementID="AP.F5.View.State.AllTempSensors">
+          <Name>All Temperature Sensor State</Name>
+        </DisplayString>
+        <!-- AP.F5.View.Perf.AllTempSensors -->
+        <DisplayString ElementID="AP.F5.View.Perf.AllTempSensors">
+          <Name>All Temperature Sensor Performance</Name>
+        </DisplayString>
+
+      </DisplayStrings>  
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>

@@ -1,0 +1,79 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <EntityTypes>
+      <ClassTypes>
+
+        <!-- AP.F5.Device.DiskPartition -->
+        <ClassType ID="AP.F5.Device.DiskPartition" Base="System!System.LogicalEntity" Accessibility="Public" Abstract="false" Hosted="true" Singleton="false">
+          <Property ID="Index" Key="true" Type="string" />
+          <Property ID="Mountpoint" Key="false" Type="string" />
+        </ClassType>
+
+        <!-- AP.F5.Device.DiskPartitionsGroup -->
+        <ClassType ID="AP.F5.Device.DiskPartitionsGroup" Accessibility="Public" Abstract="false" Base="System!System.LogicalHardware" Hosted="true" Singleton="false">
+          <Property ID="Name" Type="string" Key="true" CaseSensitive="false" />
+        </ClassType>
+
+      </ClassTypes>
+
+      <RelationshipTypes>
+
+        <!-- DiskPartitionsGroup -> DiskPartition Hosting Relationship-->
+        <RelationshipType ID="AP.F5.Device.DiskPartitionsGroup.HostsDiskPartitions" Accessibility="Public" Abstract="false" Base="System!System.Hosting">
+          <Source ID="Source" Type="AP.F5.Device.DiskPartitionsGroup" />
+          <Target ID="Target" Type="AP.F5.Device.DiskPartition" />
+        </RelationshipType>
+
+        <!-- Device -> DiskPartitionsGroup Hosting Relationship-->
+        <RelationshipType ID="AP.F5.Device.HostsDiskPartitionsGroup" Accessibility="Public" Abstract="false" Base="System!System.Hosting">
+          <Source ID="Source" Type="AP.F5.Device" />
+          <Target ID="Target" Type="AP.F5.Device.DiskPartitionsGroup" />
+        </RelationshipType>
+
+      </RelationshipTypes>
+    </EntityTypes>
+  </TypeDefinitions>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+
+        <!-- AP.F5.Device.DiskPartition -->
+        <DisplayString ElementID="AP.F5.Device.DiskPartition">
+          <Name>F5 Disk Partition</Name>
+          <Description>F5 Device Disk Partition</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device.DiskPartition" SubElementID="Index">
+          <Name>F5 Disk Partition Index</Name>
+          <Description>OID Offset for this disk Partition</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device.DiskPartition" SubElementID="Mountpoint">
+          <Name>F5 Disk Partition Mountpoint</Name>
+          <Description>Mountpoint for this Disk Partition</Description>
+        </DisplayString>
+
+        <!-- AP.F5.Device.DiskPartitionsGroup -->
+        <DisplayString ElementID="AP.F5.Device.DiskPartitionsGroup">
+          <Name>F5 Disk Partitions Group</Name>
+          <Description>Group for F5 Device Disk Partitions</Description>          
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Device.DiskPartitionsGroup" SubElementID="Name">
+          <Name>F5 Disk Partitions Group Name</Name>
+          <Description>Name of Disk Partition Group (HW:Disks)</Description>
+        </DisplayString>
+
+        <!-- AP.F5.Device.HostsDiskPartitionsGroup -->
+        <DisplayString ElementID="AP.F5.Device.HostsDiskPartitionsGroup">
+          <Name>F5 Device Hosts Disk Partitions Group</Name>
+          <Description>Device->DiskPartitions Hosting Relationship</Description>
+        </DisplayString>
+
+        <!-- AP.F5.Device.DiskPartitionsGroup.HostsDiskPartitions -->
+        <DisplayString ElementID="AP.F5.Device.DiskPartitionsGroup.HostsDiskPartitions">
+          <Name>F5 Disk Partitions Group Hosts Disk Partitions</Name>
+          <Description>DiskPartitionsGroup->DiskPartition Hosting Relationship</Description>
+        </DisplayString>    
+    
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>
