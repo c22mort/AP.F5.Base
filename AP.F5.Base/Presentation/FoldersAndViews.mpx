@@ -227,7 +227,7 @@
   <LanguagePacks>
     <LanguagePack ID="ENU" IsDefault="true">
       <DisplayStrings>
-        <!-- AP.F5.Fodler.Root -->
+        <!-- AP.F5.Folder.Root -->
         <DisplayString ElementID="AP.F5.Folder.Root">
           <Name>AP F5</Name>
           <Description />

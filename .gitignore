@@ -260,3 +260,4 @@ __pycache__/
 devices.csv
 config.csv
 key.snk
+Installer/
