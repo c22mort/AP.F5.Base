@@ -173,6 +173,9 @@
       <SubType>Content</SubType>
       <Generator>FragmentGenerator</Generator>
     </Content>
+    <Content Include="README.md">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="Rules\PerfRules.mptg">
       <SubType>Content</SubType>
       <Generator>FragmentGenerator</Generator>

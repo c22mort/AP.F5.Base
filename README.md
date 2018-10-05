@@ -14,7 +14,7 @@ Monitoring and Performance is gathered every 5 minutes, via SNMP, by the **AP.F5
 
 Also Containment relationships between are discovered by this app.
 
-## AP.F5.Base (SCOM 2016 Management Pack)
+## AP.F5.Base (SCOM 2012R2 Management Pack)
 * **Additional SNMP Discovery of volatile data is handled by this SCOM Management Pack.
 * **SNMP Unit Monitors (Fan Status, Memory Percentages, Processor Usage, Temp. Sensor Temperature, Power Supply Status)
 * **SNMP Performance Collection (Device Client-Side & Server Side Connection Count, Client-Side Inbound/Outbound Kb, Server-Side Inbound/Outbound Kb, RAM Free, RAM Used, Processor Usage, Temperatures )
