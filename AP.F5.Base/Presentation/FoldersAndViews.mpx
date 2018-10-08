@@ -59,12 +59,31 @@
           </ResolutionState>
         </Criteria>
         <Presentation>
-          <ColumnInfo Index="1" SortIndex="1" Width="150" Grouped="false" Sorted="true" IsSortable="true" SortOrder="Descending" Visible="true">
+          <ColumnInfo Index="1" SortIndex="1" Width="64" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Icon</Name>
+            <Id>Icon</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="2" SortIndex="2" Width="128" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Source</Name>
+            <Id>MonitoringObjectDisplayName</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="3" SortIndex="3" Width="128" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Name</Name>
+            <Id>Name</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="4" SortIndex="4" Width="128" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Resolution State</Name>
+            <Id>ResolutionState</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="5" SortIndex="5" Width="128" Grouped="false" Sorted="true" IsSortable="true" SortOrder="Descending" Visible="true">
             <Name>Created</Name>
             <Id>TimeRaised</Id>
           </ColumnInfo>
-        </Presentation>
-      </View>
+          <ColumnInfo Index="6" SortIndex="6" Width="128" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Age</Name>
+            <Id>Age</Id>
+          </ColumnInfo>
+        </Presentation>      </View>
       <!-- AP.F5.View.State.AllFans -->
       <View ID="AP.F5.View.State.AllFans" Target="AP.F5.Device.Fan" TypeID="SC!Microsoft.SystemCenter.StateViewType" Accessibility="Internal" Enabled="true" Visible="true">
         <Category>Custom</Category>
@@ -80,12 +99,31 @@
           </ResolutionState>
         </Criteria>
         <Presentation>
-          <ColumnInfo Index="1" SortIndex="1" Width="150" Grouped="false" Sorted="true" IsSortable="true" SortOrder="Descending" Visible="true">
+          <ColumnInfo Index="1" SortIndex="1" Width="64" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Icon</Name>
+            <Id>Icon</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="2" SortIndex="2" Width="128" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Source</Name>
+            <Id>MonitoringObjectDisplayName</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="3" SortIndex="3" Width="128" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Name</Name>
+            <Id>Name</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="4" SortIndex="4" Width="128" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Resolution State</Name>
+            <Id>ResolutionState</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="5" SortIndex="5" Width="128" Grouped="false" Sorted="true" IsSortable="true" SortOrder="Descending" Visible="true">
             <Name>Created</Name>
             <Id>TimeRaised</Id>
           </ColumnInfo>
-        </Presentation>
-      </View>
+          <ColumnInfo Index="6" SortIndex="6" Width="128" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Age</Name>
+            <Id>Age</Id>
+          </ColumnInfo>
+        </Presentation>      </View>
       <!-- AP.F5.View.State.AllPowerSupplies -->
       <View ID="AP.F5.View.State.AllPowerSupplies" Target="AP.F5.Device.PowerSupply" TypeID="SC!Microsoft.SystemCenter.StateViewType" Accessibility="Internal" Enabled="true" Visible="true">
         <Category>Custom</Category>
@@ -101,12 +139,31 @@
           </ResolutionState>
         </Criteria>
         <Presentation>
-          <ColumnInfo Index="1" SortIndex="1" Width="150" Grouped="false" Sorted="true" IsSortable="true" SortOrder="Descending" Visible="true">
+          <ColumnInfo Index="1" SortIndex="1" Width="64" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Icon</Name>
+            <Id>Icon</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="2" SortIndex="2" Width="128" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Source</Name>
+            <Id>MonitoringObjectDisplayName</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="3" SortIndex="3" Width="128" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Name</Name>
+            <Id>Name</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="4" SortIndex="4" Width="128" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Resolution State</Name>
+            <Id>ResolutionState</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="5" SortIndex="5" Width="128" Grouped="false" Sorted="true" IsSortable="true" SortOrder="Descending" Visible="true">
             <Name>Created</Name>
             <Id>TimeRaised</Id>
           </ColumnInfo>
-        </Presentation>
-      </View>
+          <ColumnInfo Index="6" SortIndex="6" Width="128" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Age</Name>
+            <Id>Age</Id>
+          </ColumnInfo>
+        </Presentation>      </View>
       <!-- AP.F5.View.State.AllProcessors -->
       <View ID="AP.F5.View.State.AllProcessors" Target="AP.F5.Device.Processor" TypeID="SC!Microsoft.SystemCenter.StateViewType" Accessibility="Internal" Enabled="true" Visible="true">
         <Category>Custom</Category>
@@ -127,12 +184,31 @@
           </ResolutionState>
         </Criteria>
         <Presentation>
-          <ColumnInfo Index="1" SortIndex="1" Width="150" Grouped="false" Sorted="true" IsSortable="true" SortOrder="Descending" Visible="true">
+          <ColumnInfo Index="1" SortIndex="1" Width="64" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Icon</Name>
+            <Id>Icon</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="2" SortIndex="2" Width="128" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Source</Name>
+            <Id>MonitoringObjectDisplayName</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="3" SortIndex="3" Width="128" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Name</Name>
+            <Id>Name</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="4" SortIndex="4" Width="128" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Resolution State</Name>
+            <Id>ResolutionState</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="5" SortIndex="5" Width="128" Grouped="false" Sorted="true" IsSortable="true" SortOrder="Descending" Visible="true">
             <Name>Created</Name>
             <Id>TimeRaised</Id>
           </ColumnInfo>
-        </Presentation>
-      </View>
+          <ColumnInfo Index="6" SortIndex="6" Width="128" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Age</Name>
+            <Id>Age</Id>
+          </ColumnInfo>
+        </Presentation>      </View>
       <!-- AP.F5.View.State.AllMemory -->
       <View ID="AP.F5.View.State.AllMemory" Target="AP.F5.Device.Memory" TypeID="SC!Microsoft.SystemCenter.StateViewType" Accessibility="Internal" Enabled="true" Visible="true">
         <Category>Custom</Category>
@@ -152,13 +228,32 @@
             <StateRange Operator="NotEquals">255</StateRange>
           </ResolutionState>
         </Criteria>
-         <Presentation>
-          <ColumnInfo Index="1" SortIndex="1" Width="150" Grouped="false" Sorted="true" IsSortable="true" SortOrder="Descending" Visible="true">
+        <Presentation>
+          <ColumnInfo Index="1" SortIndex="1" Width="64" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Icon</Name>
+            <Id>Icon</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="2" SortIndex="2" Width="128" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Source</Name>
+            <Id>MonitoringObjectDisplayName</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="3" SortIndex="3" Width="128" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Name</Name>
+            <Id>Name</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="4" SortIndex="4" Width="128" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Resolution State</Name>
+            <Id>ResolutionState</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="5" SortIndex="5" Width="128" Grouped="false" Sorted="true" IsSortable="true" SortOrder="Descending" Visible="true">
             <Name>Created</Name>
             <Id>TimeRaised</Id>
           </ColumnInfo>
-        </Presentation>
-     </View>
+          <ColumnInfo Index="6" SortIndex="6" Width="128" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Age</Name>
+            <Id>Age</Id>
+          </ColumnInfo>
+        </Presentation>     </View>
       <!-- AP.F5.View.State.AllDiskPartitions -->
       <View ID="AP.F5.View.State.AllDiskPartitions" Target="AP.F5.Device.DiskPartition" TypeID="SC!Microsoft.SystemCenter.StateViewType" Accessibility="Internal" Enabled="true" Visible="true">
         <Category>Custom</Category>
@@ -174,12 +269,31 @@
           </ResolutionState>
         </Criteria>
         <Presentation>
-          <ColumnInfo Index="1" SortIndex="1" Width="150" Grouped="false" Sorted="true" IsSortable="true" SortOrder="Descending" Visible="true">
+          <ColumnInfo Index="1" SortIndex="1" Width="64" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Icon</Name>
+            <Id>Icon</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="2" SortIndex="2" Width="128" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Source</Name>
+            <Id>MonitoringObjectDisplayName</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="3" SortIndex="3" Width="128" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Name</Name>
+            <Id>Name</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="4" SortIndex="4" Width="128" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Resolution State</Name>
+            <Id>ResolutionState</Id>
+          </ColumnInfo>
+          <ColumnInfo Index="5" SortIndex="5" Width="128" Grouped="false" Sorted="true" IsSortable="true" SortOrder="Descending" Visible="true">
             <Name>Created</Name>
             <Id>TimeRaised</Id>
           </ColumnInfo>
-        </Presentation>
-      </View>
+          <ColumnInfo Index="6" SortIndex="6" Width="128" Grouped="false" Sorted="false" IsSortable="true" SortOrder="Descending" Visible="true">
+            <Name>Age</Name>
+            <Id>Age</Id>
+          </ColumnInfo>
+        </Presentation>      </View>
       <!-- AP.F5.View.State.AllTempSensors -->
       <View ID="AP.F5.View.State.AllTempSensors" Target="AP.F5.Device.TempSensor" TypeID="SC!Microsoft.SystemCenter.StateViewType" Accessibility="Internal" Enabled="true" Visible="true">
         <Category>Custom</Category>
