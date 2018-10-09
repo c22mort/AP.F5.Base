@@ -5,7 +5,7 @@
     <RootNamespace>AP.F5.Base</RootNamespace>
     <Name>AP.F5.Base</Name>
     <ManagementPackName>AP.F5.Base</ManagementPackName>
-    <Version>18.10.1.0</Version>
+    <Version>18.10.3.0</Version>
     <MpFrameworkVersion>v7.0.2</MpFrameworkVersion>
     <MpFrameworkProfile>OM</MpFrameworkProfile>
     <ProductVersion>1.1.0.0</ProductVersion>
@@ -26,7 +26,7 @@
     <Company>AP Management Packs</Company>
     <Copyright>Copyright (c) AP Management Packs. All rights reserved.</Copyright>
     <DelaySign>false</DelaySign>
-    <AssemblyOriginatorKeyFile>C:\VSAE-2012R2\AP.F5.Base\key.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>C:\VSAE\AP.F5.Base\key.snk</AssemblyOriginatorKeyFile>
     <GenerateSealed>True</GenerateSealed>
   </PropertyGroup>
   <ItemGroup>
