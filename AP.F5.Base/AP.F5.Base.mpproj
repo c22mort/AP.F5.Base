@@ -26,7 +26,7 @@
     <Company>AP Management Packs</Company>
     <Copyright>Copyright (c) AP Management Packs. All rights reserved.</Copyright>
     <DelaySign>false</DelaySign>
-    <AssemblyOriginatorKeyFile>C:\VSAE\AP.F5.Base\key.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>C:\VSAE\AP.F5.Base\AP.F5.snk</AssemblyOriginatorKeyFile>
     <GenerateSealed>True</GenerateSealed>
   </PropertyGroup>
   <ItemGroup>
