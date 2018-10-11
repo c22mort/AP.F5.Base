@@ -72,9 +72,17 @@ namespace AP.F5.Device.Discovery
                     log.Info("Starting Device Discovery...");
                     GetDevices();
 
-                    // Write Discovered Data to SCOM Database 
-                    log.Info("Writing Discovery Data to " + m_managementServer);
-                    discoData.Overwrite(SCOM_Functions.m_monitoringConnector);
+                    try
+                    {
+                        // Write Discovered Data to SCOM Database 
+                        log.Info("Writing Discovery Data to " + m_managementServer);
+                        discoData.Overwrite(SCOM_Functions.m_monitoringConnector);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex.Message);
+                    }
 
                     // Free Connector
                     SCOM_Functions.m_monitoringConnector.Uninitialize();
@@ -109,12 +117,19 @@ namespace AP.F5.Device.Discovery
 
                 // Connect to F5 Device via iControl
                 m_interfaces.initialize(csv[CSV_ADDRESS], csv[CSV_F5USER], csv[CSV_F5PASSWORD]);
-                // Set active partition to "Common"
-                m_interfaces.ManagementPartition.set_active_partition("Common");
+                if (m_interfaces.initialized)
+                {
+                    // Set active partition to "Common"
+                    m_interfaces.ManagementPartition.set_active_partition("Common");
 
-                // Create New Device
-                f5Device dev = new f5Device(SCOM_Functions.m_managementGroup, csv[CSV_ADDRESS], csv[CSV_COMMUNITY], Convert.ToInt32(csv[CSV_PORT]), csv[CSV_F5USER], csv[CSV_F5PASSWORD]);
-                AddDeviceToDiscoveryData(dev);
+                    // Create New Device
+                    f5Device dev = new f5Device(SCOM_Functions.m_managementGroup, csv[CSV_ADDRESS], csv[CSV_COMMUNITY], Convert.ToInt32(csv[CSV_PORT]), csv[CSV_F5USER], csv[CSV_F5PASSWORD]);
+                    AddDeviceToDiscoveryData(dev);
+
+                } else
+                {
+                    log.Error("Couldn't connect iControl to " + csv[CSV_ADDRESS].ToString());
+                }
 
             }
             // Clear CSV File
@@ -159,8 +174,6 @@ namespace AP.F5.Device.Discovery
             return mserver;
         }
 
-        #region "SCOM Functions"
-
         /// <summary>
         /// Add Device To Discovery Data
         /// </summary>
@@ -192,7 +205,7 @@ namespace AP.F5.Device.Discovery
             if (dev.PowerSupplies.Count > 0)
             {
                 // Add PowerSuppliesGroup and Relationship
-                discoData.Include(dev.SCOM_Object_PowerSupplyGroup);            
+                discoData.Include(dev.SCOM_Object_PowerSupplyGroup);
                 foreach (PowerSupply p in dev.PowerSupplies)
                 {
                     // Add PowerSupply and Relationship
@@ -236,13 +249,5 @@ namespace AP.F5.Device.Discovery
                 }
             }
         }
-
-
-
-
-
-
-
-        #endregion
     }
 }

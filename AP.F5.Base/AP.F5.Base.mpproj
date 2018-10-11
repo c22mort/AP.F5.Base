@@ -5,7 +5,7 @@
     <RootNamespace>AP.F5.Base</RootNamespace>
     <Name>AP.F5.Base</Name>
     <ManagementPackName>AP.F5.Base</ManagementPackName>
-    <Version>18.10.3.0</Version>
+    <Version>18.10.4.0</Version>
     <MpFrameworkVersion>v7.0.2</MpFrameworkVersion>
     <MpFrameworkProfile>OM</MpFrameworkProfile>
     <ProductVersion>1.1.0.0</ProductVersion>

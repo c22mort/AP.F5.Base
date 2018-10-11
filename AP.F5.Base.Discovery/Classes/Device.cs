@@ -278,7 +278,7 @@ namespace AP.F5.Base.Discovery.Classes
         private void GetFans()
         {
             // Get Count of Fans
-            int fanCount = Convert.ToInt16(SNMP.GetSNMP(SNMP.sysChassisFanNumber, Address, Port, Community)[0].Data.ToString());
+            int fanCount = Convert.ToInt32(SNMP.GetSNMP(SNMP.sysChassisFanNumber, Address, Port, Community)[0].Data.ToString());
 
             // If There Are Fans Then Create FanGroup and Relationship
             if (fanCount > 0)
@@ -339,52 +339,56 @@ namespace AP.F5.Base.Discovery.Classes
             // Get
             var processors = SNMP.WalkSNMP(SNMP.sysMultiHostCpuIndex, Address, Port, Community);
 
-            // Create Device Management Pack Class
-            ManagementPackClass mpc_Device = SCOM_Functions.GetManagementPackClass("AP.F5.Device");
-
-            // Create Root Entity Class & Display Name Prop
-            ManagementPackClass mpc_Entity = SCOM_Functions.GetManagementPackClass("System.Entity");
-            ManagementPackProperty mpp_EntityDisplayName = mpc_Entity.PropertyCollection["DisplayName"];
-
-            // Parent Device Key Property (IP Address)
-            ManagementPackProperty mpp_DeviceKey = mpc_Device.PropertyCollection["DeviceName"];
-
-            // Create Processors Group Object
-            ManagementPackClass mpc_DeviceProcessorsGroup = SCOM_Functions.GetManagementPackClass("AP.F5.Device.ProcessorsGroup");
-            SCOM_Object_ProcessorGroup = new CreatableEnterpriseManagementObject(m_managementGroup, mpc_DeviceProcessorsGroup);
-            SCOM_Object_ProcessorGroup[mpp_DeviceKey].Value = SystemNodeName; // Set Key of Device
-            ManagementPackProperty mpp_DeviceProcessorsGroupName = mpc_DeviceProcessorsGroup.PropertyCollection["Name"];
-            SCOM_Object_ProcessorGroup[mpp_DeviceProcessorsGroupName].Value = "Processors";
-
-
-            // Create Management Pack Class Objects for Processor and Needed Properties
-            ManagementPackClass mpc_Processor = SCOM_Functions.GetManagementPackClass(className: "AP.F5.Device.Processor");
-            ManagementPackProperty mpp_ProcessorIndex = mpc_Processor.PropertyCollection["Index"];
-            ManagementPackProperty mpp_ProcessorName = mpc_Processor.PropertyCollection["Name"];
-
-            // Set Processor-Group Relationship
-            ManagementPackRelationship mpr_ProcessorsGroup = SCOM_Functions.GetManagementPackRelationship("AP.F5.Device.ProcessorsGroup.HostsProcessors");
-
-
-            for (int i = 0; i < processors.Count; i++)
+            if (processors.Count > 0)
             {
-                Processor newProcessor = new Processor();
-                string index = "." + processors[i].Id.ToString();
-                index = index.Replace(SNMP.sysMultiHostCpuIndex, "");
+                // Create Device Management Pack Class
+                ManagementPackClass mpc_Device = SCOM_Functions.GetManagementPackClass("AP.F5.Device");
 
-                // Create SCOM Fan Object
-                newProcessor.SCOM_Object_Processor= new CreatableEnterpriseManagementObject(SCOM_Functions.m_managementGroup, mpc_Processor);
-                // Set Key of Device
-                newProcessor.SCOM_Object_Processor[mpp_DeviceKey].Value = SystemNodeName;
-                // Set Key of Fans Group
-                newProcessor.SCOM_Object_Processor[mpp_DeviceProcessorsGroupName].Value = "Processors";
-                //Set Logical Entity Display Name
-                newProcessor.SCOM_Object_Processor[mpp_EntityDisplayName].Value = "CPU-" + i.ToString();
-                // Set Fan Properties
-                newProcessor.SCOM_Object_Processor[mpp_ProcessorIndex].Value = index;
-                newProcessor.SCOM_Object_Processor[mpp_ProcessorName].Value = "CPU-" + i.ToString();
+                // Create Root Entity Class & Display Name Prop
+                ManagementPackClass mpc_Entity = SCOM_Functions.GetManagementPackClass("System.Entity");
+                ManagementPackProperty mpp_EntityDisplayName = mpc_Entity.PropertyCollection["DisplayName"];
 
-                Processors.Add(newProcessor);
+                // Parent Device Key Property (IP Address)
+                ManagementPackProperty mpp_DeviceKey = mpc_Device.PropertyCollection["DeviceName"];
+
+                // Create Processors Group Object
+                ManagementPackClass mpc_DeviceProcessorsGroup = SCOM_Functions.GetManagementPackClass("AP.F5.Device.ProcessorsGroup");
+                SCOM_Object_ProcessorGroup = new CreatableEnterpriseManagementObject(m_managementGroup, mpc_DeviceProcessorsGroup);
+                SCOM_Object_ProcessorGroup[mpp_DeviceKey].Value = SystemNodeName; // Set Key of Device
+                ManagementPackProperty mpp_DeviceProcessorsGroupName = mpc_DeviceProcessorsGroup.PropertyCollection["Name"];
+                SCOM_Object_ProcessorGroup[mpp_DeviceProcessorsGroupName].Value = "Processors";
+
+
+                // Create Management Pack Class Objects for Processor and Needed Properties
+                ManagementPackClass mpc_Processor = SCOM_Functions.GetManagementPackClass(className: "AP.F5.Device.Processor");
+                ManagementPackProperty mpp_ProcessorIndex = mpc_Processor.PropertyCollection["Index"];
+                ManagementPackProperty mpp_ProcessorName = mpc_Processor.PropertyCollection["Name"];
+
+                // Set Processor-Group Relationship
+                ManagementPackRelationship mpr_ProcessorsGroup = SCOM_Functions.GetManagementPackRelationship("AP.F5.Device.ProcessorsGroup.HostsProcessors");
+
+
+                for (int i = 0; i < processors.Count; i++)
+                {
+                    Processor newProcessor = new Processor();
+                    string index = "." + processors[i].Id.ToString();
+                    index = index.Replace(SNMP.sysMultiHostCpuIndex, "");
+
+                    // Create SCOM Fan Object
+                    newProcessor.SCOM_Object_Processor= new CreatableEnterpriseManagementObject(SCOM_Functions.m_managementGroup, mpc_Processor);
+                    // Set Key of Device
+                    newProcessor.SCOM_Object_Processor[mpp_DeviceKey].Value = SystemNodeName;
+                    // Set Key of Fans Group
+                    newProcessor.SCOM_Object_Processor[mpp_DeviceProcessorsGroupName].Value = "Processors";
+                    //Set Logical Entity Display Name
+                    newProcessor.SCOM_Object_Processor[mpp_EntityDisplayName].Value = "CPU-" + i.ToString();
+                    // Set Fan Properties
+                    newProcessor.SCOM_Object_Processor[mpp_ProcessorIndex].Value = index;
+                    newProcessor.SCOM_Object_Processor[mpp_ProcessorName].Value = "CPU-" + i.ToString();
+
+                    Processors.Add(newProcessor);
+                }
+
             }
         }
 
@@ -513,53 +517,58 @@ namespace AP.F5.Base.Discovery.Classes
             // Get
             var diskPartitions = SNMP.WalkSNMP(SNMP.sysHostDiskPartition, Address, Port, Community);
 
-            // Create Device Management Pack Class
-            ManagementPackClass mpc_Device = SCOM_Functions.GetManagementPackClass("AP.F5.Device");
-
-            // Create Root Entity Class & Display Name Prop
-            ManagementPackClass mpc_Entity = SCOM_Functions.GetManagementPackClass("System.Entity");
-            ManagementPackProperty mpp_EntityDisplayName = mpc_Entity.PropertyCollection["DisplayName"];
-
-            // Parent Device Key Property (IP Address)
-            ManagementPackProperty mpp_DeviceKey = mpc_Device.PropertyCollection["DeviceName"];
-
-            // Create DiskPartitions Group Object
-            ManagementPackClass mpc_DiskPartitionGroup = SCOM_Functions.GetManagementPackClass("AP.F5.Device.DiskPartitionsGroup");
-            SCOM_Object_DiskPartitionGroup = new CreatableEnterpriseManagementObject(m_managementGroup, mpc_DiskPartitionGroup);
-            SCOM_Object_DiskPartitionGroup[mpp_DeviceKey].Value = SystemNodeName; // Set Key of Device
-            ManagementPackProperty mpp_DiskPartitionGroupName = mpc_DiskPartitionGroup.PropertyCollection["Name"];
-            SCOM_Object_DiskPartitionGroup[mpp_DiskPartitionGroupName].Value = "Disks";
-
-
-            // Create Management Pack Class Objects for DiskPartition and Needed Properties
-            ManagementPackClass mpc_DiskPartition = SCOM_Functions.GetManagementPackClass(className: "AP.F5.Device.DiskPartition");
-            ManagementPackProperty mpp_DiskPartitionIndex = mpc_DiskPartition.PropertyCollection["Index"];
-            ManagementPackProperty mpp_DiskPartitionMountpoint = mpc_DiskPartition.PropertyCollection["Mountpoint"];
-
-            // Set DiskPartition-Group Relationship
-            ManagementPackRelationship mpr_DiskPartitionsGroup = SCOM_Functions.GetManagementPackRelationship("AP.F5.Device.DiskPartitionsGroup.HostsDiskPartitions");
-
-
-            for (int i = 0; i < diskPartitions.Count; i++)
+            if (diskPartitions.Count > 0)
             {
-                DiskPartition newDiskPartition = new DiskPartition();
-                string index = "." + diskPartitions[i].Id.ToString();
-                index = index.Replace(SNMP.sysHostDiskPartition, "");
+                // Create Device Management Pack Class
+                ManagementPackClass mpc_Device = SCOM_Functions.GetManagementPackClass("AP.F5.Device");
 
-                // Create SCOM Fan Object
-                newDiskPartition.SCOM_Object_DiskPartition = new CreatableEnterpriseManagementObject(SCOM_Functions.m_managementGroup, mpc_DiskPartition);
-                // Set Key of Device
-                newDiskPartition.SCOM_Object_DiskPartition[mpp_DeviceKey].Value = SystemNodeName;
-                // Set Key of DiskPartitions Group
-                newDiskPartition.SCOM_Object_DiskPartition[mpp_DiskPartitionGroupName].Value = "Disks";
-                //Set Logical Entity Display Name
-                newDiskPartition.SCOM_Object_DiskPartition[mpp_EntityDisplayName].Value = diskPartitions[i].Data.ToString();
-                // Set Fan Properties
-                newDiskPartition.SCOM_Object_DiskPartition[mpp_DiskPartitionIndex].Value = index;
-                newDiskPartition.SCOM_Object_DiskPartition[mpp_DiskPartitionMountpoint].Value = diskPartitions[i].Data.ToString();
+                // Create Root Entity Class & Display Name Prop
+                ManagementPackClass mpc_Entity = SCOM_Functions.GetManagementPackClass("System.Entity");
+                ManagementPackProperty mpp_EntityDisplayName = mpc_Entity.PropertyCollection["DisplayName"];
 
-                DiskPartitions.Add(newDiskPartition);
+                // Parent Device Key Property (IP Address)
+                ManagementPackProperty mpp_DeviceKey = mpc_Device.PropertyCollection["DeviceName"];
+
+                // Create DiskPartitions Group Object
+                ManagementPackClass mpc_DiskPartitionGroup = SCOM_Functions.GetManagementPackClass("AP.F5.Device.DiskPartitionsGroup");
+                SCOM_Object_DiskPartitionGroup = new CreatableEnterpriseManagementObject(m_managementGroup, mpc_DiskPartitionGroup);
+                SCOM_Object_DiskPartitionGroup[mpp_DeviceKey].Value = SystemNodeName; // Set Key of Device
+                ManagementPackProperty mpp_DiskPartitionGroupName = mpc_DiskPartitionGroup.PropertyCollection["Name"];
+                SCOM_Object_DiskPartitionGroup[mpp_DiskPartitionGroupName].Value = "Disks";
+
+
+                // Create Management Pack Class Objects for DiskPartition and Needed Properties
+                ManagementPackClass mpc_DiskPartition = SCOM_Functions.GetManagementPackClass(className: "AP.F5.Device.DiskPartition");
+                ManagementPackProperty mpp_DiskPartitionIndex = mpc_DiskPartition.PropertyCollection["Index"];
+                ManagementPackProperty mpp_DiskPartitionMountpoint = mpc_DiskPartition.PropertyCollection["Mountpoint"];
+
+                // Set DiskPartition-Group Relationship
+                ManagementPackRelationship mpr_DiskPartitionsGroup = SCOM_Functions.GetManagementPackRelationship("AP.F5.Device.DiskPartitionsGroup.HostsDiskPartitions");
+
+
+                for (int i = 0; i < diskPartitions.Count; i++)
+                {
+                    DiskPartition newDiskPartition = new DiskPartition();
+                    string index = "." + diskPartitions[i].Id.ToString();
+                    index = index.Replace(SNMP.sysHostDiskPartition, "");
+
+                    // Create SCOM Fan Object
+                    newDiskPartition.SCOM_Object_DiskPartition = new CreatableEnterpriseManagementObject(SCOM_Functions.m_managementGroup, mpc_DiskPartition);
+                    // Set Key of Device
+                    newDiskPartition.SCOM_Object_DiskPartition[mpp_DeviceKey].Value = SystemNodeName;
+                    // Set Key of DiskPartitions Group
+                    newDiskPartition.SCOM_Object_DiskPartition[mpp_DiskPartitionGroupName].Value = "Disks";
+                    //Set Logical Entity Display Name
+                    newDiskPartition.SCOM_Object_DiskPartition[mpp_EntityDisplayName].Value = diskPartitions[i].Data.ToString();
+                    // Set Fan Properties
+                    newDiskPartition.SCOM_Object_DiskPartition[mpp_DiskPartitionIndex].Value = index;
+                    newDiskPartition.SCOM_Object_DiskPartition[mpp_DiskPartitionMountpoint].Value = diskPartitions[i].Data.ToString();
+
+                    DiskPartitions.Add(newDiskPartition);
+                }
+
             }
+
         }
 
     }
