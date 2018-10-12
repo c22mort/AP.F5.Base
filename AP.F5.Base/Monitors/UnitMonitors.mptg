@@ -97,8 +97,8 @@ Free Space (%) : $Data/Context/Value$</AlertDescription>
     </Instance>
     <Instance ID="Instance1aab9c5eddfa4cbcbf3ea25592231aa6" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.UnitMonitor" Version="1.0.0.0">
       <UnitMonitorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-        <MonitorType>AP.F5.DataSourceModule.Monitor.FanHealth</MonitorType>
-        <MonitorConfig>&lt;IntervalSeconds&gt;300&lt;/IntervalSeconds&gt;&lt;IP&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/IPAddress$&lt;/IP&gt;&lt;Version&gt;2&lt;/Version&gt;&lt;NoOfRetries&gt;3&lt;/NoOfRetries&gt;&lt;Timeout&gt;3500&lt;/Timeout&gt;&lt;CommunityString&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Community$&lt;/CommunityString&gt;&lt;Port&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Port$&lt;/Port&gt;</MonitorConfig>
+        <MonitorType>AP.F5.Monitor.FanHealth.Powershell</MonitorType>
+        <MonitorConfig>&lt;IntervalSeconds&gt;300&lt;/IntervalSeconds&gt;&lt;SyncTime&gt;00:01&lt;/SyncTime&gt;&lt;Debug&gt;false&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;&lt;FanIndex&gt;$Target/Property[Type="AP.F5.Device.Fan"]/Index$&lt;/FanIndex&gt;</MonitorConfig>
         <MonitorOperationalStates>
           <OperationalState>
             <OperationalStateId>FanHealthy</OperationalStateId>
@@ -107,9 +107,9 @@ Free Space (%) : $Data/Context/Value$</AlertDescription>
             <HealthState>Success</HealthState>
           </OperationalState>
           <OperationalState>
-            <OperationalStateId>FanCritical</OperationalStateId>
-            <OperationalStateDisplayName>FanCritical</OperationalStateDisplayName>
-            <MonitorTypeStateId>FanCritical</MonitorTypeStateId>
+            <OperationalStateId>FanUnHealthy</OperationalStateId>
+            <OperationalStateDisplayName>FanUnHealthy</OperationalStateDisplayName>
+            <MonitorTypeStateId>FanUnHealthy</MonitorTypeStateId>
             <HealthState>Error</HealthState>
           </OperationalState>
         </MonitorOperationalStates>
@@ -128,15 +128,11 @@ Free Space (%) : $Data/Context/Value$</AlertDescription>
         <AlertPriority>Normal</AlertPriority>
         <AlertSeverity>MatchMonitorHealth</AlertSeverity>
         <AlertName>F5 Device Fan Status Change</AlertName>
-        <AlertDescription>{1} on {0} Status has changed to {2}
+        <AlertDescription>Fan       : $Target/Property[Type="AP.F5.Device.Fan"]/Name$ 
+F5 Device : $Target/Host/Host/Property[Type="AP.F5.Device"]/DeviceName$ Status 
 
-Values
-F5 Device : $Target/Host/Host/Property[Type="AP.F5.Device"]/DeviceName$
-Fan : $Target/Property[Type="AP.F5.Device.Fan"]/Name$
-State : $Data/Context/SnmpVarBinds/SnmpVarBind[1]/Value$
-0 = Nad
-1 = Good
-2 = Not Present</AlertDescription>
+Has changed Health State to $Data/Context/Property[@Name='FanHealth']$ (0 = Bad, 1 = Good, 2 = Not Present)
+</AlertDescription>
         <ConfirmDelivery>false</ConfirmDelivery>
       </UnitMonitorConfig>
     </Instance>
@@ -194,19 +190,19 @@ Failover State : $Data/Context/SnmpVarBinds/SnmpVarBind[1]/Value$
     </Instance>
     <Instance ID="Instancecb60db7f573c4e3a9f139053d3d490e6" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.UnitMonitor" Version="1.0.0.0">
       <UnitMonitorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-        <MonitorType>AP.F5.DataSourceModule.Monitor.PowerSupplyHealth</MonitorType>
-        <MonitorConfig>&lt;IntervalSeconds&gt;300&lt;/IntervalSeconds&gt;&lt;IP&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/IPAddress$&lt;/IP&gt;&lt;Version&gt;2&lt;/Version&gt;&lt;NoOfRetries&gt;3&lt;/NoOfRetries&gt;&lt;Timeout&gt;3500&lt;/Timeout&gt;&lt;CommunityString&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Community$&lt;/CommunityString&gt;&lt;Port&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Port$&lt;/Port&gt;</MonitorConfig>
+        <MonitorType>AP.F5.Monitor.PowerSupplyHealth.Powershell</MonitorType>
+        <MonitorConfig>&lt;IntervalSeconds&gt;300&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;true&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;&lt;PowerSupplyIndex&gt;$Target/Property[Type="AP.F5.Device.PowerSupply"]/Index$&lt;/PowerSupplyIndex&gt;</MonitorConfig>
         <MonitorOperationalStates>
           <OperationalState>
-            <OperationalStateId>PowerSupplyGood</OperationalStateId>
-            <OperationalStateDisplayName>PowerSupplyGood</OperationalStateDisplayName>
-            <MonitorTypeStateId>PowerSupplyGood</MonitorTypeStateId>
+            <OperationalStateId>PowerSupplyHealthy</OperationalStateId>
+            <OperationalStateDisplayName>PowerSupplyHealthy</OperationalStateDisplayName>
+            <MonitorTypeStateId>PowerSupplyHealthy</MonitorTypeStateId>
             <HealthState>Success</HealthState>
           </OperationalState>
           <OperationalState>
-            <OperationalStateId>PowerSupplyBad</OperationalStateId>
-            <OperationalStateDisplayName>PowerSupplyBad</OperationalStateDisplayName>
-            <MonitorTypeStateId>PowerSupplyBad</MonitorTypeStateId>
+            <OperationalStateId>PowerSupplyUnHealthy</OperationalStateId>
+            <OperationalStateDisplayName>PowerSupplyUnHealthy</OperationalStateDisplayName>
+            <MonitorTypeStateId>PowerSupplyUnHealthy</MonitorTypeStateId>
             <HealthState>Error</HealthState>
           </OperationalState>
         </MonitorOperationalStates>
@@ -225,15 +221,10 @@ Failover State : $Data/Context/SnmpVarBinds/SnmpVarBind[1]/Value$
         <AlertPriority>Normal</AlertPriority>
         <AlertSeverity>MatchMonitorHealth</AlertSeverity>
         <AlertName>F5 Device Power Supply Status Change</AlertName>
-        <AlertDescription>{1} on {0} Status has changed to {2}
+        <AlertDescription>Fan       : $Target/Property[Type="AP.F5.Device.PowerSupply"]/Name$ 
+F5 Device : $Target/Host/Host/Property[Type="AP.F5.Device"]/DeviceName$ Status 
 
-Values
-F5 Device : $Target/Host/Host/Property[Type="AP.F5.Device"]/DeviceName$
-Fan : $Target/Property[Type="AP.F5.Device.PowerSupply"]/Name$
-State : $Data/Context/SnmpVarBinds/SnmpVarBind[1]/Value$
-0 = Nad
-1 = Good
-2 = Not Present</AlertDescription>
+Has changed Health State to $Data/Context/Property[@Name='PowerSupplyHealth']$ (0 = Bad, 1 = Good, 2 = Not Present)</AlertDescription>
         <ConfirmDelivery>false</ConfirmDelivery>
       </UnitMonitorConfig>
     </Instance>
@@ -287,8 +278,8 @@ Processor Usage : $Data/Context/Value$</AlertDescription>
     </Instance>
     <Instance ID="Instance1ee6d15b097c4beb84533834d26b4a4e" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.UnitMonitor" Version="1.0.0.0">
       <UnitMonitorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-        <MonitorType>AP.F5.DataSourceModule.Monitor.TemperatureSensorHealth</MonitorType>
-        <MonitorConfig>&lt;IntervalSeconds&gt;300&lt;/IntervalSeconds&gt;&lt;IP&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/IPAddress$&lt;/IP&gt;&lt;Version&gt;2&lt;/Version&gt;&lt;NoOfRetries&gt;3&lt;/NoOfRetries&gt;&lt;Timeout&gt;3500&lt;/Timeout&gt;&lt;CommunityString&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Community$&lt;/CommunityString&gt;&lt;Port&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Port$&lt;/Port&gt;&lt;WarningTemp&gt;32&lt;/WarningTemp&gt;&lt;CriticalTemp&gt;37&lt;/CriticalTemp&gt;</MonitorConfig>
+        <MonitorType>AP.F5.Monitor.TemperatureSensorHealth.Powershell</MonitorType>
+        <MonitorConfig>&lt;IntervalSeconds&gt;300&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;false&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;&lt;TemperatureSensorIndex&gt;$Target/Property[Type="AP.F5.Device.TempSensor"]/Index$&lt;/TemperatureSensorIndex&gt;&lt;WarningTemp&gt;32&lt;/WarningTemp&gt;&lt;CriticalTemp&gt;37&lt;/CriticalTemp&gt;</MonitorConfig>
         <MonitorOperationalStates>
           <OperationalState>
             <OperationalStateId>TemperatureSensorHealthy</OperationalStateId>
@@ -324,12 +315,11 @@ Processor Usage : $Data/Context/Value$</AlertDescription>
         <AlertPriority>Normal</AlertPriority>
         <AlertSeverity>MatchMonitorHealth</AlertSeverity>
         <AlertName>F5 Device High Temperature Alert</AlertName>
-        <AlertDescription>Temerature Sensor {0} on {1} is reporting {2}°C
+        <AlertDescription>Temperature Sensor : $Target/Property[Type="AP.F5.Device.TempSensor"]/Name$
+F5 Device          : $Target/Host/Host/Property[Type="AP.F5.Device"]/DeviceName$
 
-Values
-Temp. Sensor : $Target/Property[Type="AP.F5.Device.TempSensor"]/Name$
-F5 Device : $Target/Host/Host/Property[Type="AP.F5.Device"]/DeviceName$
-Temperature (°C) : $Data/Context/Value$</AlertDescription>
+Has reported a Temperature of $Data/Context/Property[@Name='Temperature']$°C
+</AlertDescription>
         <ConfirmDelivery>false</ConfirmDelivery>
       </UnitMonitorConfig>
     </Instance>

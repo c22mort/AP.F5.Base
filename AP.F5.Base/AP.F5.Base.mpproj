@@ -5,7 +5,7 @@
     <RootNamespace>AP.F5.Base</RootNamespace>
     <Name>AP.F5.Base</Name>
     <ManagementPackName>AP.F5.Base</ManagementPackName>
-    <Version>18.10.4.0</Version>
+    <Version>18.10.5.0</Version>
     <MpFrameworkVersion>v7.0.2</MpFrameworkVersion>
     <MpFrameworkProfile>OM</MpFrameworkProfile>
     <ProductVersion>1.1.0.0</ProductVersion>
@@ -17,7 +17,7 @@
     <Company>AP Management Packs</Company>
     <Copyright>Copyright (c) AP Management Packs. All rights reserved.</Copyright>
     <DelaySigning>False</DelaySigning>
-    <AssemblyOriginatorKeyFile>C:\VSAE-2012R2\AP.F5.Base\key.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>C:\VSAE\AP.F5.Base\key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugSymbols>false</DebugSymbols>
@@ -26,7 +26,7 @@
     <Company>AP Management Packs</Company>
     <Copyright>Copyright (c) AP Management Packs. All rights reserved.</Copyright>
     <DelaySign>false</DelaySign>
-    <AssemblyOriginatorKeyFile>C:\VSAE\AP.F5.Base\AP.F5.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>C:\VSAE\AP.F5.Base\key.snk</AssemblyOriginatorKeyFile>
     <GenerateSealed>True</GenerateSealed>
   </PropertyGroup>
   <ItemGroup>
@@ -99,25 +99,13 @@
     <Compile Include="Classes\Device.TempSensor.mpx">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DataSources\DataSourceModule.Monitor.DiskPartitionFreeSpace.mpx">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="DataSources\DataSourceModule.Monitor.FailoverState.mpx">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DataSources\DataSourceModule.Monitor.FanHealth.mpx">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DataSources\DataSourceModule.Monitor.MemoryHealth.mpx">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DataSources\DataSourceModule.Monitor.PowerSupplyHealth.mpx">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="DataSources\DataSourceModule.Monitor.ProcessorUsage.mpx">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DataSources\DataSourceModule.Monitor.TemperatureSensorHealth.mpx">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DataSources\DataSourceModule.Performance.Percentage.mpx">
@@ -130,6 +118,18 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DataSources\DataSourceModule.Performance.Subtraction.Div1024.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataSources\DataSourceModules.DiskPartition.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataSources\DataSourceModules.Fan.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataSources\DataSourceModules.PowerSupply.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataSources\DataSourceModules.TemperatureSensor.mpx">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="LanguagePack.mpx">
@@ -146,6 +146,9 @@
       <SubType>Code</SubType>
       <DependentUpon>Monitors\UnitMonitors.mptg</DependentUpon>
     </Compile>
+    <Compile Include="Resourcres\FileResources.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Rules\KnowledgeArticles.mpx">
       <SubType>Code</SubType>
     </Compile>
@@ -161,9 +164,11 @@
     <Folder Include="Classes" />
     <Folder Include="DataSources" />
     <Folder Include="Monitors" />
+    <Folder Include="Resourcres" />
     <Folder Include="Presentation" />
     <Folder Include="Scripts" />
     <Folder Include="Rules" />
+    <Folder Include="Scripts\Monitors" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Monitors\DependancyMonitors.mptg">
@@ -174,17 +179,21 @@
       <SubType>Content</SubType>
       <Generator>FragmentGenerator</Generator>
     </Content>
-    <Content Include="README.md">
-      <SubType>Content</SubType>
-    </Content>
     <Content Include="Rules\PerfRules.mptg">
       <SubType>Content</SubType>
       <Generator>FragmentGenerator</Generator>
     </Content>
+    <EmbeddedResource Include="Scripts\Monitors\Get-DiskPartitionHealth.ps1" />
+    <EmbeddedResource Include="Scripts\Monitors\Get-PowerSupplyHealth.ps1" />
+    <EmbeddedResource Include="Scripts\Monitors\Get-TemperatureSensorHealth.ps1" />
+    <EmbeddedResource Include="SharpSnmpLib.dll">
+      <SubType>Content</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Scripts\CalculatePercentage.ps1" />
     <EmbeddedResource Include="Scripts\Div1024.ps1" />
+    <EmbeddedResource Include="Scripts\Monitors\Get-FanHealth.ps1" />
     <EmbeddedResource Include="Scripts\SubtractDiv1024.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />

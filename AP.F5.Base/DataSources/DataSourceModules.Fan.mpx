@@ -1,0 +1,350 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <ModuleTypes>
+
+      <!--AP.F5.DataSource.FanHealth.Filtered -->
+      <!-- Calls AP.F5.DataSource.FanHealth.Powershell, Filters results by FanIndex -->
+      <DataSourceModuleType ID="AP.F5.DataSource.FanHealth.Filtered" Accessibility="Public" Batching="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer"/>
+          <xsd:element minOccurs="1" name="SyncTime" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="Debug" type="xsd:boolean"/>
+          <xsd:element minOccurs="1" name="DeviceAddress" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DevicePort" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DeviceCommunity" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="FanIndex" type="xsd:string"/>
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int"/>
+          <OverrideableParameter ID="SyncTime" Selector="$Config/SyncTime$" ParameterType="string"/>
+          <OverrideableParameter ID="Debug" Selector="$Config/Debug$" ParameterType="bool"/>
+        </OverrideableParameters>
+        <ModuleImplementation>
+          <Composite>
+            <MemberModules>
+              <DataSource ID="Script" TypeID="AP.F5.DataSource.FanHealth.Powershell">
+                <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+                <SyncTime>$Config/SyncTime$</SyncTime>
+                <Debug>$Config/Debug$</Debug>
+                <DeviceAddress>$Config/DeviceAddress$</DeviceAddress>
+                <DevicePort>$Config/DevicePort$</DevicePort>
+                <DeviceCommunity>$Config/DeviceCommunity$</DeviceCommunity>
+              </DataSource>
+              <ConditionDetection ID="FilterFanIndex" TypeID="System!System.ExpressionFilter">
+                <Expression>
+                  <SimpleExpression>
+                    <ValueExpression>
+                      <XPathQuery Type="String">Property[@Name='FanIndex']</XPathQuery>
+                    </ValueExpression>
+                    <Operator>Equal</Operator>
+                    <ValueExpression>
+                      <Value Type="String">$Config/FanIndex$</Value>
+                    </ValueExpression>                   
+                  </SimpleExpression>
+                </Expression>
+              </ConditionDetection>
+            </MemberModules>
+            <Composition>
+              <Node ID="FilterFanIndex">
+                <Node ID="Script" />
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.PropertyBagData</OutputType>
+      </DataSourceModuleType>
+      <!-- AP.F5.DataSource.FanHealth.Powershell -->
+      <!-- Calls AP.F5.Probe.FanHealth.Powershell wraps it with a scheduler -->
+      <DataSourceModuleType ID="AP.F5.DataSource.FanHealth.Powershell" Accessibility="Public" Batching="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer"/>
+          <xsd:element minOccurs="1" name="SyncTime" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="Debug" type="xsd:boolean"/>
+          <xsd:element minOccurs="1" name="DeviceAddress" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DevicePort" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DeviceCommunity" type="xsd:string"/>
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int"/>
+          <OverrideableParameter ID="SyncTime" Selector="$Config/SyncTime$" ParameterType="string"/>
+          <OverrideableParameter ID="Debug" Selector="$Config/Debug$" ParameterType="bool"/>
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="Scheduler" TypeID="System!System.SimpleScheduler">
+                <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+                <SyncTime>$Config/SyncTime$</SyncTime>
+              </DataSource>
+              <ProbeAction ID="PSScript" TypeID="AP.F5.Probe.FanHealth.Powershell">
+                <Debug>$Config/Debug$</Debug>
+                <DeviceAddress>$Config/DeviceAddress$</DeviceAddress>
+                <DevicePort>$Config/DevicePort$</DevicePort>
+                <DeviceCommunity>$Config/DeviceCommunity$</DeviceCommunity>
+              </ProbeAction>             
+            </MemberModules>
+            <Composition>
+              <Node ID="PSScript">
+                <Node ID="Scheduler" />
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.PropertyBagData</OutputType>
+      </DataSourceModuleType>
+      <!-- AP.F5.Probe.FanHealth.Powershell -->
+      <!-- Runs script to Return All Fans (Index & Health) in property bags -->
+      <ProbeActionModuleType ID="AP.F5.Probe.FanHealth.Powershell" Accessibility="Public" Batching="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="Debug" type="xsd:boolean"/>
+          <xsd:element minOccurs="1" name="DeviceAddress" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DevicePort" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DeviceCommunity" type="xsd:string"/>
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="Debug" Selector="$Config/Debug$" ParameterType="bool"/>
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <ProbeAction ID="PSScript" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagTriggerOnlyProbe">
+                <ScriptName>Get-FanHealth.ps1</ScriptName>
+                <ScriptBody>$IncludeFileContent/Scripts/Monitors/Get-FanHealth.ps1$</ScriptBody>
+                <SnapIns />
+                <Parameters>
+                  <Parameter>
+                    <Name>DeviceAddress</Name>
+                    <Value>$Config/DeviceAddress$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>DevicePort</Name>
+                    <Value>$Config/DevicePort$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>DeviceCommunity</Name>
+                    <Value>$Config/DeviceCommunity$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>debug</Name>
+                    <Value>$Config/Debug$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>SharpSnmpLocation</Name>
+                    <Value>$FileResource[Name="AP.F5.SharpSnmpLib"]/Path$</Value>
+                  </Parameter>
+                </Parameters>
+                <TimeoutSeconds>60</TimeoutSeconds>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="PSScript" />
+            </Composition>
+          </Composite>          
+        </ModuleImplementation>
+        <OutputType>System!System.PropertyBagData</OutputType>
+        <TriggerOnly>true</TriggerOnly>
+      </ProbeActionModuleType>
+    </ModuleTypes>
+
+    <MonitorTypes>
+
+      <!-- AP.F5.Monitor.FanHealth -->
+      <!-- Uses SNMP via Powershell to Get Health of All Device Fans -->
+      <UnitMonitorType ID="AP.F5.Monitor.FanHealth.Powershell" Accessibility="Public">
+        <MonitorTypeStates>
+          <MonitorTypeState ID="FanHealthy" NoDetection="false"/>
+          <MonitorTypeState ID="FanUnHealthy" NoDetection="false"/>
+        </MonitorTypeStates>
+        <Configuration>
+          <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer"/>
+          <xsd:element minOccurs="1" name="SyncTime" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="Debug" type="xsd:boolean"/>
+          <xsd:element minOccurs="1" name="DeviceAddress" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DevicePort" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DeviceCommunity" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="FanIndex" type="xsd:string"/>
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int"/>
+          <OverrideableParameter ID="SyncTime" Selector="$Config/SyncTime$" ParameterType="string"/>
+          <OverrideableParameter ID="Debug" Selector="$Config/Debug$" ParameterType="bool"/>
+        </OverrideableParameters>
+        <MonitorImplementation>
+          <MemberModules>
+            <DataSource ID="DS" TypeID="AP.F5.DataSource.FanHealth.Filtered">
+              <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+              <SyncTime>$Config/SyncTime$</SyncTime>
+              <Debug>$Config/Debug$</Debug>
+              <DeviceAddress>$Config/DeviceAddress$</DeviceAddress>
+              <DevicePort>$Config/DevicePort$</DevicePort>
+              <DeviceCommunity>$Config/DeviceCommunity$</DeviceCommunity>
+              <FanIndex>$Config/FanIndex$</FanIndex>
+            </DataSource>
+            <ProbeAction ID="Probe" TypeID="AP.F5.Probe.FanHealth.Powershell">
+              <Debug>$Config/Debug$</Debug>
+              <DeviceAddress>$Config/DeviceAddress$</DeviceAddress>
+              <DevicePort>$Config/DevicePort$</DevicePort>
+              <DeviceCommunity>$Config/DeviceCommunity$</DeviceCommunity>
+            </ProbeAction>
+            <ConditionDetection ID="FanHealthyFilter" TypeID="System!System.ExpressionFilter">
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery Type="Integer">Property[@Name='FanHealth']</XPathQuery>
+                  </ValueExpression>
+                  <Operator>Equal</Operator>
+                  <ValueExpression>
+                    <Value Type="Integer">1</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+            </ConditionDetection>
+            <ConditionDetection ID="FanUnHealthyFilter" TypeID="System!System.ExpressionFilter">
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery Type="Integer">Property[@Name='FanHealth']</XPathQuery>
+                  </ValueExpression>
+                  <Operator>NotEqual</Operator>
+                  <ValueExpression>
+                    <Value Type="Integer">1</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+            </ConditionDetection>
+          </MemberModules>
+          <RegularDetections>
+            <RegularDetection MonitorTypeStateID="FanHealthy">
+              <Node ID="FanHealthyFilter">
+                <Node ID="DS" />
+              </Node>
+            </RegularDetection>
+            <RegularDetection MonitorTypeStateID="FanUnHealthy">
+              <Node ID="FanUnHealthyFilter">
+                <Node ID="DS" />
+              </Node>
+            </RegularDetection>
+          </RegularDetections>
+        </MonitorImplementation>
+      </UnitMonitorType>
+    </MonitorTypes>    
+  </TypeDefinitions>
+
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+
+        <!-- AP.F5.DataSource.FanHealth.Filtered -->
+        <DisplayString ElementID="AP.F5.DataSource.FanHealth.Filtered">
+          <Name>Fan Health Filtered Data Source</Name>
+          <Description>Filters Property Bags by FanIndex to return the one property bag we want.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.FanHealth.Filtered" SubElementID="IntervalSeconds">
+          <Name>Interval Seconds</Name>
+          <Description>Frequency in seconds that module is run.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.FanHealth.Filtered" SubElementID="SyncTime">
+          <Name>Synchronisation Time</Name>
+          <Description>Offset that this module is started from.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.FanHealth.Filtered" SubElementID="Debug">
+          <Name>Debug</Name>
+          <Description>Debug Flag, if true then additional info is posted to event log.</Description>
+        </DisplayString>
+
+        <!-- AP.F5.DataSource.FanHealth.Powershell -->
+        <DisplayString ElementID="AP.F5.DataSource.FanHealth.Powershell">
+          <Name>Fan Health Powershell Data Source</Name>
+          <Description>Gets all Fan Health(s) as Property Bags</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.FanHealth.Powershell" SubElementID="IntervalSeconds">
+          <Name>Interval Seconds</Name>
+          <Description>Frequency in seconds that module is run.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.FanHealth.Powershell" SubElementID="SyncTime">
+          <Name>Synchronisation Time</Name>
+          <Description>Offset that this module is started from.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.FanHealth.Powershell" SubElementID="Debug">
+          <Name>Debug</Name>
+          <Description>Debug Flag, if true then additional info is posted to event log.</Description>
+        </DisplayString>
+
+
+        <!-- AP.F5.Probe.FanHealth.Powershell -->
+        <DisplayString ElementID="AP.F5.Probe.FanHealth.Powershell">
+          <Name>Fan Health Powershell Probe</Name>
+          <Description>Gets all Fan Health(s) as Property Bags</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Probe.FanHealth.Powershell" SubElementID="Debug">
+          <Name>Debug</Name>
+          <Description>Debug Flag, if true then additional info is posted to event log.</Description>
+        </DisplayString>
+
+        <!-- AP.F5.Monitor.FanHealth.Powershell -->
+        <DisplayString ElementID="AP.F5.Monitor.FanHealth.Powershell">
+          <Name>Fan Health Monitor Data Source</Name>
+          <Description>Gets Node AvailabilityState via Powershell/SNMP (Cookdown compliant)</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Monitor.FanHealth.Powershell" SubElementID="IntervalSeconds">
+          <Name>Interval Seconds</Name>
+          <Description>Frequency in seconds that module is run.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Monitor.FanHealth.Powershell" SubElementID="SyncTime">
+          <Name>Synchronisation Time</Name>
+          <Description>Offset that this module is started from.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Monitor.FanHealth.Powershell" SubElementID="Debug">
+          <Name>Debug</Name>
+          <Description>Debug Flag, if true then additional info is posted to event log.</Description>
+        </DisplayString>
+
+      </DisplayStrings>
+
+      <KnowledgeArticles>
+        
+        <!-- AP.F5.Base.Monitor.Fan.Health -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Monitor.Fan.Health" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>
+                Uses SNMP to get Device Fan Status for the F5 Device.
+              </para>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Thresholds</title>
+              <list>
+                <listItem>
+                  <para>Fan Good - Healthy Condition</para>
+                </listItem>
+                <listItem>
+                  <para>Fan Bad or Not Present - Alert Condition</para>
+                </listItem>
+              </list>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used;</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.3.2.1.2.1.2.FanIndex - bigipTrafficMgmt.bigipSystem.sysPlatform.sysChassis.sysChassisFan.sysChassisFanTable.sysChassisFanEntry.sysChassisFanStatus</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+        </KnowledgeArticle>
+        
+      </KnowledgeArticles>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>

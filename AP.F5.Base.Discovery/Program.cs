@@ -2,8 +2,6 @@
 using iControl;
 using LumenWorks.Framework.IO.Csv;
 using Microsoft.EnterpriseManagement;
-using Microsoft.EnterpriseManagement.Common;
-using Microsoft.EnterpriseManagement.Configuration;
 using Microsoft.EnterpriseManagement.ConnectorFramework;
 using System;
 using System.Collections.Generic;
@@ -24,6 +22,8 @@ namespace AP.F5.Device.Discovery
         private static string m_deviceFileName = "devices.csv";
         // Management Server Name
         private static string m_managementServer;
+        // Discovery Type
+        private static string m_discoveryType;
 
         // Interface to F5 Device
         private static Interfaces m_interfaces = new Interfaces();
@@ -39,7 +39,8 @@ namespace AP.F5.Device.Discovery
         public static int CSV_F5PASSWORD = 4;
 
         // Create Snapshot Discovery Data Object
-        private static SnapshotDiscoveryData discoData = new SnapshotDiscoveryData();
+        private static SnapshotDiscoveryData snapshotDiscoveryData = new SnapshotDiscoveryData();
+        private static IncrementalDiscoveryData incrementalDiscoveryData = new IncrementalDiscoveryData();
 
         /// <summary>
         /// Main Application Entry Point
@@ -53,7 +54,7 @@ namespace AP.F5.Device.Discovery
             Console.WriteLine("");
 
             // First Thing is to get the Managment Server Name from the config file (if it exists).
-            m_managementServer = GetManagementServer();
+            LoadConfig();
 
             // Get Devices (If Device File Exists
             if (File.Exists(m_deviceFileName))
@@ -76,7 +77,13 @@ namespace AP.F5.Device.Discovery
                     {
                         // Write Discovered Data to SCOM Database 
                         log.Info("Writing Discovery Data to " + m_managementServer);
-                        discoData.Overwrite(SCOM_Functions.m_monitoringConnector);
+                        if (m_discoveryType == "snapshot")
+                        {
+                            snapshotDiscoveryData.Overwrite(SCOM_Functions.m_monitoringConnector);
+                        } else
+                        {
+                            incrementalDiscoveryData.Overwrite(SCOM_Functions.m_monitoringConnector);
+                        }
 
                     }
                     catch (Exception ex)
@@ -124,7 +131,13 @@ namespace AP.F5.Device.Discovery
 
                     // Create New Device
                     f5Device dev = new f5Device(SCOM_Functions.m_managementGroup, csv[CSV_ADDRESS], csv[CSV_COMMUNITY], Convert.ToInt32(csv[CSV_PORT]), csv[CSV_F5USER], csv[CSV_F5PASSWORD]);
-                    AddDeviceToDiscoveryData(dev);
+                    if (m_discoveryType=="snapshot")
+                    {
+                        AddDeviceToSnapshotDiscoveryData(dev);
+                    }
+                    {
+                        AddDeviceToIncrementalDiscoveryData(dev);
+                    }
 
                 } else
                 {
@@ -138,66 +151,69 @@ namespace AP.F5.Device.Discovery
         }
 
         /// <summary>
-        /// Get Management Server
+        /// Load Config
         /// </summary>
         /// <returns>Name of Management Server to Conenct to, localhost if config.csv cannot be found or no entry</returns>
-        private static string GetManagementServer()
+        private static void LoadConfig()
         {
             // Set to default of localhost
-            string mserver = "localhost";
+            m_managementServer = "localhost";
+            m_discoveryType = "snapshot";
 
             // See if File Exists
             if (!File.Exists(m_configFileName))
             {
-                log.Info("Could not find Config File, config.csv, will use locahost as Management Server Name.");
-                return mserver;
+                log.Info("Could not find Config File, config.csv, will use locahost as Management Server Name and perform a snapshot discovery.");
             }
 
             // Load In CSV File
             CsvReader csv = new CsvReader(new StreamReader(m_configFileName), true);
             if (csv.FieldCount == 0)
             {
-                log.Info("Config File, config.csv, seems to have no fields please check, will use locahost as Management Server Name.");
+                log.Info("Config File, config.csv, seems to have no fields please check, will use locahost as Management Server Name and perform a snapshot discovery.");
             }
             else
             {
                 // Read First Record
                 csv.ReadNextRecord();
                 // Get Management Server Name
-                mserver = csv[0].ToString();
+                m_managementServer = csv[0].ToString();
+                string incremental  = csv[1].ToString().ToLower();
+                if (incremental=="true")
+                {
+                    m_discoveryType = "incremental";
+                }
             }
 
             // Dispose of CSV Handler
             csv.Dispose();
 
-            // Return Management Server Name
-            return mserver;
         }
 
         /// <summary>
-        /// Add Device To Discovery Data
+        /// Add Device To Snapshot Discovery Data
         /// </summary>
         /// <param name="dev"></param>
-        private static void AddDeviceToDiscoveryData(f5Device dev)
+        private static void AddDeviceToSnapshotDiscoveryData(f5Device dev)
         {
             // Add Device to Discovery Data
-            discoData.Include(dev.SCOM_Object_Device);
+            snapshotDiscoveryData.Include(dev.SCOM_Object_Device);
 
             // Add Failover State and Relationship to Discovery Data
-            discoData.Include(dev.SCOM_Object_FailoverState);
+            snapshotDiscoveryData.Include(dev.SCOM_Object_FailoverState);
 
             // Add Memory and Relationship to Discovery Data
-            discoData.Include(dev.SCOM_Object_Memory);
+            snapshotDiscoveryData.Include(dev.SCOM_Object_Memory);
 
             // Add Fans and Relationships to Discovery Data
             if (dev.Fans.Count > 0)
             {
                 // Add FansGroup and Relationship
-                discoData.Include(dev.SCOM_Object_FanGroup);
+                snapshotDiscoveryData.Include(dev.SCOM_Object_FanGroup);
                 foreach (Fan f in dev.Fans)
                 {
                     // Add Fan and Relationship
-                    discoData.Include(f.SCOM_Object_Fan);
+                    snapshotDiscoveryData.Include(f.SCOM_Object_Fan);
                 }
             }
 
@@ -205,11 +221,11 @@ namespace AP.F5.Device.Discovery
             if (dev.PowerSupplies.Count > 0)
             {
                 // Add PowerSuppliesGroup and Relationship
-                discoData.Include(dev.SCOM_Object_PowerSupplyGroup);
+                snapshotDiscoveryData.Include(dev.SCOM_Object_PowerSupplyGroup);
                 foreach (PowerSupply p in dev.PowerSupplies)
                 {
                     // Add PowerSupply and Relationship
-                    discoData.Include(p.SCOM_Object_PowerSupply);
+                    snapshotDiscoveryData.Include(p.SCOM_Object_PowerSupply);
                 }
             }
 
@@ -217,11 +233,11 @@ namespace AP.F5.Device.Discovery
             if (dev.Processors.Count > 0)
             {
                 // Add ProcessorsGroup and Relationship
-                discoData.Include(dev.SCOM_Object_ProcessorGroup);
+                snapshotDiscoveryData.Include(dev.SCOM_Object_ProcessorGroup);
                 foreach (Processor p in dev.Processors)
                 {
                     // Add Processor and Relationship
-                    discoData.Include(p.SCOM_Object_Processor);
+                    snapshotDiscoveryData.Include(p.SCOM_Object_Processor);
                 }
             }
 
@@ -229,11 +245,11 @@ namespace AP.F5.Device.Discovery
             if (dev.TempSensors.Count > 0)
             {
                 // Add Temp Sensors Group and Relationship
-                discoData.Include(dev.SCOM_Object_TempSensorsGroup);
+                snapshotDiscoveryData.Include(dev.SCOM_Object_TempSensorsGroup);
                 // Add Temperature Sensors
                 foreach (TempSensor t in dev.TempSensors)
                 {
-                    discoData.Include(t.SCOM_Object_TempSensor);
+                    snapshotDiscoveryData.Include(t.SCOM_Object_TempSensor);
                 }
             }
 
@@ -241,11 +257,87 @@ namespace AP.F5.Device.Discovery
             if (dev.DiskPartitions.Count > 0)
             {
                 // Add Disk partitions Group to Discovery Data
-                discoData.Include(dev.SCOM_Object_DiskPartitionGroup);
+                snapshotDiscoveryData.Include(dev.SCOM_Object_DiskPartitionGroup);
                 // Add Disk Partitions
                 foreach (DiskPartition disk in dev.DiskPartitions)
                 {
-                    discoData.Include(disk.SCOM_Object_DiskPartition);
+                    snapshotDiscoveryData.Include(disk.SCOM_Object_DiskPartition);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Add Device To Incremental Discovery Data
+        /// </summary>
+        /// <param name="dev"></param>
+        private static void AddDeviceToIncrementalDiscoveryData(f5Device dev)
+        {
+            // Add Device to Discovery Data
+            incrementalDiscoveryData.Add(dev.SCOM_Object_Device);
+
+            // Add Failover State and Relationship to Discovery Data
+            incrementalDiscoveryData.Add(dev.SCOM_Object_FailoverState);
+
+            // Add Memory and Relationship to Discovery Data
+            incrementalDiscoveryData.Add(dev.SCOM_Object_Memory);
+
+            // Add Fans and Relationships to Discovery Data
+            if (dev.Fans.Count > 0)
+            {
+                // Add FansGroup and Relationship
+                incrementalDiscoveryData.Add(dev.SCOM_Object_FanGroup);
+                foreach (Fan f in dev.Fans)
+                {
+                    // Add Fan and Relationship
+                    incrementalDiscoveryData.Add(f.SCOM_Object_Fan);
+                }
+            }
+
+            // Add PowerSupplies and Relationships to Discovery Data
+            if (dev.PowerSupplies.Count > 0)
+            {
+                // Add PowerSuppliesGroup and Relationship
+                incrementalDiscoveryData.Add(dev.SCOM_Object_PowerSupplyGroup);
+                foreach (PowerSupply p in dev.PowerSupplies)
+                {
+                    // Add PowerSupply and Relationship
+                    incrementalDiscoveryData.Add(p.SCOM_Object_PowerSupply);
+                }
+            }
+
+            // Add Processors
+            if (dev.Processors.Count > 0)
+            {
+                // Add ProcessorsGroup and Relationship
+                incrementalDiscoveryData.Add(dev.SCOM_Object_ProcessorGroup);
+                foreach (Processor p in dev.Processors)
+                {
+                    // Add Processor and Relationship
+                    incrementalDiscoveryData.Add(p.SCOM_Object_Processor);
+                }
+            }
+
+            // Add Temperature Sensors
+            if (dev.TempSensors.Count > 0)
+            {
+                // Add Temp Sensors Group and Relationship
+                incrementalDiscoveryData.Add(dev.SCOM_Object_TempSensorsGroup);
+                // Add Temperature Sensors
+                foreach (TempSensor t in dev.TempSensors)
+                {
+                    incrementalDiscoveryData.Add(t.SCOM_Object_TempSensor);
+                }
+            }
+
+            // Add Disk Partitions and Relationships to Discovery Data
+            if (dev.DiskPartitions.Count > 0)
+            {
+                // Add Disk partitions Group to Discovery Data
+                incrementalDiscoveryData.Add(dev.SCOM_Object_DiskPartitionGroup);
+                // Add Disk Partitions
+                foreach (DiskPartition disk in dev.DiskPartitions)
+                {
+                    incrementalDiscoveryData.Add(disk.SCOM_Object_DiskPartition);
                 }
             }
         }

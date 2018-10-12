@@ -1,2 +1,2 @@
-﻿ManagementServer
-SCOM-MAN01.example.com
+﻿ManagementServer,IncrementalDiscovery
+SCOM-MAN01.example.com,false

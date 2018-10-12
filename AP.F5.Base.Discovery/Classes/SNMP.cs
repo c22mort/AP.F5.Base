@@ -82,7 +82,7 @@ namespace AP.F5.Base.Discovery.Classes
                    10000);
                 retlist = response.ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
             return retlist;
@@ -119,7 +119,7 @@ namespace AP.F5.Base.Discovery.Classes
                 retlist = response.Pdu().Variables.ToList();
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
             return retlist;
