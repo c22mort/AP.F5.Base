@@ -99,15 +99,6 @@
     <Compile Include="Classes\Device.TempSensor.mpx">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DataSources\DataSourceModule.Monitor.FailoverState.mpx">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DataSources\DataSourceModule.Monitor.MemoryHealth.mpx">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DataSources\DataSourceModule.Monitor.ProcessorUsage.mpx">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="DataSources\DataSourceModule.Performance.Percentage.mpx">
       <SubType>Code</SubType>
     </Compile>
@@ -120,13 +111,22 @@
     <Compile Include="DataSources\DataSourceModule.Performance.Subtraction.Div1024.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DataSources\DataSourceModules.Device.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DataSources\DataSourceModules.DiskPartition.mpx">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DataSources\DataSourceModules.Fan.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DataSources\DataSourceModules.Memory.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DataSources\DataSourceModules.PowerSupply.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataSources\DataSourceModules.Processor.mpx">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DataSources\DataSourceModules.TemperatureSensor.mpx">
@@ -138,9 +138,6 @@
     <Compile Include="Monitors\DependancyMonitors.mptg.mpx">
       <SubType>Code</SubType>
       <DependentUpon>Monitors\DependancyMonitors.mptg</DependentUpon>
-    </Compile>
-    <Compile Include="Monitors\KnowledgeArticles.mpx">
-      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Monitors\UnitMonitors.mptg.mpx">
       <SubType>Code</SubType>
@@ -183,8 +180,11 @@
       <SubType>Content</SubType>
       <Generator>FragmentGenerator</Generator>
     </Content>
+    <EmbeddedResource Include="Scripts\Monitors\Get-DeviceFailoverState.ps1" />
     <EmbeddedResource Include="Scripts\Monitors\Get-DiskPartitionHealth.ps1" />
+    <EmbeddedResource Include="Scripts\Monitors\Get-MemoryHealth.ps1" />
     <EmbeddedResource Include="Scripts\Monitors\Get-PowerSupplyHealth.ps1" />
+    <EmbeddedResource Include="Scripts\Monitors\Get-ProcessorHealth.ps1" />
     <EmbeddedResource Include="Scripts\Monitors\Get-TemperatureSensorHealth.ps1" />
     <EmbeddedResource Include="SharpSnmpLib.dll">
       <SubType>Content</SubType>

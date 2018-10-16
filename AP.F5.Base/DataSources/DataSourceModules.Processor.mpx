@@ -2,9 +2,9 @@
   <TypeDefinitions>
     <ModuleTypes>
 
-      <!--AP.F5.DataSource.DiskPartitionHealth.Filtered -->
-      <!-- Calls AP.F5.DataSource.DiskPartitionHealth.Powershell, Filters results by DiskPartitionIndex -->
-      <DataSourceModuleType ID="AP.F5.DataSource.DiskPartitionHealth.Filtered" Accessibility="Public" Batching="false">
+      <!--AP.F5.DataSource.ProcessorHealth.Filtered -->
+      <!-- Calls AP.F5.DataSource.ProcessorHealth.Powershell, Filters results by ProcessorIndex -->
+      <DataSourceModuleType ID="AP.F5.DataSource.ProcessorHealth.Filtered" Accessibility="Public" Batching="false">
         <Configuration>
           <IncludeSchemaTypes>
             <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
@@ -15,7 +15,7 @@
           <xsd:element minOccurs="1" name="DeviceAddress" type="xsd:string"/>
           <xsd:element minOccurs="1" name="DevicePort" type="xsd:string"/>
           <xsd:element minOccurs="1" name="DeviceCommunity" type="xsd:string"/>
-          <xsd:element minOccurs="1" name="DiskPartitionIndex" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="ProcessorIndex" type="xsd:string"/>
         </Configuration>
         <OverrideableParameters>
           <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int"/>
@@ -25,7 +25,7 @@
         <ModuleImplementation>
           <Composite>
             <MemberModules>
-              <DataSource ID="Script" TypeID="AP.F5.DataSource.DiskPartitionHealth.Powershell">
+              <DataSource ID="Script" TypeID="AP.F5.DataSource.ProcessorHealth.Powershell">
                 <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
                 <SyncTime>$Config/SyncTime$</SyncTime>
                 <Debug>$Config/Debug$</Debug>
@@ -33,7 +33,7 @@
                 <DevicePort>$Config/DevicePort$</DevicePort>
                 <DeviceCommunity>$Config/DeviceCommunity$</DeviceCommunity>
               </DataSource>
-              <ConditionDetection ID="FilterDiskPartitionIndex" TypeID="System!System.ExpressionFilter">
+              <ConditionDetection ID="FilterProcessorIndex" TypeID="System!System.ExpressionFilter">
                 <Expression>
                   <SimpleExpression>
                     <ValueExpression>
@@ -41,14 +41,14 @@
                     </ValueExpression>
                     <Operator>Equal</Operator>
                     <ValueExpression>
-                      <Value Type="String">$Config/DiskPartitionIndex$</Value>
+                      <Value Type="String">$Config/ProcessorIndex$</Value>
                     </ValueExpression>
                   </SimpleExpression>
                 </Expression>
               </ConditionDetection>
             </MemberModules>
             <Composition>
-              <Node ID="FilterDiskPartitionIndex">
+              <Node ID="FilterProcessorIndex">
                 <Node ID="Script" />
               </Node>
             </Composition>
@@ -56,9 +56,9 @@
         </ModuleImplementation>
         <OutputType>System!System.PropertyBagData</OutputType>
       </DataSourceModuleType>
-      <!-- AP.F5.DataSource.DiskPartitionHealth.Powershell -->
-      <!-- Calls AP.F5.Probe.DiskPartitionHealth.Powershell wraps it with a scheduler -->
-      <DataSourceModuleType ID="AP.F5.DataSource.DiskPartitionHealth.Powershell" Accessibility="Public" Batching="false">
+      <!-- AP.F5.DataSource.ProcessorHealth.Powershell -->
+      <!-- Calls AP.F5.Probe.ProcessorHealth.Powershell wraps it with a scheduler -->
+      <DataSourceModuleType ID="AP.F5.DataSource.ProcessorHealth.Powershell" Accessibility="Public" Batching="false">
         <Configuration>
           <IncludeSchemaTypes>
             <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
@@ -82,7 +82,7 @@
                 <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
                 <SyncTime>$Config/SyncTime$</SyncTime>
               </DataSource>
-              <ProbeAction ID="PSScript" TypeID="AP.F5.Probe.DiskPartitionHealth.Powershell">
+              <ProbeAction ID="PSScript" TypeID="AP.F5.Probe.ProcessorHealth.Powershell">
                 <Debug>$Config/Debug$</Debug>
                 <DeviceAddress>$Config/DeviceAddress$</DeviceAddress>
                 <DevicePort>$Config/DevicePort$</DevicePort>
@@ -98,9 +98,9 @@
         </ModuleImplementation>
         <OutputType>System!System.PropertyBagData</OutputType>
       </DataSourceModuleType>
-      <!-- AP.F5.Probe.DiskPartitionHealth.Powershell -->
-      <!-- Runs script to Return All DiskPartitions (Index & Health) in property bags -->
-      <ProbeActionModuleType ID="AP.F5.Probe.DiskPartitionHealth.Powershell" Accessibility="Public" Batching="false">
+      <!-- AP.F5.Probe.ProcessorHealth.Powershell -->
+      <!-- Runs script to Return All Processors (Index & Health) in property bags -->
+      <ProbeActionModuleType ID="AP.F5.Probe.ProcessorHealth.Powershell" Accessibility="Public" Batching="false">
         <Configuration>
           <IncludeSchemaTypes>
             <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
@@ -117,8 +117,8 @@
           <Composite>
             <MemberModules>
               <ProbeAction ID="PSScript" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagTriggerOnlyProbe">
-                <ScriptName>Get-DiskPartitionHealth.ps1</ScriptName>
-                <ScriptBody>$IncludeFileContent/Scripts/Monitors/Get-DiskPartitionHealth.ps1$</ScriptBody>
+                <ScriptName>Get-ProcessorHealth.ps1</ScriptName>
+                <ScriptBody>$IncludeFileContent/Scripts/Monitors/Get-ProcessorHealth.ps1$</ScriptBody>
                 <SnapIns />
                 <Parameters>
                   <Parameter>
@@ -157,13 +157,13 @@
 
     <MonitorTypes>
 
-      <!-- AP.F5.Monitor.DiskPartitionHealth -->
-      <!-- Uses SNMP via Powershell to Get Health of All Device DiskPartitions -->
-      <UnitMonitorType ID="AP.F5.Monitor.DiskPartitionHealth.Powershell" Accessibility="Public">
+      <!-- AP.F5.Monitor.ProcessorHealth -->
+      <!-- Uses SNMP via Powershell to Get Health of All Device Processors -->
+      <UnitMonitorType ID="AP.F5.Monitor.ProcessorHealth.Powershell" Accessibility="Public">
         <MonitorTypeStates>
-          <MonitorTypeState ID="DiskPartitionHealthy" NoDetection="false" />
-          <MonitorTypeState ID="DiskPartitionWarning" NoDetection="false" />
-          <MonitorTypeState ID="DiskPartitionCritical" NoDetection="false" />        
+          <MonitorTypeState ID="ProcessorHealthy" NoDetection="false"/>
+          <MonitorTypeState ID="ProcessorWarning" NoDetection="false"/>
+          <MonitorTypeState ID="ProcessorCritical" NoDetection="false"/>
         </MonitorTypeStates>
         <Configuration>
           <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer"/>
@@ -172,102 +172,102 @@
           <xsd:element minOccurs="1" name="DeviceAddress" type="xsd:string"/>
           <xsd:element minOccurs="1" name="DevicePort" type="xsd:string"/>
           <xsd:element minOccurs="1" name="DeviceCommunity" type="xsd:string"/>
-          <xsd:element minOccurs="1" name="DiskPartitionIndex" type="xsd:string"/>
-          <xsd:element minOccurs="1" name="CriticalSpace" type="xsd:unsignedInt"/>
-          <xsd:element minOccurs="1" name="WarningSpace" type="xsd:unsignedInt"/>
+          <xsd:element minOccurs="1" name="ProcessorIndex" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="CriticalUsage" type="xsd:unsignedInt"/>
+          <xsd:element minOccurs="1" name="WarningUsage" type="xsd:unsignedInt"/>
         </Configuration>
         <OverrideableParameters>
           <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int"/>
           <OverrideableParameter ID="SyncTime" Selector="$Config/SyncTime$" ParameterType="string"/>
           <OverrideableParameter ID="Debug" Selector="$Config/Debug$" ParameterType="bool"/>
-          <OverrideableParameter ID="CriticalSpace" Selector="$Config/CriticalSpace$" ParameterType="int"/>
-          <OverrideableParameter ID="WarningSpace" Selector="$Config/WarningSpace$" ParameterType="int"/>
+          <OverrideableParameter ID="CriticalUsage" Selector="$Config/CriticalUsage$" ParameterType="int"/>
+          <OverrideableParameter ID="WarningUsage" Selector="$Config/WarningUsage$" ParameterType="int"/>
         </OverrideableParameters>
         <MonitorImplementation>
           <MemberModules>
-            <DataSource ID="DS" TypeID="AP.F5.DataSource.DiskPartitionHealth.Filtered">
+            <DataSource ID="DS" TypeID="AP.F5.DataSource.ProcessorHealth.Filtered">
               <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
               <SyncTime>$Config/SyncTime$</SyncTime>
               <Debug>$Config/Debug$</Debug>
               <DeviceAddress>$Config/DeviceAddress$</DeviceAddress>
               <DevicePort>$Config/DevicePort$</DevicePort>
               <DeviceCommunity>$Config/DeviceCommunity$</DeviceCommunity>
-              <DiskPartitionIndex>$Config/DiskPartitionIndex$</DiskPartitionIndex>
+              <ProcessorIndex>$Config/ProcessorIndex$</ProcessorIndex>
             </DataSource>
-            <ProbeAction ID="Probe" TypeID="AP.F5.Probe.DiskPartitionHealth.Powershell">
+            <ProbeAction ID="Probe" TypeID="AP.F5.Probe.ProcessorHealth.Powershell">
               <Debug>$Config/Debug$</Debug>
               <DeviceAddress>$Config/DeviceAddress$</DeviceAddress>
               <DevicePort>$Config/DevicePort$</DevicePort>
               <DeviceCommunity>$Config/DeviceCommunity$</DeviceCommunity>
             </ProbeAction>
-            <ConditionDetection ID="DiskPartitionHealthyFilter" TypeID="System!System.ExpressionFilter">
+            <ConditionDetection ID="ProcessorHealthyFilter" TypeID="System!System.ExpressionFilter">
               <Expression>
                 <SimpleExpression>
                   <ValueExpression>
-                    <XPathQuery Type="Integer">Property[@Name="Percentage"]</XPathQuery>
+                    <XPathQuery Type="Integer">Property[@Name='Percentage']</XPathQuery>
                   </ValueExpression>
-                  <Operator>Greater</Operator>
+                  <Operator>Less</Operator>
                   <ValueExpression>
-                    <Value Type="Integer">$Config/WarningSpace$</Value>
+                    <Value Type="Integer">$Config/WarningUsage$</Value>
                   </ValueExpression>
                 </SimpleExpression>
               </Expression>
             </ConditionDetection>
-            <ConditionDetection ID="DiskPartitionWarningFilter" TypeID="System!System.ExpressionFilter">
+            <ConditionDetection ID="ProcessorWarningFilter" TypeID="System!System.ExpressionFilter">
               <Expression>
                 <And>
                   <Expression>
                     <SimpleExpression>
                       <ValueExpression>
-                        <XPathQuery Type="Integer">Property[@Name="Percentage"]</XPathQuery>
+                        <XPathQuery Type="Integer">Property[@Name='Percentage']</XPathQuery>
                       </ValueExpression>
-                      <Operator>LessEqual</Operator>
+                      <Operator>GreaterEqual</Operator>
                       <ValueExpression>
-                        <Value Type="Integer">$Config/WarningSpace$</Value>
+                        <Value Type="Integer">$Config/WarningUsage$</Value>
                       </ValueExpression>
                     </SimpleExpression>
                   </Expression>
                   <Expression>
                     <SimpleExpression>
                       <ValueExpression>
-                        <XPathQuery Type="Integer">Property[@Name="Percentage"]</XPathQuery>
+                        <XPathQuery Type="Integer">Property[@Name='Percentage']</XPathQuery>
                       </ValueExpression>
-                      <Operator>GreaterEqual</Operator>
+                      <Operator>LessEqual</Operator>
                       <ValueExpression>
-                        <Value Type="Integer">$Config/CriticalSpace$</Value>
+                        <Value Type="Integer">$Config/CriticalUsage$</Value>
                       </ValueExpression>
                     </SimpleExpression>
                   </Expression>
                 </And>
               </Expression>
             </ConditionDetection>
-            <ConditionDetection ID="DiskPartitionCriticalFilter" TypeID="System!System.ExpressionFilter">
+            <ConditionDetection ID="ProcessorCriticalFilter" TypeID="System!System.ExpressionFilter">
               <Expression>
                 <SimpleExpression>
                   <ValueExpression>
-                    <XPathQuery Type="Integer">Property[@Name="Percentage"]</XPathQuery>
+                    <XPathQuery Type="Integer">Property[@Name='Percentage']</XPathQuery>
                   </ValueExpression>
-                  <Operator>Less</Operator>
+                  <Operator>Greater</Operator>
                   <ValueExpression>
-                    <Value Type="Integer">$Config/CriticalSpace$</Value>
+                    <Value Type="Integer">$Config/CriticalUsage$</Value>
                   </ValueExpression>
                 </SimpleExpression>
               </Expression>
             </ConditionDetection>
           </MemberModules>
           <RegularDetections>
-            <RegularDetection MonitorTypeStateID="DiskPartitionHealthy">
-              <Node ID="DiskPartitionHealthyFilter">
+            <RegularDetection MonitorTypeStateID="ProcessorHealthy">
+              <Node ID="ProcessorHealthyFilter">
                 <Node ID="DS" />
               </Node>
             </RegularDetection>
-            <RegularDetection MonitorTypeStateID="DiskPartitionWarning">
-              <Node ID="DiskPartitionWarningFilter">
+            <RegularDetection MonitorTypeStateID="ProcessorWarning">
+              <Node ID="ProcessorWarningFilter">
                 <Node ID="DS" />
               </Node>
             </RegularDetection>
-            <RegularDetection MonitorTypeStateID="DiskPartitionCritical">
-              <Node ID="DiskPartitionCriticalFilter">
+            <RegularDetection MonitorTypeStateID="ProcessorCritical">
+              <Node ID="ProcessorCriticalFilter">
                 <Node ID="DS" />
               </Node>
             </RegularDetection>
@@ -281,90 +281,82 @@
     <LanguagePack ID="ENU" IsDefault="true">
       <DisplayStrings>
 
-        <!-- AP.F5.DataSource.DiskPartitionHealth.Filtered -->
-        <DisplayString ElementID="AP.F5.DataSource.DiskPartitionHealth.Filtered">
-          <Name>DiskPartition Health Filtered Data Source</Name>
-          <Description>Filters Property Bags by DiskPartitionIndex to return the one property bag we want.</Description>
+        <!-- AP.F5.DataSource.ProcessorHealth.Filtered -->
+        <DisplayString ElementID="AP.F5.DataSource.ProcessorHealth.Filtered">
+          <Name>Processor Health Filtered Data Source</Name>
+          <Description>Filters Property Bags by ProcessorIndex to return the one property bag we want.</Description>
         </DisplayString>
-        <DisplayString ElementID="AP.F5.DataSource.DiskPartitionHealth.Filtered" SubElementID="IntervalSeconds">
+        <DisplayString ElementID="AP.F5.DataSource.ProcessorHealth.Filtered" SubElementID="IntervalSeconds">
           <Name>Interval Seconds</Name>
           <Description>Frequency in seconds that module is run.</Description>
         </DisplayString>
-        <DisplayString ElementID="AP.F5.DataSource.DiskPartitionHealth.Filtered" SubElementID="SyncTime">
+        <DisplayString ElementID="AP.F5.DataSource.ProcessorHealth.Filtered" SubElementID="SyncTime">
           <Name>Synchronisation Time</Name>
           <Description>Offset that this module is started from.</Description>
         </DisplayString>
-        <DisplayString ElementID="AP.F5.DataSource.DiskPartitionHealth.Filtered" SubElementID="Debug">
+        <DisplayString ElementID="AP.F5.DataSource.ProcessorHealth.Filtered" SubElementID="Debug">
           <Name>Debug</Name>
           <Description>Debug Flag, if true then additional info is posted to event log.</Description>
         </DisplayString>
 
-        <!-- AP.F5.DataSource.DiskPartitionHealth.Powershell -->
-        <DisplayString ElementID="AP.F5.DataSource.DiskPartitionHealth.Powershell">
-          <Name>DiskPartition Health Powershell Data Source</Name>
-          <Description>Gets all DiskPartition Health(s) as Property Bags</Description>
+        <!-- AP.F5.DataSource.ProcessorHealth.Powershell -->
+        <DisplayString ElementID="AP.F5.DataSource.ProcessorHealth.Powershell">
+          <Name>Processor Health Powershell Data Source</Name>
+          <Description>Gets all Processor Health(s) as Property Bags</Description>
         </DisplayString>
-        <DisplayString ElementID="AP.F5.DataSource.DiskPartitionHealth.Powershell" SubElementID="IntervalSeconds">
+        <DisplayString ElementID="AP.F5.DataSource.ProcessorHealth.Powershell" SubElementID="IntervalSeconds">
           <Name>Interval Seconds</Name>
           <Description>Frequency in seconds that module is run.</Description>
         </DisplayString>
-        <DisplayString ElementID="AP.F5.DataSource.DiskPartitionHealth.Powershell" SubElementID="SyncTime">
+        <DisplayString ElementID="AP.F5.DataSource.ProcessorHealth.Powershell" SubElementID="SyncTime">
           <Name>Synchronisation Time</Name>
           <Description>Offset that this module is started from.</Description>
         </DisplayString>
-        <DisplayString ElementID="AP.F5.DataSource.DiskPartitionHealth.Powershell" SubElementID="Debug">
+        <DisplayString ElementID="AP.F5.DataSource.ProcessorHealth.Powershell" SubElementID="Debug">
           <Name>Debug</Name>
           <Description>Debug Flag, if true then additional info is posted to event log.</Description>
         </DisplayString>
 
 
-        <!-- AP.F5.Probe.DiskPartitionHealth.Powershell -->
-        <DisplayString ElementID="AP.F5.Probe.DiskPartitionHealth.Powershell">
-          <Name>DiskPartition Health Powershell Probe</Name>
-          <Description>Gets all DiskPartition Health(s) as Property Bags</Description>
+        <!-- AP.F5.Probe.ProcessorHealth.Powershell -->
+        <DisplayString ElementID="AP.F5.Probe.ProcessorHealth.Powershell">
+          <Name>Processor Health Powershell Probe</Name>
+          <Description>Gets all Processor Health(s) as Property Bags</Description>
         </DisplayString>
-        <DisplayString ElementID="AP.F5.Probe.DiskPartitionHealth.Powershell" SubElementID="Debug">
+        <DisplayString ElementID="AP.F5.Probe.ProcessorHealth.Powershell" SubElementID="Debug">
           <Name>Debug</Name>
           <Description>Debug Flag, if true then additional info is posted to event log.</Description>
         </DisplayString>
 
-        <!-- AP.F5.Monitor.DiskPartitionHealth.Powershell -->
-        <DisplayString ElementID="AP.F5.Monitor.DiskPartitionHealth.Powershell">
-          <Name>DiskPartition Health Monitor Data Source</Name>
+        <!-- AP.F5.Monitor.ProcessorHealth.Powershell -->
+        <DisplayString ElementID="AP.F5.Monitor.ProcessorHealth.Powershell">
+          <Name>Processor Health Monitor Data Source</Name>
           <Description>Gets Node AvailabilityState via Powershell/SNMP (Cookdown compliant)</Description>
         </DisplayString>
-        <DisplayString ElementID="AP.F5.Monitor.DiskPartitionHealth.Powershell" SubElementID="IntervalSeconds">
+        <DisplayString ElementID="AP.F5.Monitor.ProcessorHealth.Powershell" SubElementID="IntervalSeconds">
           <Name>Interval Seconds</Name>
           <Description>Frequency in seconds that module is run.</Description>
         </DisplayString>
-        <DisplayString ElementID="AP.F5.Monitor.DiskPartitionHealth.Powershell" SubElementID="SyncTime">
+        <DisplayString ElementID="AP.F5.Monitor.ProcessorHealth.Powershell" SubElementID="SyncTime">
           <Name>Synchronisation Time</Name>
           <Description>Offset that this module is started from.</Description>
         </DisplayString>
-        <DisplayString ElementID="AP.F5.Monitor.DiskPartitionHealth.Powershell" SubElementID="Debug">
+        <DisplayString ElementID="AP.F5.Monitor.ProcessorHealth.Powershell" SubElementID="Debug">
           <Name>Debug</Name>
           <Description>Debug Flag, if true then additional info is posted to event log.</Description>
-        </DisplayString>
-        <DisplayString ElementID="AP.F5.Monitor.DiskPartitionHealth.Powershell" SubElementID="WarningSpace">
-          <Name>Free Space Warning Level (%)</Name>
-          <Description>Free Space Warning Level, if Free space is Greater than this level then Disk is Heathy.</Description>
-        </DisplayString>
-        <DisplayString ElementID="AP.F5.Monitor.DiskPartitionHealth.Powershell" SubElementID="CriticalSpace">
-          <Name>Free Space Critical Level (%)</Name>
-          <Description>Free Space Critical Level, if Free space is Less than this level then Disk is Critical.</Description>
         </DisplayString>
 
       </DisplayStrings>
 
       <KnowledgeArticles>
 
-        <!-- AP.F5.Base.Monitor.DiskPartition.FreeSpace -->
-        <KnowledgeArticle ElementID="AP.F5.Base.Monitor.DiskPartition.FreeSpace" Visible="true">
+        <!-- AP.F5.Base.Monitor.Processor.Usage -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Monitor.Processor.Usage" Visible="true">
           <MamlContent>
             <section xmlns="http://schemas.microsoft.com/maml/2004/10">
               <title>Summary</title>
               <para>
-                Uses SNMP to get Free Space (%), for all F5 Device Disk Partitions.
+                Uses SNMP to get Processor usage, average over last 5 minutes, for all F5 Device processors.
               </para>
               <table>
                 <title>Threshlolds</title>
@@ -383,10 +375,10 @@
                 </tableHeader>
                 <row>
                   <entry>
-                    <para>WarningSpace</para>
+                    <para>WarningUsage</para>
                   </entry>
                   <entry>
-                    <para>15</para>
+                    <para>80</para>
                   </entry>
                   <entry>
                     <para>YES</para>
@@ -394,10 +386,10 @@
                 </row>
                 <row>
                   <entry>
-                    <para>CriticalSpace</para>
+                    <para>CriticalUsage</para>
                   </entry>
                   <entry>
-                    <para>10</para>
+                    <para>90</para>
                   </entry>
                   <entry>
                     <para>YES</para>
@@ -421,7 +413,7 @@
                     <para>Healthy Condition</para>
                   </entry>
                   <entry>
-                    <para>&gt; WarningSpace</para>
+                    <para>&lt; WarningUsage</para>
                   </entry>
                 </row>
                 <row>
@@ -429,7 +421,7 @@
                     <para>Warning Condition</para>
                   </entry>
                   <entry>
-                    <para>&lt;=WarningSpace and &gt;=CriticalSpace</para>
+                    <para>&gt;=WarningUsage and &lt;=CriticalUsage</para>
                   </entry>
                 </row>
                 <row>
@@ -437,7 +429,7 @@
                     <para>Critical Condition</para>
                   </entry>
                   <entry>
-                    <para>&lt;CriticalSpace</para>
+                    <para>&gt;CriticalUsage</para>
                   </entry>
                 </row>
               </table>
@@ -447,10 +439,7 @@
               <para>SNMP OIDs Used;</para>
               <list>
                 <listItem>
-                  <para>.1.3.6.1.4.1.3375.2.1.7.3.2.1.3DiskPartition.Index - bigipTrafficMgmt.bigipSystem.sysHostInfoStat.sysHostDisk.sysHostDiskTable.sysHostDiskEntry.sysHostDiskTotalBlocks</para>
-                </listItem>
-                <listItem>
-                  <para>.1.3.6.1.4.1.3375.2.1.7.3.2.1.4DiskPartition.Index - bigipTrafficMgmt.bigipSystem.sysHostInfoStat.sysHostDisk.sysHostDiskTable.sysHostDiskEntry.sysHostDiskFreeBlocks</para>
+                  <para>.1.3.6.1.4.1.3375.2.1.7.5.2.1.35ProcessorIndex - bigipTrafficMgmt.bigipSystem.sysHostInfoStat.sysMultiHostCpu.sysMultiHostCpuTable.sysMultiHostCpuEntry.sysMultiHostCpuUsageRatio5m</para>
                 </listItem>
               </list>
             </section>

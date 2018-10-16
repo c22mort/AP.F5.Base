@@ -1,7 +1,7 @@
 <TemplateGroup>
   <Instances>
     <Instance ID="Instance8995ac57accc4b9791aa8e956e9cf6cb" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.DependencyMonitor" Version="1.0.0.0">
-      <DependencyMonitorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <DependencyMonitorConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <Algorithm>
           <Algorithm>WorstOf</Algorithm>
         </Algorithm>
@@ -26,7 +26,7 @@
       </DependencyMonitorConfig>
     </Instance>
     <Instance ID="Instanceb92916b4104d4db6acd8c08ae2a313fc" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.DependencyMonitor" Version="1.0.0.0">
-      <DependencyMonitorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <DependencyMonitorConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <Algorithm>
           <Algorithm>WorstOf</Algorithm>
         </Algorithm>
@@ -53,7 +53,8 @@
     <Instance ID="Instance55f3d5358411479f8f763d689973dee0" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.DependencyMonitor" Version="1.0.0.0">
       <DependencyMonitorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
         <Algorithm>
-          <Algorithm>WorstOf</Algorithm>
+          <Algorithm>Percentage</Algorithm>
+          <AlgorithmParameter>50</AlgorithmParameter>
         </Algorithm>
         <MemberMonitor>AP.F5.Base.Monitor.PowerSupply.Health</MemberMonitor>
         <MemberInMaintenance>Ignore</MemberInMaintenance>
@@ -76,7 +77,7 @@
       </DependencyMonitorConfig>
     </Instance>
     <Instance ID="Instance04d084da47de43a6a0d7897d45f3e1ff" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.DependencyMonitor" Version="1.0.0.0">
-      <DependencyMonitorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <DependencyMonitorConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <Algorithm>
           <Algorithm>WorstOf</Algorithm>
         </Algorithm>
@@ -101,7 +102,7 @@
       </DependencyMonitorConfig>
     </Instance>
     <Instance ID="Instanceb6006487c8634c0caeb5224f6d30e4e2" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.DependencyMonitor" Version="1.0.0.0">
-      <DependencyMonitorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <DependencyMonitorConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <Algorithm>
           <Algorithm>WorstOf</Algorithm>
         </Algorithm>
@@ -126,7 +127,7 @@
       </DependencyMonitorConfig>
     </Instance>
     <Instance ID="Instance93a542a6e83d4627b08e88e583bd1706" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.DependencyMonitor" Version="1.0.0.0">
-      <DependencyMonitorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <DependencyMonitorConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <Algorithm>
           <Algorithm>WorstOf</Algorithm>
         </Algorithm>
@@ -151,7 +152,7 @@
       </DependencyMonitorConfig>
     </Instance>
     <Instance ID="Instance119b12e92569446e8a79fcdccc884bc1" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.DependencyMonitor" Version="1.0.0.0">
-      <DependencyMonitorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <DependencyMonitorConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <Algorithm>
           <Algorithm>WorstOf</Algorithm>
         </Algorithm>
@@ -176,7 +177,7 @@
       </DependencyMonitorConfig>
     </Instance>
     <Instance ID="Instance83ccc5af79614396bc63b3e0a17e5759" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.DependencyMonitor" Version="1.0.0.0">
-      <DependencyMonitorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <DependencyMonitorConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <Algorithm>
           <Algorithm>WorstOf</Algorithm>
         </Algorithm>
@@ -201,7 +202,7 @@
       </DependencyMonitorConfig>
     </Instance>
     <Instance ID="Instancedf5e068dd9c64da58af29602967f528b" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.DependencyMonitor" Version="1.0.0.0">
-      <DependencyMonitorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <DependencyMonitorConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <Algorithm>
           <Algorithm>WorstOf</Algorithm>
         </Algorithm>
@@ -226,7 +227,7 @@
       </DependencyMonitorConfig>
     </Instance>
     <Instance ID="Instance4afd48d1c62a462185c97ffc6cedb794" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.DependencyMonitor" Version="1.0.0.0">
-      <DependencyMonitorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <DependencyMonitorConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <Algorithm>
           <Algorithm>WorstOf</Algorithm>
         </Algorithm>
@@ -251,7 +252,7 @@
       </DependencyMonitorConfig>
     </Instance>
     <Instance ID="Instance9c1b9c1e60f84307b1b575d17d411abb" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.DependencyMonitor" Version="1.0.0.0">
-      <DependencyMonitorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <DependencyMonitorConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <Algorithm>
           <Algorithm>WorstOf</Algorithm>
         </Algorithm>
@@ -276,7 +277,7 @@
       </DependencyMonitorConfig>
     </Instance>
     <Instance ID="Instancef21c7acdb85f47e58182949b88e4d02e" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.DependencyMonitor" Version="1.0.0.0">
-      <DependencyMonitorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <DependencyMonitorConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <Algorithm>
           <Algorithm>WorstOf</Algorithm>
         </Algorithm>

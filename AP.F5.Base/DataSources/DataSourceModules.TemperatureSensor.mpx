@@ -37,7 +37,7 @@
                 <Expression>
                   <SimpleExpression>
                     <ValueExpression>
-                      <XPathQuery Type="String">Property[@Name='TemperatureSensorIndex']</XPathQuery>
+                      <XPathQuery Type="String">Property[@Name='Index']</XPathQuery>
                     </ValueExpression>
                     <Operator>Equal</Operator>
                     <ValueExpression>

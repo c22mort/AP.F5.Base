@@ -59,6 +59,8 @@ $walkMode = [Lextm.SharpSnmpLib.Messaging.WalkMode]::WithinSubtree
 # bigipTrafficMgmt.bigipSystem.sysHostInfoStat.sysHostDisk.sysHostDiskTable.sysHostDiskEntry.sysHostDiskFreeBlocks
 [string]$sysHostDiskFreeBlocks = ".1.3.6.1.4.1.3375.2.1.7.3.2.1.4"
 
+Try {
+
 	# Create endpoint for SNMP server
 	$ip = [System.Net.IPAddress]::Parse($DeviceAddress)
 	$svr = New-Object System.Net.IpEndPoint ($ip, $DevicePort)
@@ -79,7 +81,7 @@ $walkMode = [Lextm.SharpSnmpLib.Messaging.WalkMode]::WithinSubtree
 	For($i=0; $i -lt $DiskPartitionIndexList.Count; $i++) {
 		
 		# Get DiskPartition Index from SNMP Result
-		$diskMountPoint = $DiskPartitionIndexList[$i].Data.ToString()
+		$DiskPartitionMountPoint = $DiskPartitionIndexList[$i].Data.ToString()
 		$snmpDiskPartitionIndex = $sysHostDiskPartition.TrimStart(".")
 		$DiskPartitionIndex = $DiskPartitionIndexList[$i].id.ToString() 
 		$DiskPartitionIndex = $DiskPartitionIndex -replace $snmpDiskPartitionIndex, ""
@@ -92,13 +94,18 @@ $walkMode = [Lextm.SharpSnmpLib.Messaging.WalkMode]::WithinSubtree
 		#Create a property bag.
 		$bag = $api.CreatePropertyBag()
 		$bag.AddValue("Index", $DiskPartitionIndex)
+		$bag.AddValue("MountPoint", $DiskPartitionMountPoint)
 		$bag.AddValue("Percentage", [int]$Percentage)
-		[string] $message = " Created Property bag for $diskMountPoint`r`n`r`n" + "Index : " + $DiskPartitionIndex + "`r`n" + "Percentage : " + $Percentage
+		[string] $message = " Created Property bag for $DiskPartitionMountPoint`r`n`r`n" + "Index : " + $DiskPartitionIndex + "`r`n" + "Percentage : " + $Percentage
 		Log-DebugEvent $SCRIPT_EVENT $message
 		#$api.Return($bag)
 		$bag		
 	}
-
+}
+Catch
+{
+	Log-DebugEvent $SCRIPT_EVENT "Could not Contact $DeviceAddress"
+}
 
 # Log Finished Message
 Log-DebugEvent $SCRIPT_ENDED " Script Ended."
