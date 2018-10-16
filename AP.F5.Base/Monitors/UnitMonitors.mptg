@@ -49,7 +49,7 @@ Memory Usage has changed to $Data/Context/Property[@Name='Percentage']$%
     <Instance ID="Instance4b4eb3e17909478ca5b8ee99395eea8d" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.UnitMonitor" Version="1.0.0.0">
       <UnitMonitorConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <MonitorType>AP.F5.Monitor.DiskPartitionHealth.Powershell</MonitorType>
-        <MonitorConfig>&lt;IntervalSeconds&gt;300&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;true&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;&lt;DiskPartitionIndex&gt;$Target/Property[Type="AP.F5.Device.DiskPartition"]/Index$&lt;/DiskPartitionIndex&gt;&lt;CriticalSpace&gt;10&lt;/CriticalSpace&gt;&lt;WarningSpace&gt;15&lt;/WarningSpace&gt;</MonitorConfig>
+        <MonitorConfig>&lt;IntervalSeconds&gt;300&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;false&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;&lt;DiskPartitionIndex&gt;$Target/Property[Type="AP.F5.Device.DiskPartition"]/Index$&lt;/DiskPartitionIndex&gt;&lt;CriticalSpace&gt;10&lt;/CriticalSpace&gt;&lt;WarningSpace&gt;15&lt;/WarningSpace&gt;</MonitorConfig>
         <MonitorOperationalStates>
           <OperationalState>
             <OperationalStateId>DiskPartitionHealthy</OperationalStateId>
@@ -95,9 +95,9 @@ Has Reported only $Data/Context/Property[@Name='Percentage']$% free Disk Space
       </UnitMonitorConfig>
     </Instance>
     <Instance ID="Instance1aab9c5eddfa4cbcbf3ea25592231aa6" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.UnitMonitor" Version="1.0.0.0">
-      <UnitMonitorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <UnitMonitorConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <MonitorType>AP.F5.Monitor.FanHealth.Powershell</MonitorType>
-        <MonitorConfig>&lt;IntervalSeconds&gt;300&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;true&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;&lt;FanIndex&gt;$Target/Property[Type="AP.F5.Device.Fan"]/Index$&lt;/FanIndex&gt;</MonitorConfig>
+        <MonitorConfig>&lt;IntervalSeconds&gt;300&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;false&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;&lt;FanIndex&gt;$Target/Property[Type="AP.F5.Device.Fan"]/Index$&lt;/FanIndex&gt;</MonitorConfig>
         <MonitorOperationalStates>
           <OperationalState>
             <OperationalStateId>FanHealthy</OperationalStateId>
@@ -136,9 +136,9 @@ Has changed Health State to $Data/Context/Property[@Name='FanHealth']$ (0 = Bad,
       </UnitMonitorConfig>
     </Instance>
     <Instance ID="Instancee34c27ed15e047e7901caf8b5663e966" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.UnitMonitor" Version="1.0.0.0">
-      <UnitMonitorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <UnitMonitorConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <MonitorType>AP.F5.Monitor.Device.FailoverState.Powershell</MonitorType>
-        <MonitorConfig>&lt;IntervalSeconds&gt;300&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;true&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Host/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Host/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Host/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;</MonitorConfig>
+        <MonitorConfig>&lt;IntervalSeconds&gt;300&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;false&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Host/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Host/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Host/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;</MonitorConfig>
         <MonitorOperationalStates>
           <OperationalState>
             <OperationalStateId>DeviceActive</OperationalStateId>
@@ -188,9 +188,9 @@ Failover State : $Data/Context/SnmpVarBinds/SnmpVarBind[1]/Value$
       </UnitMonitorConfig>
     </Instance>
     <Instance ID="Instancecb60db7f573c4e3a9f139053d3d490e6" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.UnitMonitor" Version="1.0.0.0">
-      <UnitMonitorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <UnitMonitorConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <MonitorType>AP.F5.Monitor.PowerSupplyHealth.Powershell</MonitorType>
-        <MonitorConfig>&lt;IntervalSeconds&gt;300&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;true&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;&lt;PowerSupplyIndex&gt;$Target/Property[Type="AP.F5.Device.PowerSupply"]/Index$&lt;/PowerSupplyIndex&gt;</MonitorConfig>
+        <MonitorConfig>&lt;IntervalSeconds&gt;300&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;false&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;&lt;PowerSupplyIndex&gt;$Target/Property[Type="AP.F5.Device.PowerSupply"]/Index$&lt;/PowerSupplyIndex&gt;</MonitorConfig>
         <MonitorOperationalStates>
           <OperationalState>
             <OperationalStateId>PowerSupplyGood</OperationalStateId>
@@ -236,7 +236,7 @@ Has changed Health State to $Data/Context/Property[@Name='PowerSupplyHealth']$ (
     <Instance ID="Instancefb9981d75ed64d4b95c3cc3f891c900a" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.UnitMonitor" Version="1.0.0.0">
       <UnitMonitorConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <MonitorType>AP.F5.Monitor.ProcessorHealth.Powershell</MonitorType>
-        <MonitorConfig>&lt;IntervalSeconds&gt;300&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;true&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;&lt;ProcessorIndex&gt;$Target/Property[Type="AP.F5.Device.Processor"]/Index$&lt;/ProcessorIndex&gt;&lt;CriticalUsage&gt;90&lt;/CriticalUsage&gt;&lt;WarningUsage&gt;80&lt;/WarningUsage&gt;</MonitorConfig>
+        <MonitorConfig>&lt;IntervalSeconds&gt;300&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;false&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;&lt;ProcessorIndex&gt;$Target/Property[Type="AP.F5.Device.Processor"]/Index$&lt;/ProcessorIndex&gt;&lt;CriticalUsage&gt;90&lt;/CriticalUsage&gt;&lt;WarningUsage&gt;80&lt;/WarningUsage&gt;</MonitorConfig>
         <MonitorOperationalStates>
           <OperationalState>
             <OperationalStateId>ProcessorHealthy</OperationalStateId>

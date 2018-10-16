@@ -1,15 +1,15 @@
 ﻿#==================================================================================
-# Script: 	Get-ProcessorHealth.ps1
-# Date:		11/10/18
+# Script: 	Get-TEmperatureSensorTemp.ps1
+# Date:		12/10/18
 # Author: 	Andi Patrick
-# Purpose:	Gets Processor Health via SNMP returns all as Property Bag
+# Purpose:	Gets Temperature Sensor Temp via SNMP returns all as Property Bag
 #==================================================================================
 
 # Get the named parameters
 param($Debug,$DeviceAddress,$DevicePort,$DeviceCommunity,$SharpSnmpLocation)
 
 #Constants used for event logging
-$SCRIPT_NAME			= 'Get-ProcessorHealth.ps1'
+$SCRIPT_NAME			= 'Get-TemperatureSensorTemp.ps1'
 $EVENT_LEVEL_ERROR 		= 1
 $VENT_LEVEL_WARNING 	= 2
 $EVENT_LEVEL_INFO 		= 4
@@ -52,40 +52,42 @@ $ver = [Lextm.SharpSnmpLib.VersionCode]::V2
 $walkMode = [Lextm.SharpSnmpLib.Messaging.WalkMode]::WithinSubtree
 
 # OIDs used
-# bigipTrafficMgmt.bigipSystem.sysHostInfoStat.sysMultiHostCpu.sysMultiHostCpuTable.sysMultiHostCpuEntry.sysMultiHostCpuIndex
-[string]$sysMultiHostCpuIndex = ".1.3.6.1.4.1.3375.2.1.7.5.2.1.2"
-# bigipTrafficMgmt.bigipSystem.sysHostInfoStat.sysMultiHostCpu.sysMultiHostCpuTable.sysMultiHostCpuEntry.sysMultiHostCpuUsageRatio5m
-[string]$sysMultiHostCpuUsageRatio5m = ".1.3.6.1.4.1.3375.2.1.7.5.2.1.35" 
+# bigipTrafficMgmt.bigipSystem.sysPlatform.sysChassis.sysChassisTemp.sysChassisTempTable.sysChassisTempEntry.sysChassisTempIndex
+[string]$sysChassisTempIndex = ".1.3.6.1.4.1.3375.2.1.3.2.3.2.1.1"
+# bigipTrafficMgmt.bigipSystem.sysPlatform.sysChassis.sysChassisTemp.sysChassisTempTable.sysChassisTempEntry.sysChassisTempTemperature
+[string]$sysChassisTempTemperature = ".1.3.6.1.4.1.3375.2.1.3.2.3.2.1.2" 
 
 Try {
 	# Create endpoint for SNMP server
 	$ip = [System.Net.IPAddress]::Parse($DeviceAddress)
 	$svr = New-Object System.Net.IpEndPoint ($ip, $DevicePort)
 
-	# Get ProcessorIndex from SNMP
-	$ProcessorIndexList = New-Object 'System.Collections.Generic.List[Lextm.SharpSnmpLib.Variable]'
-	[Lextm.SharpSnmpLib.Messaging.Messenger]::Walk($ver, $svr, $DeviceCommunity, $sysMultiHostCpuIndex , $ProcessorIndexList, 3000, $walkMode)
+	# Get TemperatureSensorIndex from SNMP
+	$IndexList = New-Object 'System.Collections.Generic.List[Lextm.SharpSnmpLib.Variable]'
+	[Lextm.SharpSnmpLib.Messaging.Messenger]::Walk($ver, $svr, $DeviceCommunity, $sysChassisTempIndex , $IndexList, 3000, $walkMode)
 
-	# Get ProcessorUsage from SNMP
-	$ProcessorUsageList = New-Object 'System.Collections.Generic.List[Lextm.SharpSnmpLib.Variable]'
-	[Lextm.SharpSnmpLib.Messaging.Messenger]::Walk($ver, $svr, $DeviceCommunity, $sysMultiHostCpuUsageRatio5m , $ProcessorUsageList, 3000, $walkMode)
+	# Get TemperatureSensorHealth from SNMP
+	$TemperatureList = New-Object 'System.Collections.Generic.List[Lextm.SharpSnmpLib.Variable]'
+	[Lextm.SharpSnmpLib.Messaging.Messenger]::Walk($ver, $svr, $DeviceCommunity, $sysChassisTempTemperature , $TemperatureList, 3000, $walkMode)
 
 
 	# Loop Through Results
-	For($i=0; $i -lt $ProcessorIndexList.Count; $i++) {
+	For($i=0; $i -lt $IndexList.Count; $i++) {
+		
+		# Get TEmperature Sensor Index from SNMP Result
+		$snmpTempSensorIndex = $sysChassisTempIndex.TrimStart(".")
+		$TempSensorIndex = $IndexList[$i].id.ToString() 
+		$TempSensorIndex = $TempSensorIndex -replace $snmpTempSensorIndex, ""
+		$TempSensorIndex = $TempSensorIndex.TrimStart(".")
 
-		# Get Processor Index from SNMP Result
-		$snmpProcessorIndex = $sysMultiHostCpuIndex.TrimStart(".")
-		$ProcessorIndex = $ProcessorIndexList[$i].id.ToString() 
-		$ProcessorIndex = $ProcessorIndex -replace $snmpProcessorIndex, ""
-		# Get ProcessorHealth
-		$Percentage = $ProcessorUsageList[$i].Data.ToString()
+		# Get Temperature
+		$Temperature = $TemperatureList[$i].Data.ToString()
 
 		#Create a property bag.
 		$bag = $api.CreatePropertyBag()
-		$bag.AddValue("Index", $ProcessorIndex)
-		$bag.AddValue("Percentage", [int]$Percentage)
-		[string] $message = " Created Property bag for Processor-$i`r`n`r`n" + "Index : " + $ProcessorIndex + "`r`n" + "Percentage : " + $Percentage
+		$bag.AddValue("Index", [int]$TempSensorIndex)
+		$bag.AddValue("Temperature", [int]$Temperature)
+		[string] $message = " Created Property bag for TempSensor-$TempSensorIndex`r`n`r`n" + "Index : " + $TempSensorIndex + "`r`n" + "Temp. : " + $Temperature
 		Log-DebugEvent $SCRIPT_EVENT $message
 		#$api.Return($bag)
 		$bag		

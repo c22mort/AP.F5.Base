@@ -2,8 +2,10 @@
   <TypeDefinitions>
     <ModuleTypes>
 
+      <!-- DATASOURCES-->
+      
       <!-- AP.F5.DataSource.Device.FailoverState.Powershell -->
-      <!-- Calls AP.F5.Probe.Device.FailoverState.Powershell wraps it with a scheduler -->
+      <!-- Calls AP.F5.Probe.Device.FailoverState.Powershell wraps it with a scheduler. Returns as Property Bag -->
       <DataSourceModuleType ID="AP.F5.DataSource.Device.FailoverState.Powershell" Accessibility="Public" Batching="false">
         <Configuration>
           <IncludeSchemaTypes>
@@ -44,8 +46,318 @@
         </ModuleImplementation>
         <OutputType>System!System.PropertyBagData</OutputType>
       </DataSourceModuleType>
+
+      <!-- AP.F5.DataSource.Device.ClientSideConnections.Powershell -->
+      <!-- Calls AP.F5.Probe.Device.ClientSideConnections.Powershell wraps it with a scheduler. Returns as Performance Data -->
+      <DataSourceModuleType ID="AP.F5.DataSource.Device.ClientSideConnections.Powershell" Accessibility="Public" Batching="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer"/>
+          <xsd:element minOccurs="1" name="SyncTime" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="Debug" type="xsd:boolean"/>
+          <xsd:element minOccurs="1" name="DeviceAddress" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DevicePort" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DeviceCommunity" type="xsd:string"/>
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int"/>
+          <OverrideableParameter ID="SyncTime" Selector="$Config/SyncTime$" ParameterType="string"/>
+          <OverrideableParameter ID="Debug" Selector="$Config/Debug$" ParameterType="bool"/>
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="Scheduler" TypeID="System!System.SimpleScheduler">
+                <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+                <SyncTime>$Config/SyncTime$</SyncTime>
+              </DataSource>
+              <ProbeAction ID="PSScript" TypeID="AP.F5.Probe.Device.ClientSideConnections.Powershell">
+                <Debug>$Config/Debug$</Debug>
+                <DeviceAddress>$Config/DeviceAddress$</DeviceAddress>
+                <DevicePort>$Config/DevicePort$</DevicePort>
+                <DeviceCommunity>$Config/DeviceCommunity$</DeviceCommunity>
+              </ProbeAction>
+              <ConditionDetection ID="PerfMapper" TypeID="Perf!System.Performance.DataGenericMapper">
+                <ObjectName>Device</ObjectName>
+                <CounterName>Conenctions</CounterName>
+                <InstanceName>Client</InstanceName>
+                <Value>$Data/Property[@Name="Connections"]$</Value>
+              </ConditionDetection>
+            </MemberModules>
+            <Composition>
+              <Node ID="PerfMapper">
+                <Node ID="PSScript">
+                  <Node ID="Scheduler" />
+                </Node>
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>Perf!System.Performance.Data</OutputType>
+      </DataSourceModuleType>
+
+      <!-- AP.F5.DataSource.Device.ServerSideConnections.Powershell -->
+      <!-- Calls AP.F5.Probe.Device.ServerSideConnections.Powershell wraps it with a scheduler. Returns as Performance Data -->
+      <DataSourceModuleType ID="AP.F5.DataSource.Device.ServerSideConnections.Powershell" Accessibility="Public" Batching="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer"/>
+          <xsd:element minOccurs="1" name="SyncTime" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="Debug" type="xsd:boolean"/>
+          <xsd:element minOccurs="1" name="DeviceAddress" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DevicePort" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DeviceCommunity" type="xsd:string"/>
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int"/>
+          <OverrideableParameter ID="SyncTime" Selector="$Config/SyncTime$" ParameterType="string"/>
+          <OverrideableParameter ID="Debug" Selector="$Config/Debug$" ParameterType="bool"/>
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="Scheduler" TypeID="System!System.SimpleScheduler">
+                <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+                <SyncTime>$Config/SyncTime$</SyncTime>
+              </DataSource>
+              <ProbeAction ID="PSScript" TypeID="AP.F5.Probe.Device.ServerSideConnections.Powershell">
+                <Debug>$Config/Debug$</Debug>
+                <DeviceAddress>$Config/DeviceAddress$</DeviceAddress>
+                <DevicePort>$Config/DevicePort$</DevicePort>
+                <DeviceCommunity>$Config/DeviceCommunity$</DeviceCommunity>
+              </ProbeAction>
+              <ConditionDetection ID="PerfMapper" TypeID="Perf!System.Performance.DataGenericMapper">
+                <ObjectName>Device</ObjectName>
+                <CounterName>Conenctions</CounterName>
+                <InstanceName>Server</InstanceName>
+                <Value>$Data/Property[@Name="Connections"]$</Value>
+              </ConditionDetection>
+            </MemberModules>
+            <Composition>
+              <Node ID="PerfMapper">
+                <Node ID="PSScript">
+                  <Node ID="Scheduler" />
+                </Node>
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>Perf!System.Performance.Data</OutputType>
+      </DataSourceModuleType>
+
+      <!-- AP.F5.DataSource.Device.ClientSideInboundKb.Powershell -->
+      <!-- Calls AP.F5.Probe.Device.ClientSideInboundKb.Powershell wraps it with a scheduler. Returns as Performance Data -->
+      <DataSourceModuleType ID="AP.F5.DataSource.Device.ClientSideInboundKb.Powershell" Accessibility="Public" Batching="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer"/>
+          <xsd:element minOccurs="1" name="SyncTime" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="Debug" type="xsd:boolean"/>
+          <xsd:element minOccurs="1" name="DeviceAddress" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DevicePort" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DeviceCommunity" type="xsd:string"/>
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int"/>
+          <OverrideableParameter ID="SyncTime" Selector="$Config/SyncTime$" ParameterType="string"/>
+          <OverrideableParameter ID="Debug" Selector="$Config/Debug$" ParameterType="bool"/>
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="Scheduler" TypeID="System!System.SimpleScheduler">
+                <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+                <SyncTime>$Config/SyncTime$</SyncTime>
+              </DataSource>
+              <ProbeAction ID="PSScript" TypeID="AP.F5.Probe.Device.ClientSideInboundKb.Powershell">
+                <Debug>$Config/Debug$</Debug>
+                <DeviceAddress>$Config/DeviceAddress$</DeviceAddress>
+                <DevicePort>$Config/DevicePort$</DevicePort>
+                <DeviceCommunity>$Config/DeviceCommunity$</DeviceCommunity>
+              </ProbeAction>
+              <ConditionDetection ID="PerfMapper" TypeID="Perf!System.Performance.DataGenericMapper">
+                <ObjectName>Device</ObjectName>
+                <CounterName>Kb/Inbound</CounterName>
+                <InstanceName>Client</InstanceName>
+                <Value>$Data/Property[@Name="NetworkKb"]$</Value>
+              </ConditionDetection>
+            </MemberModules>
+            <Composition>
+              <Node ID="PerfMapper">
+                <Node ID="PSScript">
+                  <Node ID="Scheduler" />
+                </Node>
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>Perf!System.Performance.Data</OutputType>
+      </DataSourceModuleType>
+
+      <!-- AP.F5.DataSource.Device.ServerSideInboundKb.Powershell -->
+      <!-- Calls AP.F5.Probe.Device.ServerSideInboundKb.Powershell wraps it with a scheduler. Returns as Performance Data -->
+      <DataSourceModuleType ID="AP.F5.DataSource.Device.ServerSideInboundKb.Powershell" Accessibility="Public" Batching="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer"/>
+          <xsd:element minOccurs="1" name="SyncTime" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="Debug" type="xsd:boolean"/>
+          <xsd:element minOccurs="1" name="DeviceAddress" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DevicePort" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DeviceCommunity" type="xsd:string"/>
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int"/>
+          <OverrideableParameter ID="SyncTime" Selector="$Config/SyncTime$" ParameterType="string"/>
+          <OverrideableParameter ID="Debug" Selector="$Config/Debug$" ParameterType="bool"/>
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="Scheduler" TypeID="System!System.SimpleScheduler">
+                <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+                <SyncTime>$Config/SyncTime$</SyncTime>
+              </DataSource>
+              <ProbeAction ID="PSScript" TypeID="AP.F5.Probe.Device.ServerSideInboundKb.Powershell">
+                <Debug>$Config/Debug$</Debug>
+                <DeviceAddress>$Config/DeviceAddress$</DeviceAddress>
+                <DevicePort>$Config/DevicePort$</DevicePort>
+                <DeviceCommunity>$Config/DeviceCommunity$</DeviceCommunity>
+              </ProbeAction>
+              <ConditionDetection ID="PerfMapper" TypeID="Perf!System.Performance.DataGenericMapper">
+                <ObjectName>Device</ObjectName>
+                <CounterName>Kb/Inbound</CounterName>
+                <InstanceName>Server</InstanceName>
+                <Value>$Data/Property[@Name="NetworkKb"]$</Value>
+              </ConditionDetection>
+            </MemberModules>
+            <Composition>
+              <Node ID="PerfMapper">
+                <Node ID="PSScript">
+                  <Node ID="Scheduler" />
+                </Node>
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>Perf!System.Performance.Data</OutputType>
+      </DataSourceModuleType>
+
+      <!-- AP.F5.DataSource.Device.ClientSideOutboundKb.Powershell -->
+      <!-- Calls AP.F5.Probe.Device.ClientSideOutboundKb.Powershell wraps it with a scheduler. Returns as Performance Data -->
+      <DataSourceModuleType ID="AP.F5.DataSource.Device.ClientSideOutboundKb.Powershell" Accessibility="Public" Batching="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer"/>
+          <xsd:element minOccurs="1" name="SyncTime" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="Debug" type="xsd:boolean"/>
+          <xsd:element minOccurs="1" name="DeviceAddress" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DevicePort" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DeviceCommunity" type="xsd:string"/>
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int"/>
+          <OverrideableParameter ID="SyncTime" Selector="$Config/SyncTime$" ParameterType="string"/>
+          <OverrideableParameter ID="Debug" Selector="$Config/Debug$" ParameterType="bool"/>
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="Scheduler" TypeID="System!System.SimpleScheduler">
+                <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+                <SyncTime>$Config/SyncTime$</SyncTime>
+              </DataSource>
+              <ProbeAction ID="PSScript" TypeID="AP.F5.Probe.Device.ClientSideOutboundKb.Powershell">
+                <Debug>$Config/Debug$</Debug>
+                <DeviceAddress>$Config/DeviceAddress$</DeviceAddress>
+                <DevicePort>$Config/DevicePort$</DevicePort>
+                <DeviceCommunity>$Config/DeviceCommunity$</DeviceCommunity>
+              </ProbeAction>
+              <ConditionDetection ID="PerfMapper" TypeID="Perf!System.Performance.DataGenericMapper">
+                <ObjectName>Device</ObjectName>
+                <CounterName>Kb/Outbound</CounterName>
+                <InstanceName>Client</InstanceName>
+                <Value>$Data/Property[@Name="NetworkKb"]$</Value>
+              </ConditionDetection>
+            </MemberModules>
+            <Composition>
+              <Node ID="PerfMapper">
+                <Node ID="PSScript">
+                  <Node ID="Scheduler" />
+                </Node>
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>Perf!System.Performance.Data</OutputType>
+      </DataSourceModuleType>
+
+      <!-- AP.F5.DataSource.Device.ServerSideOutboundKb.Powershell -->
+      <!-- Calls AP.F5.Probe.Device.ServerSideOutboundKb.Powershell wraps it with a scheduler. Returns as Performance Data -->
+      <DataSourceModuleType ID="AP.F5.DataSource.Device.ServerSideOutboundKb.Powershell" Accessibility="Public" Batching="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer"/>
+          <xsd:element minOccurs="1" name="SyncTime" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="Debug" type="xsd:boolean"/>
+          <xsd:element minOccurs="1" name="DeviceAddress" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DevicePort" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DeviceCommunity" type="xsd:string"/>
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int"/>
+          <OverrideableParameter ID="SyncTime" Selector="$Config/SyncTime$" ParameterType="string"/>
+          <OverrideableParameter ID="Debug" Selector="$Config/Debug$" ParameterType="bool"/>
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="Scheduler" TypeID="System!System.SimpleScheduler">
+                <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+                <SyncTime>$Config/SyncTime$</SyncTime>
+              </DataSource>
+              <ProbeAction ID="PSScript" TypeID="AP.F5.Probe.Device.ServerSideOutboundKb.Powershell">
+                <Debug>$Config/Debug$</Debug>
+                <DeviceAddress>$Config/DeviceAddress$</DeviceAddress>
+                <DevicePort>$Config/DevicePort$</DevicePort>
+                <DeviceCommunity>$Config/DeviceCommunity$</DeviceCommunity>
+              </ProbeAction>
+              <ConditionDetection ID="PerfMapper" TypeID="Perf!System.Performance.DataGenericMapper">
+                <ObjectName>Device</ObjectName>
+                <CounterName>Kb/Outbound</CounterName>
+                <InstanceName>Server</InstanceName>
+                <Value>$Data/Property[@Name="NetworkKb"]$</Value>
+              </ConditionDetection>
+            </MemberModules>
+            <Composition>
+              <Node ID="PerfMapper">
+                <Node ID="PSScript">
+                  <Node ID="Scheduler" />
+                </Node>
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>Perf!System.Performance.Data</OutputType>
+      </DataSourceModuleType>
+
+
+      <!-- PROBES-->
+      
       <!-- AP.F5.Probe.Device.FailoverState.Powershell -->
-      <!-- Runs script to Return All Memorys (Index & Health) in property bags -->
+      <!-- Runs script to Return Device FailoverState in a property bag -->
       <ProbeActionModuleType ID="AP.F5.Probe.Device.FailoverState.Powershell" Accessibility="Public" Batching="false">
         <Configuration>
           <IncludeSchemaTypes>
@@ -63,7 +375,7 @@
           <Composite>
             <MemberModules>
               <ProbeAction ID="PSScript" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagTriggerOnlyProbe">
-                <ScriptName>Get-Device.FailoverState.ps1</ScriptName>
+                <ScriptName>Get-DeviceFailoverState.ps1</ScriptName>
                 <ScriptBody>$IncludeFileContent/Scripts/Monitors/Get-DeviceFailoverState.ps1$</ScriptBody>
                 <SnapIns />
                 <Parameters>
@@ -99,12 +411,349 @@
         <OutputType>System!System.PropertyBagData</OutputType>
         <TriggerOnly>true</TriggerOnly>
       </ProbeActionModuleType>
+    
+      <!-- AP.F5.Probe.Device.ClientSideConnections.Powershell -->
+      <!-- Runs script to Return Device Client Side Connections in a property bag-->
+      <ProbeActionModuleType ID="AP.F5.Probe.Device.ClientSideConnections.Powershell" Accessibility="Public" Batching="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="Debug" type="xsd:boolean"/>
+          <xsd:element minOccurs="1" name="DeviceAddress" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DevicePort" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DeviceCommunity" type="xsd:string"/>
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="Debug" Selector="$Config/Debug$" ParameterType="bool"/>
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <ProbeAction ID="PSScript" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagTriggerOnlyProbe">
+                <ScriptName>Get-DeviceClientSideConnections.ps1</ScriptName>
+                <ScriptBody>$IncludeFileContent/Scripts/Rules/Get-DeviceClientSideConnections.ps1$</ScriptBody>
+                <SnapIns />
+                <Parameters>
+                  <Parameter>
+                    <Name>DeviceAddress</Name>
+                    <Value>$Config/DeviceAddress$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>DevicePort</Name>
+                    <Value>$Config/DevicePort$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>DeviceCommunity</Name>
+                    <Value>$Config/DeviceCommunity$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>debug</Name>
+                    <Value>$Config/Debug$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>SharpSnmpLocation</Name>
+                    <Value>$FileResource[Name="AP.F5.SharpSnmpLib"]/Path$</Value>
+                  </Parameter>
+                </Parameters>
+                <TimeoutSeconds>60</TimeoutSeconds>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="PSScript" />
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.PropertyBagData</OutputType>
+        <TriggerOnly>true</TriggerOnly>
+      </ProbeActionModuleType>
+
+      <!-- AP.F5.Probe.Device.ServerSideConnections.Powershell -->
+      <!-- Runs script to Return Device Server-Side Connnections in a property bag -->
+      <ProbeActionModuleType ID="AP.F5.Probe.Device.ServerSideConnections.Powershell" Accessibility="Public" Batching="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="Debug" type="xsd:boolean"/>
+          <xsd:element minOccurs="1" name="DeviceAddress" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DevicePort" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DeviceCommunity" type="xsd:string"/>
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="Debug" Selector="$Config/Debug$" ParameterType="bool"/>
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <ProbeAction ID="PSScript" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagTriggerOnlyProbe">
+                <ScriptName>Get-DeviceServerSideConnections.ps1</ScriptName>
+                <ScriptBody>$IncludeFileContent/Scripts/Rules/Get-DeviceServerSideConnections.ps1$</ScriptBody>
+                <SnapIns />
+                <Parameters>
+                  <Parameter>
+                    <Name>DeviceAddress</Name>
+                    <Value>$Config/DeviceAddress$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>DevicePort</Name>
+                    <Value>$Config/DevicePort$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>DeviceCommunity</Name>
+                    <Value>$Config/DeviceCommunity$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>debug</Name>
+                    <Value>$Config/Debug$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>SharpSnmpLocation</Name>
+                    <Value>$FileResource[Name="AP.F5.SharpSnmpLib"]/Path$</Value>
+                  </Parameter>
+                </Parameters>
+                <TimeoutSeconds>60</TimeoutSeconds>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="PSScript" />
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.PropertyBagData</OutputType>
+        <TriggerOnly>true</TriggerOnly>
+      </ProbeActionModuleType>
+
+      <!-- AP.F5.Probe.Device.ClientSideInboundKb.Powershell -->
+      <!-- Runs script to Return Device Client-Side Inbound Kb in a property bag -->
+      <ProbeActionModuleType ID="AP.F5.Probe.Device.ClientSideInboundKb.Powershell" Accessibility="Public" Batching="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="Debug" type="xsd:boolean"/>
+          <xsd:element minOccurs="1" name="DeviceAddress" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DevicePort" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DeviceCommunity" type="xsd:string"/>
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="Debug" Selector="$Config/Debug$" ParameterType="bool"/>
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <ProbeAction ID="PSScript" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagTriggerOnlyProbe">
+                <ScriptName>Get-DeviceClientSideInboundKb.ps1</ScriptName>
+                <ScriptBody>$IncludeFileContent/Scripts/Rules/Get-DeviceClientSideInboundKb.ps1$</ScriptBody>
+                <SnapIns />
+                <Parameters>
+                  <Parameter>
+                    <Name>DeviceAddress</Name>
+                    <Value>$Config/DeviceAddress$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>DevicePort</Name>
+                    <Value>$Config/DevicePort$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>DeviceCommunity</Name>
+                    <Value>$Config/DeviceCommunity$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>debug</Name>
+                    <Value>$Config/Debug$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>SharpSnmpLocation</Name>
+                    <Value>$FileResource[Name="AP.F5.SharpSnmpLib"]/Path$</Value>
+                  </Parameter>
+                </Parameters>
+                <TimeoutSeconds>60</TimeoutSeconds>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="PSScript" />
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.PropertyBagData</OutputType>
+        <TriggerOnly>true</TriggerOnly>
+      </ProbeActionModuleType>
+
+      <!-- AP.F5.Probe.Device.ServerSideInboundKb.Powershell -->
+      <!-- Runs script to Return Device Server-Side Inbound Kb in a property bag -->
+      <ProbeActionModuleType ID="AP.F5.Probe.Device.ServerSideInboundKb.Powershell" Accessibility="Public" Batching="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="Debug" type="xsd:boolean"/>
+          <xsd:element minOccurs="1" name="DeviceAddress" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DevicePort" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DeviceCommunity" type="xsd:string"/>
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="Debug" Selector="$Config/Debug$" ParameterType="bool"/>
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <ProbeAction ID="PSScript" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagTriggerOnlyProbe">
+                <ScriptName>Get-DeviceServerSideInboundKb.ps1</ScriptName>
+                <ScriptBody>$IncludeFileContent/Scripts/Rules/Get-DeviceServerSideInboundKb.ps1$</ScriptBody>
+                <SnapIns />
+                <Parameters>
+                  <Parameter>
+                    <Name>DeviceAddress</Name>
+                    <Value>$Config/DeviceAddress$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>DevicePort</Name>
+                    <Value>$Config/DevicePort$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>DeviceCommunity</Name>
+                    <Value>$Config/DeviceCommunity$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>debug</Name>
+                    <Value>$Config/Debug$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>SharpSnmpLocation</Name>
+                    <Value>$FileResource[Name="AP.F5.SharpSnmpLib"]/Path$</Value>
+                  </Parameter>
+                </Parameters>
+                <TimeoutSeconds>60</TimeoutSeconds>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="PSScript" />
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.PropertyBagData</OutputType>
+        <TriggerOnly>true</TriggerOnly>
+      </ProbeActionModuleType>
+
+      <!-- AP.F5.Probe.Device.ClientSideOutboundKb.Powershell -->
+      <!-- Runs script to Return Device Client-Side Outbound Kb in a property bag -->
+      <ProbeActionModuleType ID="AP.F5.Probe.Device.ClientSideOutboundKb.Powershell" Accessibility="Public" Batching="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="Debug" type="xsd:boolean"/>
+          <xsd:element minOccurs="1" name="DeviceAddress" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DevicePort" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DeviceCommunity" type="xsd:string"/>
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="Debug" Selector="$Config/Debug$" ParameterType="bool"/>
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <ProbeAction ID="PSScript" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagTriggerOnlyProbe">
+                <ScriptName>Get-DeviceClientSideOutboundKb.ps1</ScriptName>
+                <ScriptBody>$IncludeFileContent/Scripts/Rules/Get-DeviceClientSideOutboundKb.ps1$</ScriptBody>
+                <SnapIns />
+                <Parameters>
+                  <Parameter>
+                    <Name>DeviceAddress</Name>
+                    <Value>$Config/DeviceAddress$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>DevicePort</Name>
+                    <Value>$Config/DevicePort$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>DeviceCommunity</Name>
+                    <Value>$Config/DeviceCommunity$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>debug</Name>
+                    <Value>$Config/Debug$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>SharpSnmpLocation</Name>
+                    <Value>$FileResource[Name="AP.F5.SharpSnmpLib"]/Path$</Value>
+                  </Parameter>
+                </Parameters>
+                <TimeoutSeconds>60</TimeoutSeconds>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="PSScript" />
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.PropertyBagData</OutputType>
+        <TriggerOnly>true</TriggerOnly>
+      </ProbeActionModuleType>
+
+      <!-- AP.F5.Probe.Device.ServerSideOutboundKb.Powershell -->
+      <!-- Runs script to Return Device Server-Side Outbound Kb in a property bag -->
+      <ProbeActionModuleType ID="AP.F5.Probe.Device.ServerSideOutboundKb.Powershell" Accessibility="Public" Batching="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="Debug" type="xsd:boolean"/>
+          <xsd:element minOccurs="1" name="DeviceAddress" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DevicePort" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DeviceCommunity" type="xsd:string"/>
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="Debug" Selector="$Config/Debug$" ParameterType="bool"/>
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <ProbeAction ID="PSScript" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagTriggerOnlyProbe">
+                <ScriptName>Get-DeviceServerSideOutboundKb.ps1</ScriptName>
+                <ScriptBody>$IncludeFileContent/Scripts/Rules/Get-DeviceServerSideOutboundKb.ps1$</ScriptBody>
+                <SnapIns />
+                <Parameters>
+                  <Parameter>
+                    <Name>DeviceAddress</Name>
+                    <Value>$Config/DeviceAddress$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>DevicePort</Name>
+                    <Value>$Config/DevicePort$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>DeviceCommunity</Name>
+                    <Value>$Config/DeviceCommunity$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>debug</Name>
+                    <Value>$Config/Debug$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>SharpSnmpLocation</Name>
+                    <Value>$FileResource[Name="AP.F5.SharpSnmpLib"]/Path$</Value>                    
+                  </Parameter>
+                </Parameters>
+                <TimeoutSeconds>60</TimeoutSeconds>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="PSScript" />
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.PropertyBagData</OutputType>
+        <TriggerOnly>true</TriggerOnly>
+      </ProbeActionModuleType>
+
     </ModuleTypes>
 
     <MonitorTypes>
 
       <!-- AP.F5.Monitor.Device.FailoverState -->
-      <!-- Uses SNMP via Powershell to Get Health of All Device Memorys -->
+      <!-- Uses SNMP via Powershell to Get FailoverState of Device -->
       <UnitMonitorType ID="AP.F5.Monitor.Device.FailoverState.Powershell" Accessibility="Public">
         <MonitorTypeStates>
           <MonitorTypeState ID="DeviceActive" NoDetection="false" />
@@ -214,12 +863,15 @@
           </RegularDetections>
         </MonitorImplementation>
       </UnitMonitorType>
+      
     </MonitorTypes>
   </TypeDefinitions>
 
   <LanguagePacks>
     <LanguagePack ID="ENU" IsDefault="true">
       <DisplayStrings>
+
+        <!-- DATASOURCES -->
 
         <!-- AP.F5.DataSource.Device.FailoverState.Powershell -->
         <DisplayString ElementID="AP.F5.DataSource.Device.FailoverState.Powershell">
@@ -239,7 +891,116 @@
           <Description>Debug Flag, if true then additional info is posted to event log.</Description>
         </DisplayString>
 
+        <!-- AP.F5.DataSource.Device.ClientSideConnections.Powershell -->
+        <DisplayString ElementID="AP.F5.DataSource.Device.ClientSideConnections.Powershell">
+          <Name>Device Client-Side Connections Powershell Data Source</Name>
+          <Description>Collects Client-Side Connections via SNMP and Powershell</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.Device.ClientSideConnections.Powershell" SubElementID="IntervalSeconds">
+          <Name>Interval Seconds</Name>
+          <Description>Frequency in seconds that module is run.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.Device.ClientSideConnections.Powershell" SubElementID="SyncTime">
+          <Name>Synchronisation Time</Name>
+          <Description>Offset that this module is started from.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.Device.ClientSideConnections.Powershell" SubElementID="Debug">
+          <Name>Debug</Name>
+          <Description>Debug Flag, if true then additional info is posted to event log.</Description>
+        </DisplayString>
 
+        <!-- AP.F5.DataSource.Device.ServerSideConnections.Powershell -->
+        <DisplayString ElementID="AP.F5.DataSource.Device.ServerSideConnections.Powershell">
+          <Name>Device Server-Side Connections Powershell Data Source</Name>
+          <Description>Collects Server-Side Connections via SNMP and Powershell</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.Device.ServerSideConnections.Powershell" SubElementID="IntervalSeconds">
+          <Name>Interval Seconds</Name>
+          <Description>Frequency in seconds that module is run.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.Device.ServerSideConnections.Powershell" SubElementID="SyncTime">
+          <Name>Synchronisation Time</Name>
+          <Description>Offset that this module is started from.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.Device.ServerSideConnections.Powershell" SubElementID="Debug">
+          <Name>Debug</Name>
+          <Description>Debug Flag, if true then additional info is posted to event log.</Description>
+        </DisplayString>
+
+        <!-- AP.F5.DataSource.Device.ClientSideInboundKb.Powershell -->
+        <DisplayString ElementID="AP.F5.DataSource.Device.ClientSideInboundKb.Powershell">
+          <Name>Device Client-Side InboundKb Powershell Data Source</Name>
+          <Description>Collects Client-Side InboundKb via SNMP and Powershell</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.Device.ClientSideInboundKb.Powershell" SubElementID="IntervalSeconds">
+          <Name>Interval Seconds</Name>
+          <Description>Frequency in seconds that module is run.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.Device.ClientSideInboundKb.Powershell" SubElementID="SyncTime">
+          <Name>Synchronisation Time</Name>
+          <Description>Offset that this module is started from.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.Device.ClientSideInboundKb.Powershell" SubElementID="Debug">
+          <Name>Debug</Name>
+          <Description>Debug Flag, if true then additional info is posted to event log.</Description>
+        </DisplayString>
+
+        <!-- AP.F5.DataSource.Device.ServerSideInboundKb.Powershell -->
+        <DisplayString ElementID="AP.F5.DataSource.Device.ServerSideInboundKb.Powershell">
+          <Name>Device Server-Side InboundKb Powershell Data Source</Name>
+          <Description>Collects Server-Side InboundKb via SNMP and Powershell</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.Device.ServerSideInboundKb.Powershell" SubElementID="IntervalSeconds">
+          <Name>Interval Seconds</Name>
+          <Description>Frequency in seconds that module is run.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.Device.ServerSideInboundKb.Powershell" SubElementID="SyncTime">
+          <Name>Synchronisation Time</Name>
+          <Description>Offset that this module is started from.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.Device.ServerSideInboundKb.Powershell" SubElementID="Debug">
+          <Name>Debug</Name>
+          <Description>Debug Flag, if true then additional info is posted to event log.</Description>
+        </DisplayString>
+
+        <!-- AP.F5.DataSource.Device.ClientSideOutboundKb.Powershell -->
+        <DisplayString ElementID="AP.F5.DataSource.Device.ClientSideOutboundKb.Powershell">
+          <Name>Device Client-Side OutboundKb Powershell Data Source</Name>
+          <Description>Collects Client-Side OutboundKb via SNMP and Powershell</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.Device.ClientSideOutboundKb.Powershell" SubElementID="IntervalSeconds">
+          <Name>Interval Seconds</Name>
+          <Description>Frequency in seconds that module is run.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.Device.ClientSideOutboundKb.Powershell" SubElementID="SyncTime">
+          <Name>Synchronisation Time</Name>
+          <Description>Offset that this module is started from.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.Device.ClientSideOutboundKb.Powershell" SubElementID="Debug">
+          <Name>Debug</Name>
+          <Description>Debug Flag, if true then additional info is posted to event log.</Description>
+        </DisplayString>
+
+        <!-- AP.F5.DataSource.Device.ServerSideOutboundKb.Powershell -->
+        <DisplayString ElementID="AP.F5.DataSource.Device.ServerSideOutboundKb.Powershell">
+          <Name>Device Server-Side OutboundKb Powershell Data Source</Name>
+          <Description>Collects Server-Side OutboundKb via SNMP and Powershell</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.Device.ServerSideOutboundKb.Powershell" SubElementID="IntervalSeconds">
+          <Name>Interval Seconds</Name>
+          <Description>Frequency in seconds that module is run.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.Device.ServerSideOutboundKb.Powershell" SubElementID="SyncTime">
+          <Name>Synchronisation Time</Name>
+          <Description>Offset that this module is started from.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.Device.ServerSideOutboundKb.Powershell" SubElementID="Debug">
+          <Name>Debug</Name>
+          <Description>Debug Flag, if true then additional info is posted to event log.</Description>
+        </DisplayString>
+
+
+        <!-- PROBES -->
         <!-- AP.F5.Probe.Device.FailoverState.Powershell -->
         <DisplayString ElementID="AP.F5.Probe.Device.FailoverState.Powershell">
           <Name>Device Failover State Powershell Probe</Name>
@@ -250,6 +1011,67 @@
           <Description>Debug Flag, if true then additional info is posted to event log.</Description>
         </DisplayString>
 
+        <!-- AP.F5.Probe.Device.ClientSideConnections.Powershell -->
+        <DisplayString ElementID="AP.F5.Probe.Device.ClientSideConnections.Powershell">
+          <Name>Device Client-Side Connections Powershell Probe</Name>
+          <Description>Gets Device Client-Side Connnections as Property Bags</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Probe.Device.ClientSideConnections.Powershell" SubElementID="Debug">
+          <Name>Debug</Name>
+          <Description>Debug Flag, if true then additional info is posted to event log.</Description>
+        </DisplayString>
+
+        <!-- AP.F5.Probe.Device.ServerSideConnections.Powershell -->
+        <DisplayString ElementID="AP.F5.Probe.Device.ServerSideConnections.Powershell">
+          <Name>Device Server-Side Connections Powershell Probe</Name>
+          <Description>Gets Device Server-Side Connnections as Property Bags</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Probe.Device.ServerSideConnections.Powershell" SubElementID="Debug">
+          <Name>Debug</Name>
+          <Description>Debug Flag, if true then additional info is posted to event log.</Description>
+        </DisplayString>
+
+        <!-- AP.F5.Probe.Device.ClientSideInboundKb.Powershell -->
+        <DisplayString ElementID="AP.F5.Probe.Device.ClientSideInboundKb.Powershell">
+          <Name>Device Client-Side Inbound Kb Powershell Probe</Name>
+          <Description>Gets Device Client-Side Inbound Kb as Property Bags</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Probe.Device.ClientSideInboundKb.Powershell" SubElementID="Debug">
+          <Name>Debug</Name>
+          <Description>Debug Flag, if true then additional info is posted to event log.</Description>
+        </DisplayString>
+
+        <!-- AP.F5.Probe.Device.ServerSideInboundKb.Powershell -->
+        <DisplayString ElementID="AP.F5.Probe.Device.ServerSideInboundKb.Powershell">
+          <Name>Device Server-Side Inbound Kb Powershell Probe</Name>
+          <Description>Gets Device Server-Side Inbound Kb as Property Bags</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Probe.Device.ServerSideInboundKb.Powershell" SubElementID="Debug">
+          <Name>Debug</Name>
+          <Description>Debug Flag, if true then additional info is posted to event log.</Description>
+        </DisplayString>
+
+        <!-- AP.F5.Probe.Device.ClientSideOutboundKb.Powershell -->
+        <DisplayString ElementID="AP.F5.Probe.Device.ClientSideOutboundKb.Powershell">
+          <Name>Device Client-Side Outbound Kb Powershell Probe</Name>
+          <Description>Gets Device Client-Side Outbound Kb as Property Bags</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Probe.Device.ClientSideOutboundKb.Powershell" SubElementID="Debug">
+          <Name>Debug</Name>
+          <Description>Debug Flag, if true then additional info is posted to event log.</Description>
+        </DisplayString>
+
+        <!-- AP.F5.Probe.Device.ServerSideOutboundKb.Powershell -->
+        <DisplayString ElementID="AP.F5.Probe.Device.ServerSideOutboundKb.Powershell">
+          <Name>Device Server-Side Outbound Kb Powershell Probe</Name>
+          <Description>Gets Device Server-Side Outbound Kb as Property Bags</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Probe.Device.ServerSideOutboundKb.Powershell" SubElementID="Debug">
+          <Name>Debug</Name>
+          <Description>Debug Flag, if true then additional info is posted to event log.</Description>
+        </DisplayString>
+
+        <!-- MONITORS -->
         <!-- AP.F5.Monitor.Device.FailoverState.Powershell -->
         <DisplayString ElementID="AP.F5.Monitor.Device.FailoverState.Powershell">
           <Name>Device Failover State Monitor Data Source</Name>
@@ -267,8 +1089,12 @@
           <Name>Debug</Name>
           <Description>Debug Flag, if true then additional info is posted to event log.</Description>
         </DisplayString>
+
+
       </DisplayStrings>
 
+      
+      <!-- KNOWLEDGE ARTICLES -->
       <KnowledgeArticles>
 
         <!-- AP.F5.Base.Monitor.Failover.Status -->
@@ -300,6 +1126,124 @@
               <list>
                 <listItem>
                   <para>.1.3.6.1.4.1.3375.2.1.14.3.1.0 - bigipTrafficMgmt.bigipSystem.sysCM.sysCmFailoverStatus.sysCmFailoverStatusId</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+        </KnowledgeArticle>
+
+        <!-- AP.F5.Base.Perf.Device.ClientConnections -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Perf.Device.ClientConnections" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>Uses SNMP to get the current client-side connection count on the F5 Device (average over last 5 minutes).</para>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used;</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.1.2.1.91.0 - bigipTrafficMgmt.bigipSystem.sysGlobals.sysGlobalStats.sysGlobalStat.sysStatClientMaxConns5m</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+        </KnowledgeArticle>
+
+        <!-- AP.F5.Base.Perf.Device.ClientInboundKb -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Perf.Device.ClientInboundKb" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>Uses SNMP to get the current client-side Inbound Bandwidth in Kb on the F5 Device (average over last 5 minutes).</para>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used;</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.1.2.1.88.0 - bigipTrafficMgmt.bigipSystem.sysGlobals.sysGlobalStats.sysGlobalStat.sysStatClientBytesIn5m</para>
+                  <para>Value is divided by 1024 to get Kb</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+        </KnowledgeArticle>
+
+        <!-- AP.F5.Base.Perf.Device.ClientOutboundKb -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Perf.Device.ClientOutboundKb" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>Uses SNMP to get the current client-side Outbound Bandwidth in Kb on the F5 Device (average over last 5 minutes).</para>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used;</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.1.2.1.90.0 - bigipTrafficMgmt.bigipSystem.sysGlobals.sysGlobalStats.sysGlobalStat.sysStatClientBytesOut5m</para>
+                  <para>Value is divided by 1024 to get Kb</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+        </KnowledgeArticle>
+
+        <!-- AP.F5.Base.Perf.Device.ServerConnections -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Perf.Device.ServerConnections" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>Uses SNMP to get the current server-side connection count on the F5 Device (average over last 5 minutes).</para>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used;</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.1.2.1.98.0 - bigipTrafficMgmt.bigipSystem.sysGlobals.sysGlobalStats.sysGlobalStat.sysStatServerMaxConns5m</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+        </KnowledgeArticle>
+
+        <!-- AP.F5.Base.Perf.Device.ServerInboundKb -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Perf.Device.ServerInboundKb" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>Uses SNMP to get the current server-side Inbound Bandwidth in Kb on the F5 Device (average over last 5 minutes).</para>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used;</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.1.2.1.95.0 - bigipTrafficMgmt.bigipSystem.sysGlobals.sysGlobalStats.sysGlobalStat.sysStatServerBytesIn5m</para>
+                  <para>Value is divided by 1024 to get Kb</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+        </KnowledgeArticle>
+
+        <!-- AP.F5.Base.Perf.Device.ServerOutboundKb -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Perf.Device.ServerOutboundKb" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>Uses SNMP to get the current client-side Outbound Bandwidth in Kb on the F5 Device (average over last 5 minutes).</para>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used;</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.1.2.1.97.0 - bigipTrafficMgmt.bigipSystem.sysGlobals.sysGlobalStats.sysGlobalStat.sysStatServerBytesOut5m</para>
+                  <para>Value is divided by 1024 to get Kb</para>
                 </listItem>
               </list>
             </section>

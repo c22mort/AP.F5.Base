@@ -2,6 +2,7 @@
   <TypeDefinitions>
     <ModuleTypes>
 
+      <!-- DATA SOURCES -->
       <!-- AP.F5.DataSource.MemoryHealth.Powershell -->
       <!-- Calls AP.F5.Probe.MemoryHealth.Powershell wraps it with a scheduler -->
       <DataSourceModuleType ID="AP.F5.DataSource.MemoryHealth.Powershell" Accessibility="Public" Batching="false">
@@ -44,6 +45,111 @@
         </ModuleImplementation>
         <OutputType>System!System.PropertyBagData</OutputType>
       </DataSourceModuleType>
+
+      <!-- AP.F5.DataSource.Device.MemoryUsed.Powershell -->
+      <!-- Calls AP.F5.Probe.Device.MemoryUsed.Powershell wraps it with a scheduler. Returns as Performance Data -->
+      <DataSourceModuleType ID="AP.F5.DataSource.Device.MemoryUsed.Powershell" Accessibility="Public" Batching="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer"/>
+          <xsd:element minOccurs="1" name="SyncTime" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="Debug" type="xsd:boolean"/>
+          <xsd:element minOccurs="1" name="DeviceAddress" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DevicePort" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DeviceCommunity" type="xsd:string"/>
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int"/>
+          <OverrideableParameter ID="SyncTime" Selector="$Config/SyncTime$" ParameterType="string"/>
+          <OverrideableParameter ID="Debug" Selector="$Config/Debug$" ParameterType="bool"/>
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="Scheduler" TypeID="System!System.SimpleScheduler">
+                <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+                <SyncTime>$Config/SyncTime$</SyncTime>
+              </DataSource>
+              <ProbeAction ID="PSScript" TypeID="AP.F5.Probe.Device.MemoryUsed.Powershell">
+                <Debug>$Config/Debug$</Debug>
+                <DeviceAddress>$Config/DeviceAddress$</DeviceAddress>
+                <DevicePort>$Config/DevicePort$</DevicePort>
+                <DeviceCommunity>$Config/DeviceCommunity$</DeviceCommunity>
+              </ProbeAction>
+              <ConditionDetection ID="PerfMapper" TypeID="Perf!System.Performance.DataGenericMapper">
+                <ObjectName>Memory</ObjectName>
+                <CounterName>Used (Mb)</CounterName>
+                <InstanceName>Used (Mb)</InstanceName>
+                <Value>$Data/Property[@Name="MemoryUsed"]$</Value>
+              </ConditionDetection>
+            </MemberModules>
+            <Composition>
+              <Node ID="PerfMapper">
+                <Node ID="PSScript">
+                  <Node ID="Scheduler" />
+                </Node>
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>Perf!System.Performance.Data</OutputType>
+      </DataSourceModuleType>
+
+      <!-- AP.F5.DataSource.Device.MemoryFree.Powershell -->
+      <!-- Calls AP.F5.Probe.Device.MemoryFree.Powershell wraps it with a scheduler. Returns as Performance Data -->
+      <DataSourceModuleType ID="AP.F5.DataSource.Device.MemoryFree.Powershell" Accessibility="Public" Batching="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer"/>
+          <xsd:element minOccurs="1" name="SyncTime" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="Debug" type="xsd:boolean"/>
+          <xsd:element minOccurs="1" name="DeviceAddress" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DevicePort" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DeviceCommunity" type="xsd:string"/>
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int"/>
+          <OverrideableParameter ID="SyncTime" Selector="$Config/SyncTime$" ParameterType="string"/>
+          <OverrideableParameter ID="Debug" Selector="$Config/Debug$" ParameterType="bool"/>
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="Scheduler" TypeID="System!System.SimpleScheduler">
+                <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+                <SyncTime>$Config/SyncTime$</SyncTime>
+              </DataSource>
+              <ProbeAction ID="PSScript" TypeID="AP.F5.Probe.Device.MemoryFree.Powershell">
+                <Debug>$Config/Debug$</Debug>
+                <DeviceAddress>$Config/DeviceAddress$</DeviceAddress>
+                <DevicePort>$Config/DevicePort$</DevicePort>
+                <DeviceCommunity>$Config/DeviceCommunity$</DeviceCommunity>
+              </ProbeAction>
+              <ConditionDetection ID="PerfMapper" TypeID="Perf!System.Performance.DataGenericMapper">
+                <ObjectName>Memory</ObjectName>
+                <CounterName>Free (Mb)</CounterName>
+                <InstanceName>Free (Mb)</InstanceName>
+                <Value>$Data/Property[@Name="MemoryFree"]$</Value>
+              </ConditionDetection>
+            </MemberModules>
+            <Composition>
+              <Node ID="PerfMapper">
+                <Node ID="PSScript">
+                  <Node ID="Scheduler" />
+                </Node>
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>Perf!System.Performance.Data</OutputType>
+      </DataSourceModuleType>
+
+      
+      <!-- PROBES -->
       <!-- AP.F5.Probe.MemoryHealth.Powershell -->
       <!-- Runs script to Return All Memorys (Index & Health) in property bags -->
       <ProbeActionModuleType ID="AP.F5.Probe.MemoryHealth.Powershell" Accessibility="Public" Batching="false">
@@ -99,6 +205,119 @@
         <OutputType>System!System.PropertyBagData</OutputType>
         <TriggerOnly>true</TriggerOnly>
       </ProbeActionModuleType>
+
+      <!-- AP.F5.Probe.Device.MemoryUsed.Powershell -->
+      <!-- Runs script to Return Device Used Memory in a property bag-->
+      <ProbeActionModuleType ID="AP.F5.Probe.Device.MemoryUsed.Powershell" Accessibility="Public" Batching="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="Debug" type="xsd:boolean"/>
+          <xsd:element minOccurs="1" name="DeviceAddress" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DevicePort" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DeviceCommunity" type="xsd:string"/>
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="Debug" Selector="$Config/Debug$" ParameterType="bool"/>
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <ProbeAction ID="PSScript" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagTriggerOnlyProbe">
+                <ScriptName>Get-DeviceMemoryUsedMb.ps1</ScriptName>
+                <ScriptBody>$IncludeFileContent/Scripts/Rules/Get-DeviceMemoryUsedMb.ps1$</ScriptBody>
+                <SnapIns />
+                <Parameters>
+                  <Parameter>
+                    <Name>DeviceAddress</Name>
+                    <Value>$Config/DeviceAddress$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>DevicePort</Name>
+                    <Value>$Config/DevicePort$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>DeviceCommunity</Name>
+                    <Value>$Config/DeviceCommunity$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>debug</Name>
+                    <Value>$Config/Debug$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>SharpSnmpLocation</Name>
+                    <Value>$FileResource[Name="AP.F5.SharpSnmpLib"]/Path$</Value>
+                  </Parameter>
+                </Parameters>
+                <TimeoutSeconds>60</TimeoutSeconds>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="PSScript" />
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.PropertyBagData</OutputType>
+        <TriggerOnly>true</TriggerOnly>
+      </ProbeActionModuleType>
+
+      <!-- AP.F5.Probe.Device.MemoryFree.Powershell -->
+      <!-- Runs script to Return Device Free Memory in a property bag-->
+      <ProbeActionModuleType ID="AP.F5.Probe.Device.MemoryFree.Powershell" Accessibility="Public" Batching="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="Debug" type="xsd:boolean"/>
+          <xsd:element minOccurs="1" name="DeviceAddress" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DevicePort" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DeviceCommunity" type="xsd:string"/>
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="Debug" Selector="$Config/Debug$" ParameterType="bool"/>
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <ProbeAction ID="PSScript" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagTriggerOnlyProbe">
+                <ScriptName>Get-DeviceMemoryFreeMb.ps1</ScriptName>
+                <ScriptBody>$IncludeFileContent/Scripts/Rules/Get-DeviceMemoryFreeMb.ps1$</ScriptBody>
+                <SnapIns />
+                <Parameters>
+                  <Parameter>
+                    <Name>DeviceAddress</Name>
+                    <Value>$Config/DeviceAddress$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>DevicePort</Name>
+                    <Value>$Config/DevicePort$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>DeviceCommunity</Name>
+                    <Value>$Config/DeviceCommunity$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>debug</Name>
+                    <Value>$Config/Debug$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>SharpSnmpLocation</Name>
+                    <Value>$FileResource[Name="AP.F5.SharpSnmpLib"]/Path$</Value>
+                  </Parameter>
+                </Parameters>
+                <TimeoutSeconds>60</TimeoutSeconds>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="PSScript" />
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.PropertyBagData</OutputType>
+        <TriggerOnly>true</TriggerOnly>
+      </ProbeActionModuleType>
+
     </ModuleTypes>
 
     <MonitorTypes>
@@ -225,6 +444,8 @@
     <LanguagePack ID="ENU" IsDefault="true">
       <DisplayStrings>
 
+
+        <!-- DATA SOURCES -->
         <!-- AP.F5.DataSource.MemoryHealth.Powershell -->
         <DisplayString ElementID="AP.F5.DataSource.MemoryHealth.Powershell">
           <Name>Memory Health Powershell Data Source</Name>
@@ -243,13 +464,70 @@
           <Description>Debug Flag, if true then additional info is posted to event log.</Description>
         </DisplayString>
 
+        <!-- AP.F5.DataSource.Device.MemoryFree.Powershell -->
+        <DisplayString ElementID="AP.F5.DataSource.Device.MemoryFree.Powershell">
+          <Name>Device Free Memory Powershell Data Source</Name>
+          <Description>Collects Free memory via SNMP and Powershell</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.Device.MemoryFree.Powershell" SubElementID="IntervalSeconds">
+          <Name>Interval Seconds</Name>
+          <Description>Frequency in seconds that module is run.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.Device.MemoryFree.Powershell" SubElementID="SyncTime">
+          <Name>Synchronisation Time</Name>
+          <Description>Offset that this module is started from.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.Device.MemoryFree.Powershell" SubElementID="Debug">
+          <Name>Debug</Name>
+          <Description>Debug Flag, if true then additional info is posted to event log.</Description>
+        </DisplayString>
 
+        <!-- AP.F5.DataSource.Device.MemoryUsed.Powershell -->
+        <DisplayString ElementID="AP.F5.DataSource.Device.MemoryUsed.Powershell">
+          <Name>Device Used Memory Powershell Data Source</Name>
+          <Description>Collects Used memory via SNMP and Powershell</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.Device.MemoryUsed.Powershell" SubElementID="IntervalSeconds">
+          <Name>Interval Seconds</Name>
+          <Description>Frequency in seconds that module is run.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.Device.MemoryUsed.Powershell" SubElementID="SyncTime">
+          <Name>Synchronisation Time</Name>
+          <Description>Offset that this module is started from.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.Device.MemoryUsed.Powershell" SubElementID="Debug">
+          <Name>Debug</Name>
+          <Description>Debug Flag, if true then additional info is posted to event log.</Description>
+        </DisplayString>
+
+        <!-- PROBES -->
+        
         <!-- AP.F5.Probe.MemoryHealth.Powershell -->
         <DisplayString ElementID="AP.F5.Probe.MemoryHealth.Powershell">
           <Name>Memory Health Powershell Probe</Name>
           <Description>Gets all Memory Health(s) as Property Bags</Description>
         </DisplayString>
         <DisplayString ElementID="AP.F5.Probe.MemoryHealth.Powershell" SubElementID="Debug">
+          <Name>Debug</Name>
+          <Description>Debug Flag, if true then additional info is posted to event log.</Description>
+        </DisplayString>
+
+        <!-- AP.F5.Probe.Device.MemoryFree.Powershell -->
+        <DisplayString ElementID="AP.F5.Probe.Device.MemoryFree.Powershell">
+          <Name>Device Free Memory Powershell Probe</Name>
+          <Description>Gets Device Free Memory as Performance Data</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Probe.Device.MemoryFree.Powershell" SubElementID="Debug">
+          <Name>Debug</Name>
+          <Description>Debug Flag, if true then additional info is posted to event log.</Description>
+        </DisplayString>
+
+        <!-- AP.F5.Probe.Device.MemoryUsed.Powershell -->
+        <DisplayString ElementID="AP.F5.Probe.Device.MemoryUsed.Powershell">
+          <Name>Device Used Memory Powershell Probe</Name>
+          <Description>Gets Device Used Memory as Performance Data</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Probe.Device.MemoryUsed.Powershell" SubElementID="Debug">
           <Name>Debug</Name>
           <Description>Debug Flag, if true then additional info is posted to event log.</Description>
         </DisplayString>
@@ -376,6 +654,50 @@
                 </listItem>
                 <listItem>
                   <para>.1.3.6.1.4.1.3375.2.1.7.1.4.0 - bigipTrafficMgmt.bigipSystem.sysHostInfoStat.sysHostMemory.sysHostMemoryUsedKb</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+        </KnowledgeArticle>
+
+        <!-- AP.F5.Base.Perf.Device.MemoryFreeCollection  -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Perf.Device.MemoryFreeCollection" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>Uses SNMP to get the current free memory in Mb on the F5 Device.</para>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used;</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.7.1.3.0 - bigipTrafficMgmt.bigipSystem.sysHostInfoStat.sysHostMemory.sysHostMemoryTotalKb</para>
+                  <para>Value is divided by 1024 to get Mb</para>
+                </listItem>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.7.1.4.0 - bigipTrafficMgmt.bigipSystem.sysHostInfoStat.sysHostMemory.sysHostMemoryUsedKb</para>
+                  <para>Value is divided by 1024 to get Mb</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+        </KnowledgeArticle>
+
+        <!-- AP.F5.Base.Perf.Device.MemoryUsedCollection -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Perf.Device.MemoryUsedCollection" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>Uses SNMP to get the current used memory in Mb on the F5 Device.</para>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used;</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.7.1.4.0 - bigipTrafficMgmt.bigipSystem.sysHostInfoStat.sysHostMemory.sysHostMemoryUsedKb</para>
+                  <para>Value is divided by 1024 to get Mb</para>
                 </listItem>
               </list>
             </section>

@@ -2,6 +2,7 @@
   <TypeDefinitions>
     <ModuleTypes>
 
+      <!-- DATA SOURCES-->
       <!--AP.F5.DataSource.ProcessorHealth.Filtered -->
       <!-- Calls AP.F5.DataSource.ProcessorHealth.Powershell, Filters results by ProcessorIndex -->
       <DataSourceModuleType ID="AP.F5.DataSource.ProcessorHealth.Filtered" Accessibility="Public" Batching="false">
@@ -25,7 +26,7 @@
         <ModuleImplementation>
           <Composite>
             <MemberModules>
-              <DataSource ID="Script" TypeID="AP.F5.DataSource.ProcessorHealth.Powershell">
+              <DataSource ID="Script" TypeID="AP.F5.DataSource.ProcessorUsage.Powershell">
                 <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
                 <SyncTime>$Config/SyncTime$</SyncTime>
                 <Debug>$Config/Debug$</Debug>
@@ -56,9 +57,74 @@
         </ModuleImplementation>
         <OutputType>System!System.PropertyBagData</OutputType>
       </DataSourceModuleType>
-      <!-- AP.F5.DataSource.ProcessorHealth.Powershell -->
-      <!-- Calls AP.F5.Probe.ProcessorHealth.Powershell wraps it with a scheduler -->
-      <DataSourceModuleType ID="AP.F5.DataSource.ProcessorHealth.Powershell" Accessibility="Public" Batching="false">
+
+      
+      <!-- AP.F5.DataSource.ProcessorUsage.Filtered -->
+      <!-- Calls AP.F5.DataSource.ProcessorUsage.Powershell, Filters results by Processor Index -->
+      <DataSourceModuleType ID="AP.F5.DataSource.ProcessorUsage.Filtered" Accessibility="Public" Batching="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer"/>
+          <xsd:element minOccurs="1" name="SyncTime" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="Debug" type="xsd:boolean"/>
+          <xsd:element minOccurs="1" name="DeviceAddress" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DevicePort" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DeviceCommunity" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="ProcessorIndex" type="xsd:string"/>
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int"/>
+          <OverrideableParameter ID="SyncTime" Selector="$Config/SyncTime$" ParameterType="string"/>
+          <OverrideableParameter ID="Debug" Selector="$Config/Debug$" ParameterType="bool"/>
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="Script" TypeID="AP.F5.DataSource.ProcessorUsage.Powershell">
+                <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+                <SyncTime>$Config/SyncTime$</SyncTime>
+                <Debug>$Config/Debug$</Debug>
+                <DeviceAddress>$Config/DeviceAddress$</DeviceAddress>
+                <DevicePort>$Config/DevicePort$</DevicePort>
+                <DeviceCommunity>$Config/DeviceCommunity$</DeviceCommunity>
+              </DataSource>
+              <ConditionDetection ID="FilterPoolName" TypeID="System!System.ExpressionFilter">
+                <Expression>
+                  <SimpleExpression>
+                    <ValueExpression>
+                      <XPathQuery Type="String">Property[@Name='Index']</XPathQuery>
+                    </ValueExpression>
+                    <Operator>Equal</Operator>
+                    <ValueExpression>
+                      <Value Type="String">$Config/ProcessorIndex$</Value>
+                    </ValueExpression>
+                  </SimpleExpression>
+                </Expression>
+              </ConditionDetection>
+              <ConditionDetection ID="PerfMapper" TypeID="Perf!System.Performance.DataGenericMapper">
+                <ObjectName>Processor</ObjectName>
+                <CounterName>Usage %</CounterName>
+                <InstanceName>$Target/Property[Type="AP.F5.Device.Processor"]/Name$</InstanceName>
+                <Value>$Data/Property[@Name="Percentage"]$</Value>
+              </ConditionDetection>
+            </MemberModules>
+            <Composition>
+              <Node ID="PerfMapper">
+                <Node ID="FilterPoolName">
+                  <Node ID="Script" />
+                </Node>
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>Perf!System.Performance.Data</OutputType>
+      </DataSourceModuleType>
+      
+      <!-- AP.F5.DataSource.ProcessorUsage.Powershell -->
+      <!-- Calls AP.F5.Probe.ProcessorUsage.Powershell wraps it with a scheduler -->
+      <DataSourceModuleType ID="AP.F5.DataSource.ProcessorUsage.Powershell" Accessibility="Public" Batching="false">
         <Configuration>
           <IncludeSchemaTypes>
             <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
@@ -82,11 +148,11 @@
                 <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
                 <SyncTime>$Config/SyncTime$</SyncTime>
               </DataSource>
-              <ProbeAction ID="PSScript" TypeID="AP.F5.Probe.ProcessorHealth.Powershell">
+              <ProbeAction ID="PSScript" TypeID="AP.F5.Probe.ProcessorUsage.Powershell">
                 <Debug>$Config/Debug$</Debug>
                 <DeviceAddress>$Config/DeviceAddress$</DeviceAddress>
                 <DevicePort>$Config/DevicePort$</DevicePort>
-                <DeviceCommunity>$Config/DeviceCommunity$</DeviceCommunity>
+                  <DeviceCommunity>$Config/DeviceCommunity$</DeviceCommunity>
               </ProbeAction>
             </MemberModules>
             <Composition>
@@ -98,9 +164,13 @@
         </ModuleImplementation>
         <OutputType>System!System.PropertyBagData</OutputType>
       </DataSourceModuleType>
-      <!-- AP.F5.Probe.ProcessorHealth.Powershell -->
-      <!-- Runs script to Return All Processors (Index & Health) in property bags -->
-      <ProbeActionModuleType ID="AP.F5.Probe.ProcessorHealth.Powershell" Accessibility="Public" Batching="false">
+
+      
+      <!-- PROBES -->
+
+      <!-- AP.F5.Probe.ProcessorUsage.Powershell -->
+      <!-- Runs script to Return All Processor Usages (Index & Usage) in property bags -->
+      <ProbeActionModuleType ID="AP.F5.Probe.ProcessorUsage.Powershell" Accessibility="Public" Batching="false">
         <Configuration>
           <IncludeSchemaTypes>
             <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
@@ -117,8 +187,8 @@
           <Composite>
             <MemberModules>
               <ProbeAction ID="PSScript" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagTriggerOnlyProbe">
-                <ScriptName>Get-ProcessorHealth.ps1</ScriptName>
-                <ScriptBody>$IncludeFileContent/Scripts/Monitors/Get-ProcessorHealth.ps1$</ScriptBody>
+                <ScriptName>Get-ProcessorUsage.ps1</ScriptName>
+                <ScriptBody>$IncludeFileContent/Scripts/Get-ProcessorUsage.ps1$</ScriptBody>
                 <SnapIns />
                 <Parameters>
                   <Parameter>
@@ -153,6 +223,7 @@
         <OutputType>System!System.PropertyBagData</OutputType>
         <TriggerOnly>true</TriggerOnly>
       </ProbeActionModuleType>
+
     </ModuleTypes>
 
     <MonitorTypes>
@@ -194,7 +265,7 @@
               <DeviceCommunity>$Config/DeviceCommunity$</DeviceCommunity>
               <ProcessorIndex>$Config/ProcessorIndex$</ProcessorIndex>
             </DataSource>
-            <ProbeAction ID="Probe" TypeID="AP.F5.Probe.ProcessorHealth.Powershell">
+            <ProbeAction ID="Probe" TypeID="AP.F5.Probe.ProcessorUsage.Powershell">
               <Debug>$Config/Debug$</Debug>
               <DeviceAddress>$Config/DeviceAddress$</DeviceAddress>
               <DevicePort>$Config/DevicePort$</DevicePort>
@@ -274,6 +345,9 @@
           </RegularDetections>
         </MonitorImplementation>
       </UnitMonitorType>
+
+    
+  
     </MonitorTypes>
   </TypeDefinitions>
 
@@ -299,31 +373,49 @@
           <Description>Debug Flag, if true then additional info is posted to event log.</Description>
         </DisplayString>
 
-        <!-- AP.F5.DataSource.ProcessorHealth.Powershell -->
-        <DisplayString ElementID="AP.F5.DataSource.ProcessorHealth.Powershell">
-          <Name>Processor Health Powershell Data Source</Name>
-          <Description>Gets all Processor Health(s) as Property Bags</Description>
+        <!-- AP.F5.DataSource.ProcessorUsage.Filtered -->
+        <DisplayString ElementID="AP.F5.DataSource.ProcessorUsage.Filtered">
+          <Name>Processor Usage Filtered Data Source</Name>
+          <Description>Filters Property Bags by ProcessorIndex to return the one property bag we want.</Description>
         </DisplayString>
-        <DisplayString ElementID="AP.F5.DataSource.ProcessorHealth.Powershell" SubElementID="IntervalSeconds">
+        <DisplayString ElementID="AP.F5.DataSource.ProcessorUsage.Filtered" SubElementID="IntervalSeconds">
           <Name>Interval Seconds</Name>
           <Description>Frequency in seconds that module is run.</Description>
         </DisplayString>
-        <DisplayString ElementID="AP.F5.DataSource.ProcessorHealth.Powershell" SubElementID="SyncTime">
+        <DisplayString ElementID="AP.F5.DataSource.ProcessorUsage.Filtered" SubElementID="SyncTime">
           <Name>Synchronisation Time</Name>
           <Description>Offset that this module is started from.</Description>
         </DisplayString>
-        <DisplayString ElementID="AP.F5.DataSource.ProcessorHealth.Powershell" SubElementID="Debug">
+        <DisplayString ElementID="AP.F5.DataSource.ProcessorUsage.Filtered" SubElementID="Debug">
+          <Name>Debug</Name>
+          <Description>Debug Flag, if true then additional info is posted to event log.</Description>
+        </DisplayString>
+
+        <!-- AP.F5.DataSource.ProcessorUsage.Powershell -->
+        <DisplayString ElementID="AP.F5.DataSource.ProcessorUsage.Powershell">
+          <Name>Processor Usage Powershell Data Source</Name>
+          <Description>Gets all Processor Usage(s) as Property Bags</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.ProcessorUsage.Powershell" SubElementID="IntervalSeconds">
+          <Name>Interval Seconds</Name>
+          <Description>Frequency in seconds that module is run.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.ProcessorUsage.Powershell" SubElementID="SyncTime">
+          <Name>Synchronisation Time</Name>
+          <Description>Offset that this module is started from.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.ProcessorUsage.Powershell" SubElementID="Debug">
           <Name>Debug</Name>
           <Description>Debug Flag, if true then additional info is posted to event log.</Description>
         </DisplayString>
 
 
-        <!-- AP.F5.Probe.ProcessorHealth.Powershell -->
-        <DisplayString ElementID="AP.F5.Probe.ProcessorHealth.Powershell">
-          <Name>Processor Health Powershell Probe</Name>
-          <Description>Gets all Processor Health(s) as Property Bags</Description>
+        <!-- AP.F5.Probe.ProcessorUsage.Powershell -->
+        <DisplayString ElementID="AP.F5.Probe.ProcessorUsage.Powershell">
+          <Name>Processor Usage Powershell Probe</Name>
+          <Description>Gets all Processor Usage(s) as Property Bags</Description>
         </DisplayString>
-        <DisplayString ElementID="AP.F5.Probe.ProcessorHealth.Powershell" SubElementID="Debug">
+        <DisplayString ElementID="AP.F5.Probe.ProcessorUsage.Powershell" SubElementID="Debug">
           <Name>Debug</Name>
           <Description>Debug Flag, if true then additional info is posted to event log.</Description>
         </DisplayString>
@@ -344,6 +436,14 @@
         <DisplayString ElementID="AP.F5.Monitor.ProcessorHealth.Powershell" SubElementID="Debug">
           <Name>Debug</Name>
           <Description>Debug Flag, if true then additional info is posted to event log.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Monitor.ProcessorHealth.Powershell" SubElementID="WarningUsage">
+          <Name>Warning Usage</Name>
+          <Description>The Lower Threshold for Processor Usage</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.Monitor.ProcessorHealth.Powershell" SubElementID="CriticalUsage">
+          <Name>Critical Usage</Name>
+          <Description>The Upper Threshold for Processor Usage</Description>
         </DisplayString>
 
       </DisplayStrings>
@@ -433,6 +533,25 @@
                   </entry>
                 </row>
               </table>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used;</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.7.5.2.1.35ProcessorIndex - bigipTrafficMgmt.bigipSystem.sysHostInfoStat.sysMultiHostCpu.sysMultiHostCpuTable.sysMultiHostCpuEntry.sysMultiHostCpuUsageRatio5m</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+        </KnowledgeArticle>
+
+        <!-- AP.F5.Base.Perf.Processor.Usage -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Perf.Processor.Usage" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>Uses SNMP to get Processor Usage % for each F5 Device Processor.</para>
             </section>
             <section xmlns="http://schemas.microsoft.com/maml/2004/10">
               <title>SNMP Information</title>

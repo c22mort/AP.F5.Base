@@ -3,7 +3,7 @@
     <ModuleTypes>
 
       <!--AP.F5.DataSource.TemperatureSensorHealth.Filtered -->
-      <!-- Calls AP.F5.DataSource.TemperatureSensorHealth.Powershell, Filters results by TemperatureSensorIndex -->
+      <!-- Calls AP.F5.DataSource.TemperatureSensorHealth.Filtered, Filters results by TemperatureSensorIndex, Returns Property Bag -->
       <DataSourceModuleType ID="AP.F5.DataSource.TemperatureSensorHealth.Filtered" Accessibility="Public" Batching="false">
         <Configuration>
           <IncludeSchemaTypes>
@@ -25,7 +25,7 @@
         <ModuleImplementation>
           <Composite>
             <MemberModules>
-              <DataSource ID="Script" TypeID="AP.F5.DataSource.TemperatureSensorHealth.Powershell">
+              <DataSource ID="Script" TypeID="AP.F5.DataSource.TemperatureSensorTemp.Powershell">
                 <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
                 <SyncTime>$Config/SyncTime$</SyncTime>
                 <Debug>$Config/Debug$</Debug>
@@ -56,9 +56,75 @@
         </ModuleImplementation>
         <OutputType>System!System.PropertyBagData</OutputType>
       </DataSourceModuleType>
-      <!-- AP.F5.DataSource.TemperatureSensorHealth.Powershell -->
-      <!-- Calls AP.F5.Probe.TemperatureSensorHealth.Powershell wraps it with a scheduler -->
-      <DataSourceModuleType ID="AP.F5.DataSource.TemperatureSensorHealth.Powershell" Accessibility="Public" Batching="false">
+
+
+      <!-- AP.F5.DataSource.Perf.TemperatureSensorTemp.Filtered -->
+      <!-- Calls AP.F5.DataSource.TemperatureSensorTemp.Powershell, Filters results by Temperature Sensor Index, Returns Performance Data -->
+      <DataSourceModuleType ID="AP.F5.DataSource.Perf.TemperatureSensorTemp.Filtered" Accessibility="Public" Batching="false">
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer"/>
+          <xsd:element minOccurs="1" name="SyncTime" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="Debug" type="xsd:boolean"/>
+          <xsd:element minOccurs="1" name="DeviceAddress" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DevicePort" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="DeviceCommunity" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="TempSensorIndex" type="xsd:string"/>
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int"/>
+          <OverrideableParameter ID="SyncTime" Selector="$Config/SyncTime$" ParameterType="string"/>
+          <OverrideableParameter ID="Debug" Selector="$Config/Debug$" ParameterType="bool"/>
+        </OverrideableParameters>
+        <ModuleImplementation Isolation="Any">
+          <Composite>
+            <MemberModules>
+              <DataSource ID="Script" TypeID="AP.F5.DataSource.TemperatureSensorTemp.Powershell">
+                <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+                <SyncTime>$Config/SyncTime$</SyncTime>
+                <Debug>$Config/Debug$</Debug>
+                <DeviceAddress>$Config/DeviceAddress$</DeviceAddress>
+                <DevicePort>$Config/DevicePort$</DevicePort>
+                <DeviceCommunity>$Config/DeviceCommunity$</DeviceCommunity>
+              </DataSource>
+              <ConditionDetection ID="FilterPoolName" TypeID="System!System.ExpressionFilter">
+                <Expression>
+                  <SimpleExpression>
+                    <ValueExpression>
+                      <XPathQuery Type="String">Property[@Name='Index']</XPathQuery>
+                    </ValueExpression>
+                    <Operator>Equal</Operator>
+                    <ValueExpression>
+                      <Value Type="String">$Config/TempSensorIndex$</Value>
+                    </ValueExpression>
+                  </SimpleExpression>
+                </Expression>
+              </ConditionDetection>
+              <ConditionDetection ID="PerfMapper" TypeID="Perf!System.Performance.DataGenericMapper">
+                <ObjectName>TempSensor</ObjectName>
+                <CounterName>Temperature</CounterName>
+                <InstanceName>$Target/Property[Type="AP.F5.Device.TempSensor"]/Name$</InstanceName>
+                <Value>$Data/Property[@Name="Temperature"]$</Value>
+              </ConditionDetection>
+            </MemberModules>
+            <Composition>
+              <Node ID="PerfMapper">
+                <Node ID="FilterPoolName">
+                  <Node ID="Script" />
+                </Node>
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>Perf!System.Performance.Data</OutputType>
+      </DataSourceModuleType>
+
+
+      <!-- AP.F5.DataSource.TemperatureSensorTemp.Powershell -->
+      <!-- Calls AP.F5.Probe.TemperatureSensorTemp.Powershell wraps it with a scheduler -->
+      <DataSourceModuleType ID="AP.F5.DataSource.TemperatureSensorTemp.Powershell" Accessibility="Public" Batching="false">
         <Configuration>
           <IncludeSchemaTypes>
             <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
@@ -82,7 +148,7 @@
                 <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
                 <SyncTime>$Config/SyncTime$</SyncTime>
               </DataSource>
-              <ProbeAction ID="PSScript" TypeID="AP.F5.Probe.TemperatureSensorHealth.Powershell">
+              <ProbeAction ID="PSScript" TypeID="AP.F5.Probe.TemperatureSensorTemp.Powershell">
                 <Debug>$Config/Debug$</Debug>
                 <DeviceAddress>$Config/DeviceAddress$</DeviceAddress>
                 <DevicePort>$Config/DevicePort$</DevicePort>
@@ -98,9 +164,10 @@
         </ModuleImplementation>
         <OutputType>System!System.PropertyBagData</OutputType>
       </DataSourceModuleType>
-      <!-- AP.F5.Probe.TemperatureSensorHealth.Powershell -->
-      <!-- Runs script to Return All TemperatureSensors (Index & Health) in property bags -->
-      <ProbeActionModuleType ID="AP.F5.Probe.TemperatureSensorHealth.Powershell" Accessibility="Public" Batching="false">
+            
+      <!-- AP.F5.Probe.TemperatureSensorTemp.Powershell -->
+      <!-- Runs script to Return All TemperatureSensors (Index & Temperature) in property bags -->
+      <ProbeActionModuleType ID="AP.F5.Probe.TemperatureSensorTemp.Powershell" Accessibility="Public" Batching="false">
         <Configuration>
           <IncludeSchemaTypes>
             <SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
@@ -117,8 +184,8 @@
           <Composite>
             <MemberModules>
               <ProbeAction ID="PSScript" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagTriggerOnlyProbe">
-                <ScriptName>Get-TemperatureSensorHealth.ps1</ScriptName>
-                <ScriptBody>$IncludeFileContent/Scripts/Monitors/Get-TemperatureSensorHealth.ps1$</ScriptBody>
+                <ScriptName>Get-TemperatureSensorTemp.ps1</ScriptName>
+                <ScriptBody>$IncludeFileContent/Scripts/Get-TemperatureSensorTemp.ps1$</ScriptBody>
                 <SnapIns />
                 <Parameters>
                   <Parameter>
@@ -194,7 +261,7 @@
               <DeviceCommunity>$Config/DeviceCommunity$</DeviceCommunity>
               <TemperatureSensorIndex>$Config/TemperatureSensorIndex$</TemperatureSensorIndex>
             </DataSource>
-            <ProbeAction ID="Probe" TypeID="AP.F5.Probe.TemperatureSensorHealth.Powershell">
+            <ProbeAction ID="Probe" TypeID="AP.F5.Probe.TemperatureSensorTemp.Powershell">
               <Debug>$Config/Debug$</Debug>
               <DeviceAddress>$Config/DeviceAddress$</DeviceAddress>
               <DevicePort>$Config/DevicePort$</DevicePort>
@@ -299,30 +366,48 @@
           <Description>Debug Flag, if true then additional info is posted to event log.</Description>
         </DisplayString>
 
-        <!-- AP.F5.DataSource.TemperatureSensorHealth.Powershell -->
-        <DisplayString ElementID="AP.F5.DataSource.TemperatureSensorHealth.Powershell">
-          <Name>TemperatureSensor Health Powershell Data Source</Name>
-          <Description>Gets all TemperatureSensor Health(s) as Property Bags</Description>
+        <!-- AP.F5.DataSource.Perf.TemperatureSensorTemp.Filtered -->
+        <DisplayString ElementID="AP.F5.DataSource.Perf.TemperatureSensorTemp.Filtered">
+          <Name>TemperatureSensor Temp Filtered Data Source</Name>
+          <Description>Filters Property Bags by TemperatureSensorIndex to return the one property bag we want.</Description>
         </DisplayString>
-        <DisplayString ElementID="AP.F5.DataSource.TemperatureSensorHealth.Powershell" SubElementID="IntervalSeconds">
+        <DisplayString ElementID="AP.F5.DataSource.Perf.TemperatureSensorTemp.Filtered" SubElementID="IntervalSeconds">
           <Name>Interval Seconds</Name>
           <Description>Frequency in seconds that module is run.</Description>
         </DisplayString>
-        <DisplayString ElementID="AP.F5.DataSource.TemperatureSensorHealth.Powershell" SubElementID="SyncTime">
+        <DisplayString ElementID="AP.F5.DataSource.Perf.TemperatureSensorTemp.Filtered" SubElementID="SyncTime">
           <Name>Synchronisation Time</Name>
           <Description>Offset that this module is started from.</Description>
         </DisplayString>
-        <DisplayString ElementID="AP.F5.DataSource.TemperatureSensorHealth.Powershell" SubElementID="Debug">
+        <DisplayString ElementID="AP.F5.DataSource.Perf.TemperatureSensorTemp.Filtered" SubElementID="Debug">
+          <Name>Debug</Name>
+          <Description>Debug Flag, if true then additional info is posted to event log.</Description>
+        </DisplayString>
+        
+        <!-- AP.F5.DataSource.TemperatureSensorTemp.Powershell -->
+        <DisplayString ElementID="AP.F5.DataSource.TemperatureSensorTemp.Powershell">
+          <Name>TemperatureSensor Powershell Data Source</Name>
+          <Description>Gets all TemperatureSensor Temperature(s) as Property Bags</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.TemperatureSensorTemp.Powershell" SubElementID="IntervalSeconds">
+          <Name>Interval Seconds</Name>
+          <Description>Frequency in seconds that module is run.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.TemperatureSensorTemp.Powershell" SubElementID="SyncTime">
+          <Name>Synchronisation Time</Name>
+          <Description>Offset that this module is started from.</Description>
+        </DisplayString>
+        <DisplayString ElementID="AP.F5.DataSource.TemperatureSensorTemp.Powershell" SubElementID="Debug">
           <Name>Debug</Name>
           <Description>Debug Flag, if true then additional info is posted to event log.</Description>
         </DisplayString>
 
-        <!-- AP.F5.Probe.TemperatureSensorHealth.Powershell -->
-        <DisplayString ElementID="AP.F5.Probe.TemperatureSensorHealth.Powershell">
+        <!-- AP.F5.Probe.TemperatureSensorTemp.Powershell -->
+        <DisplayString ElementID="AP.F5.Probe.TemperatureSensorTemp.Powershell">
           <Name>TemperatureSensor Health Powershell Probe</Name>
           <Description>Gets all TemperatureSensor Health(s) as Property Bags</Description>
         </DisplayString>
-        <DisplayString ElementID="AP.F5.Probe.TemperatureSensorHealth.Powershell" SubElementID="Debug">
+        <DisplayString ElementID="AP.F5.Probe.TemperatureSensorTemp.Powershell" SubElementID="Debug">
           <Name>Debug</Name>
           <Description>Debug Flag, if true then additional info is posted to event log.</Description>
         </DisplayString>

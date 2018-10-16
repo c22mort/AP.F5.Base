@@ -5,7 +5,7 @@
     <RootNamespace>AP.F5.Base</RootNamespace>
     <Name>AP.F5.Base</Name>
     <ManagementPackName>AP.F5.Base</ManagementPackName>
-    <Version>18.10.5.0</Version>
+    <Version>18.10.6.0</Version>
     <MpFrameworkVersion>v7.0.2</MpFrameworkVersion>
     <MpFrameworkProfile>OM</MpFrameworkProfile>
     <ProductVersion>1.1.0.0</ProductVersion>
@@ -99,18 +99,6 @@
     <Compile Include="Classes\Device.TempSensor.mpx">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DataSources\DataSourceModule.Performance.Percentage.mpx">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DataSources\DataSourceModule.Performance.SingleValue.Div1024.mpx">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DataSources\DataSourceModule.Performance.SingleValue.mpx">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DataSources\DataSourceModule.Performance.Subtraction.Div1024.mpx">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="DataSources\DataSourceModules.Device.mpx">
       <SubType>Code</SubType>
     </Compile>
@@ -166,6 +154,7 @@
     <Folder Include="Scripts" />
     <Folder Include="Rules" />
     <Folder Include="Scripts\Monitors" />
+    <Folder Include="Scripts\Rules" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Monitors\DependancyMonitors.mptg">
@@ -180,21 +169,26 @@
       <SubType>Content</SubType>
       <Generator>FragmentGenerator</Generator>
     </Content>
+    <EmbeddedResource Include="Scripts\Get-ProcessorUsage.ps1" />
+    <EmbeddedResource Include="Scripts\Get-TemperatureSensorTemp.ps1" />
     <EmbeddedResource Include="Scripts\Monitors\Get-DeviceFailoverState.ps1" />
     <EmbeddedResource Include="Scripts\Monitors\Get-DiskPartitionHealth.ps1" />
     <EmbeddedResource Include="Scripts\Monitors\Get-MemoryHealth.ps1" />
     <EmbeddedResource Include="Scripts\Monitors\Get-PowerSupplyHealth.ps1" />
-    <EmbeddedResource Include="Scripts\Monitors\Get-ProcessorHealth.ps1" />
-    <EmbeddedResource Include="Scripts\Monitors\Get-TemperatureSensorHealth.ps1" />
+    <EmbeddedResource Include="Scripts\Rules\Get-DeviceClientSideConnections.ps1" />
+    <EmbeddedResource Include="Scripts\Rules\Get-DeviceClientSideInboundKb.ps1" />
+    <EmbeddedResource Include="Scripts\Rules\Get-DeviceClientSideOutboundKb.ps1" />
+    <EmbeddedResource Include="Scripts\Rules\Get-DeviceMemoryFreeMb.ps1" />
+    <EmbeddedResource Include="Scripts\Rules\Get-DeviceMemoryUsedMb.ps1" />
+    <EmbeddedResource Include="Scripts\Rules\Get-DeviceServerSideConnections.ps1" />
+    <EmbeddedResource Include="Scripts\Rules\Get-DeviceServerSideInboundKb.ps1" />
+    <EmbeddedResource Include="Scripts\Rules\Get-DeviceServerSideOutboundKb.ps1" />
     <EmbeddedResource Include="SharpSnmpLib.dll">
       <SubType>Content</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Scripts\CalculatePercentage.ps1" />
-    <EmbeddedResource Include="Scripts\Div1024.ps1" />
     <EmbeddedResource Include="Scripts\Monitors\Get-FanHealth.ps1" />
-    <EmbeddedResource Include="Scripts\SubtractDiv1024.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
 </Project>
