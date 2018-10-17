@@ -134,9 +134,6 @@
     <Compile Include="Resourcres\FileResources.mpx">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Rules\KnowledgeArticles.mpx">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Rules\PerfRules.mptg.mpx">
       <SubType>Code</SubType>
       <DependentUpon>Rules\PerfRules.mptg</DependentUpon>

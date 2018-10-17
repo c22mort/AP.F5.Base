@@ -168,9 +168,9 @@ namespace AP.F5.Device.Discovery
 
             // Load In CSV File
             CsvReader csv = new CsvReader(new StreamReader(m_configFileName), true);
-            if (csv.FieldCount == 0)
+            if (csv.FieldCount != 2)
             {
-                log.Info("Config File, config.csv, seems to have no fields please check, will use locahost as Management Server Name and perform a snapshot discovery.");
+                log.Info("Config File, config.csv, does not have the expected number of fields, will use locahost as Management Server Name and perform a snapshot discovery.");
             }
             else
             {

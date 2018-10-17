@@ -536,10 +536,27 @@
               </list>
             </section>
           </MamlContent>
-
         </KnowledgeArticle>
 
-
+        <!-- AP.F5.Base.Perf.TempSensor.Temperature -->
+        <KnowledgeArticle ElementID="AP.F5.Base.Perf.TempSensor.Temperature" Visible="true">
+          <MamlContent>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>Summary</title>
+              <para>Uses SNMP to get Temperature(°C) for each F5 Device Temperature Sensor.</para>
+            </section>
+            <section xmlns="http://schemas.microsoft.com/maml/2004/10">
+              <title>SNMP Information</title>
+              <para>SNMP OIDs Used;</para>
+              <list>
+                <listItem>
+                  <para>.1.3.6.1.4.1.3375.2.1.3.2.3.2.1.2.TemperatureSensorIndex - bigipTrafficMgmt.bigipSystem.sysPlatform.sysChassis.sysChassisTemp.sysChassisTempTable.sysChassisTempEntry.sysChassisTempTemperature</para>
+                </listItem>
+              </list>
+            </section>
+          </MamlContent>
+        </KnowledgeArticle>
+        
       </KnowledgeArticles>
     </LanguagePack>
   </LanguagePacks>
