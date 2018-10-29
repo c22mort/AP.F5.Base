@@ -164,7 +164,8 @@ namespace AP.F5.Device.Discovery
             if (!File.Exists(m_configFileName))
             {
                 log.Info("Could not find Config File, config.csv, will use locahost as Management Server Name and perform a snapshot discovery.");
-            }
+                return;
+            } 
 
             // Load In CSV File
             CsvReader csv = new CsvReader(new StreamReader(m_configFileName), true);

@@ -108,7 +108,7 @@
     <None Include="example_config.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="config.csv">
+    <None Include="config_old.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="example_devices.csv">

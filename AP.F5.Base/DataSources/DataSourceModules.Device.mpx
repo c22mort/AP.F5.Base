@@ -81,7 +81,7 @@
               </ProbeAction>
               <ConditionDetection ID="PerfMapper" TypeID="Perf!System.Performance.DataGenericMapper">
                 <ObjectName>Device</ObjectName>
-                <CounterName>Conenctions</CounterName>
+                <CounterName>Connections</CounterName>
                 <InstanceName>Client</InstanceName>
                 <Value>$Data/Property[@Name="Connections"]$</Value>
               </ConditionDetection>
@@ -132,7 +132,7 @@
               </ProbeAction>
               <ConditionDetection ID="PerfMapper" TypeID="Perf!System.Performance.DataGenericMapper">
                 <ObjectName>Device</ObjectName>
-                <CounterName>Conenctions</CounterName>
+                <CounterName>Connections</CounterName>
                 <InstanceName>Server</InstanceName>
                 <Value>$Data/Property[@Name="Connections"]$</Value>
               </ConditionDetection>

@@ -191,7 +191,8 @@
                   </Parameter>
                   <Parameter>
                     <Name>SharpSnmpLocation</Name>
-                    <Value>$FileResource[Name="AP.F5.SharpSnmpLib"]/Path$</Value>
+                    <!--<Value>$FileResource[Name="AP.F5.SharpSnmpLib"]/Path$</Value>-->
+                    <Value>C:\ScomLibs\SharpSnmpLib.dll</Value>
                   </Parameter>
                 </Parameters>
                 <TimeoutSeconds>60</TimeoutSeconds>
@@ -367,7 +368,7 @@
               <Expression>
                 <SimpleExpression>
                   <ValueExpression>
-                    <XPathQuery Type="Integer">Property[@Name="Percentage"]</XPathQuery>
+                    <XPathQuery Type="Double">Property[@Name="Percentage"]</XPathQuery>
                   </ValueExpression>
                   <Operator>Less</Operator>
                   <ValueExpression>
@@ -382,7 +383,7 @@
                   <Expression>
                     <SimpleExpression>
                       <ValueExpression>
-                        <XPathQuery Type="Integer">Property[@Name="Percentage"]</XPathQuery>
+                        <XPathQuery Type="Double">Property[@Name="Percentage"]</XPathQuery>
                       </ValueExpression>
                       <Operator>GreaterEqual</Operator>
                       <ValueExpression>
@@ -393,7 +394,7 @@
                   <Expression>
                     <SimpleExpression>
                       <ValueExpression>
-                        <XPathQuery Type="Integer">Property[@Name="Percentage"]</XPathQuery>
+                        <XPathQuery Type="Double">Property[@Name="Percentage"]</XPathQuery>
                       </ValueExpression>
                       <Operator>LessEqual</Operator>
                       <ValueExpression>
@@ -408,7 +409,7 @@
               <Expression>
                 <SimpleExpression>
                   <ValueExpression>
-                    <XPathQuery Type="Integer">Property[@Name="Percentage"]</XPathQuery>
+                    <XPathQuery Type="Double">Property[@Name="Percentage"]</XPathQuery>
                   </ValueExpression>
                   <Operator>Greater</Operator>
                   <ValueExpression>
