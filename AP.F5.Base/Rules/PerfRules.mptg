@@ -1,7 +1,7 @@
 <TemplateGroup>
   <Instances>
     <Instance ID="Instance0e63066685c84c78aee847b684996b47" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.PerformanceCollectionRule" Version="1.0.0.0">
-      <PerformanceCollectionRuleConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <PerformanceCollectionRuleConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
         <Id>Perf.Device.ClientConnections</Id>
         <DisplayName>Current Client Connections</DisplayName>
         <Description>Collect current client connections from device</Description>
@@ -14,14 +14,14 @@
         <DiscardLevel>100</DiscardLevel>
         <ConditionDetectionId>CD</ConditionDetectionId>
         <DataSourceId>DS</DataSourceId>
-        <DataSourceConfig>&lt;IntervalSeconds&gt;900&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;true&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;</DataSourceConfig>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;900&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;false&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;</DataSourceConfig>
         <DataSourceType>AP.F5.DataSource.Device.ClientSideConnections.Powershell</DataSourceType>
         <CollectToDB>true</CollectToDB>
         <CollectToDW>true</CollectToDW>
       </PerformanceCollectionRuleConfig>
     </Instance>
     <Instance ID="Instance66d99ecea6ba4bb1980b84bc19a19b03" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.PerformanceCollectionRule" Version="1.0.0.0">
-      <PerformanceCollectionRuleConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <PerformanceCollectionRuleConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
         <Id>Perf.Device.ClientInboundKb</Id>
         <DisplayName>Inbound Client Kb</DisplayName>
         <Description>Collect Inbound Client Kb from device</Description>
@@ -34,14 +34,14 @@
         <DiscardLevel>100</DiscardLevel>
         <ConditionDetectionId>CD</ConditionDetectionId>
         <DataSourceId>DS</DataSourceId>
-        <DataSourceConfig>&lt;IntervalSeconds&gt;900&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;true&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;</DataSourceConfig>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;900&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;false&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;</DataSourceConfig>
         <DataSourceType>AP.F5.DataSource.Device.ClientSideInboundKb.Powershell</DataSourceType>
         <CollectToDB>true</CollectToDB>
         <CollectToDW>true</CollectToDW>
       </PerformanceCollectionRuleConfig>
     </Instance>
     <Instance ID="Instanceb6fa25c664db459cb2ebc96dc2f10696" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.PerformanceCollectionRule" Version="1.0.0.0">
-      <PerformanceCollectionRuleConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <PerformanceCollectionRuleConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
         <Id>Perf.Device.ClientOutboundKb</Id>
         <DisplayName>Outbound Client Kb</DisplayName>
         <Description>Collect Outbound Client Kb from device</Description>
@@ -54,7 +54,7 @@
         <DiscardLevel>100</DiscardLevel>
         <ConditionDetectionId>CD</ConditionDetectionId>
         <DataSourceId>DS</DataSourceId>
-        <DataSourceConfig>&lt;IntervalSeconds&gt;900&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;true&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;</DataSourceConfig>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;900&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;false&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;</DataSourceConfig>
         <DataSourceType>AP.F5.DataSource.Device.ClientSideOutboundKb.Powershell</DataSourceType>
         <CollectToDB>true</CollectToDB>
         <CollectToDW>true</CollectToDW>
@@ -74,7 +74,7 @@
         <DiscardLevel>100</DiscardLevel>
         <ConditionDetectionId>CD</ConditionDetectionId>
         <DataSourceId>DS</DataSourceId>
-        <DataSourceConfig>&lt;IntervalSeconds&gt;900&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;true&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Host/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Host/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Host/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;</DataSourceConfig>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;900&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;false&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Host/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Host/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Host/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;</DataSourceConfig>
         <DataSourceType>AP.F5.DataSource.Device.MemoryFree.Powershell</DataSourceType>
         <CollectToDB>true</CollectToDB>
         <CollectToDW>true</CollectToDW>
@@ -94,14 +94,14 @@
         <DiscardLevel>100</DiscardLevel>
         <ConditionDetectionId>CD</ConditionDetectionId>
         <DataSourceId>DS</DataSourceId>
-        <DataSourceConfig>&lt;IntervalSeconds&gt;900&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;true&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Host/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Host/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Host/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;</DataSourceConfig>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;900&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;false&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Host/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Host/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Host/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;</DataSourceConfig>
         <DataSourceType>AP.F5.DataSource.Device.MemoryUsed.Powershell</DataSourceType>
         <CollectToDB>true</CollectToDB>
         <CollectToDW>true</CollectToDW>
       </PerformanceCollectionRuleConfig>
     </Instance>
     <Instance ID="Instance7339ca6b54304571b33ab834a80490a2" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.PerformanceCollectionRule" Version="1.0.0.0">
-      <PerformanceCollectionRuleConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <PerformanceCollectionRuleConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
         <Id>Perf.Device.ServerConnections</Id>
         <DisplayName>Current Server Connections</DisplayName>
         <Description>Collect current server-side connections from device</Description>
@@ -114,14 +114,14 @@
         <DiscardLevel>100</DiscardLevel>
         <ConditionDetectionId>CD</ConditionDetectionId>
         <DataSourceId>DS</DataSourceId>
-        <DataSourceConfig>&lt;IntervalSeconds&gt;900&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;true&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;</DataSourceConfig>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;900&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;false&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;</DataSourceConfig>
         <DataSourceType>AP.F5.DataSource.Device.ServerSideConnections.Powershell</DataSourceType>
         <CollectToDB>true</CollectToDB>
         <CollectToDW>true</CollectToDW>
       </PerformanceCollectionRuleConfig>
     </Instance>
     <Instance ID="Instance6581449680b34ecbbbc7fa5805b00cbb" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.PerformanceCollectionRule" Version="1.0.0.0">
-      <PerformanceCollectionRuleConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <PerformanceCollectionRuleConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
         <Id>Perf.Device.ServerInboundKb</Id>
         <DisplayName>Inbound Server Kb</DisplayName>
         <Description>Collect Inbound Server Kb from device</Description>
@@ -134,14 +134,14 @@
         <DiscardLevel>100</DiscardLevel>
         <ConditionDetectionId>CD</ConditionDetectionId>
         <DataSourceId>DS</DataSourceId>
-        <DataSourceConfig>&lt;IntervalSeconds&gt;900&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;true&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;</DataSourceConfig>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;900&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;false&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;</DataSourceConfig>
         <DataSourceType>AP.F5.DataSource.Device.ServerSideInboundKb.Powershell</DataSourceType>
         <CollectToDB>true</CollectToDB>
         <CollectToDW>true</CollectToDW>
       </PerformanceCollectionRuleConfig>
     </Instance>
     <Instance ID="Instance0cd1b2fb27f24db081a00235d863c1a0" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.PerformanceCollectionRule" Version="1.0.0.0">
-      <PerformanceCollectionRuleConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <PerformanceCollectionRuleConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
         <Id>Perf.Device.ServerOutboundKb</Id>
         <DisplayName>Outbound Server Kb</DisplayName>
         <Description>Collect Outbound Server Kb from device</Description>
@@ -154,14 +154,14 @@
         <DiscardLevel>100</DiscardLevel>
         <ConditionDetectionId>CD</ConditionDetectionId>
         <DataSourceId>DS</DataSourceId>
-        <DataSourceConfig>&lt;IntervalSeconds&gt;900&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;true&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;</DataSourceConfig>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;900&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;false&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;</DataSourceConfig>
         <DataSourceType>AP.F5.DataSource.Device.ServerSideOutboundKb.Powershell</DataSourceType>
         <CollectToDB>true</CollectToDB>
         <CollectToDW>true</CollectToDW>
       </PerformanceCollectionRuleConfig>
     </Instance>
     <Instance ID="Instancec343c421c49c4bf2a32841abcc55ae25" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.PerformanceCollectionRule" Version="1.0.0.0">
-      <PerformanceCollectionRuleConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <PerformanceCollectionRuleConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
         <Id>Perf.Processor.Usage</Id>
         <DisplayName>Current CPU Usage</DisplayName>
         <Description>Collect current cpu usage from device</Description>
@@ -194,7 +194,7 @@
         <DiscardLevel>100</DiscardLevel>
         <ConditionDetectionId>CD</ConditionDetectionId>
         <DataSourceId>DS</DataSourceId>
-        <DataSourceConfig>&lt;IntervalSeconds&gt;900&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;true&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;&lt;TempSensorIndex&gt;$Target/Property[Type="AP.F5.Device.TempSensor"]/Index$&lt;/TempSensorIndex&gt;</DataSourceConfig>
+        <DataSourceConfig>&lt;IntervalSeconds&gt;900&lt;/IntervalSeconds&gt;&lt;SyncTime /&gt;&lt;Debug&gt;false&lt;/Debug&gt;&lt;DeviceAddress&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/IPAddress$&lt;/DeviceAddress&gt;&lt;DevicePort&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Port$&lt;/DevicePort&gt;&lt;DeviceCommunity&gt;$Target/Host/Host/Property[Type="AP.F5.Device"]/Community$&lt;/DeviceCommunity&gt;&lt;TempSensorIndex&gt;$Target/Property[Type="AP.F5.Device.TempSensor"]/Index$&lt;/TempSensorIndex&gt;</DataSourceConfig>
         <DataSourceType>AP.F5.DataSource.Perf.TemperatureSensorTemp.Filtered</DataSourceType>
         <CollectToDB>true</CollectToDB>
         <CollectToDW>true</CollectToDW>
